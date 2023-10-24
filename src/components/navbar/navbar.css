@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+
+
+.navbar2 {
+    font-family: 'Acme', sans-serif;
+    width: 100%;
+}
+
+.nav-top {
+    position: relative;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .25);
+}
+
+.nav-top-content {
+    margin: auto;
+    display: flex;
+    max-width: 1500px;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+}
+
+.nav-items-menu {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.food-icon {
+    padding: 5px 20px;
+    margin-left: 85px;
+    margin-right: 85px;
+}
+
+.food-img {
+    width: 55px;
+    height: 60px;
+}
+
+.food-img:hover {
+    transform: scale(1.1);
+}
+
+.food-img:active {
+    transform: scale(1.3);
+}
+
+a {
+    line-height: 20px;
+    font-size: 21px;
+    font-weight: normal;
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+    color: black;
+    text-decoration: none;
+}
+
+a:hover,
+active {
+    color: #ffc33e;
+}
+
+.nav-search {
+    background: #f6f9fc;
+}
+
+.nav-search-style {
+    display: flex;
+    justify-content: right;
+    margin: auto;
+    width: 100%;
+    max-width: 1500px;
+    height: 60px;
+}
+
+.search {
+    font-family: 'Acme', sans-serif;
+    outline: none;
+    border: none;
+    min-width: 276px;
+    font-weight: 600;
+    font-size: 20px;
+    height: 60px;
+    background-color: #e9dfdf71;
+    padding-right: 48px;
+    padding-left: 12px;
+}
+
+.bobo {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.svg-inline--fa.fa-magnifying-glass {
+    position: absolute;
+    top: 52%;
+    transform: translateY(-50%);
+    right: 15px;
+}

@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useState } from "react";
+import "./App.css";
+import Cart from "./components/cart/Cart";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
+import MainPage from "./components/mainpage/MainPage";
+import NavBar from "./components/navbar/NavBar";
 
-function App() {
+import { Provider } from "react-redux";
+import { store } from "./components/store/store";
+
+function App(props) {
+  const [cartVisible, setCartVisible] = useState(false);
+
+  const toggleCartVisible = () => {
+    setCartVisible(!cartVisible);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Provider store={store}>
+        <Header toggleCartVisible={toggleCartVisible} />
+        <NavBar />
+        <MainPage />
+        <Footer />
+        <Cart cartVisible={cartVisible} toggleCartVisible={toggleCartVisible} />
+      </Provider>
     </div>
   );
 }

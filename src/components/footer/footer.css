@@ -1,0 +1,147 @@
+.footer {}
+
+.footer-container {
+    padding: 30px;
+    background-color: #232323;
+    color: white;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.about-us {
+    max-width: 16.66667%;
+    flex: 0 0 16.66667%;
+}
+
+.about-us svg,
+.working-hours svg {
+    margin-right: 15px;
+}
+
+.adress,
+.phone-number,
+.email {
+    margin-bottom: 22px;
+}
+
+.about-us-h {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 25px;
+    color: #7c7f80;
+
+}
+
+.about-us-p {
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 40px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.working-hours {
+    max-width: 16.66667%;
+    flex: 0 0 16.66667%;
+}
+
+.working-days-p {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #fff;
+}
+
+.work-hours-bar,
+.work-days,
+.weekends {
+    margin-bottom: 16px;
+}
+
+.day {
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+    color: #7c7f80;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 33%;
+    flex: 0 0 33%;
+}
+
+.social-media-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.follow {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+.icon-bar {
+    margin-right: 25px;
+    margin-left: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.icon-bar:hover {
+    opacity: 0.7;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.ches-pizza {
+    max-width: 33%;
+    flex: 0 0 33%;
+}
+
+.about-company {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.recipe-description {
+    display: flex;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    color: #bcc3c5;
+    margin-bottom: 16px;
+}
+
+.recipe-description-p {
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    color: #bcc3c5;
+    margin-bottom: 10px;
+}

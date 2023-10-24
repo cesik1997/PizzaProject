@@ -1,0 +1,150 @@
+.cart-container {
+    visibility: hidden;
+    font-family: 'Acme', sans-serif;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    max-width: 550px;
+    width: 100%;
+    height: 100%;
+    background: #e7e2e2;
+}
+
+.cart-count-in-cart {
+    font-family: 'Acme', sans-serif;
+    top: 22px;
+    right: 474px;
+    position: absolute;
+    text-align: center;
+    background-color: #ffc33e;
+    color: black;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+.header-cart {
+    display: flex;
+    align-items: center;
+    background: #2b2f35;
+    min-height: 100px;
+}
+
+.header-cart-justify {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-right: 30px;
+    justify-content: space-between;
+}
+
+.my-cart {
+    display: flex;
+    align-items: center;
+}
+
+.my-cart-text {
+    font-size: 30px;
+    color: #fff;
+}
+
+.close-cart-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 35px;
+    outline: none;
+    border: none;
+    background: transparent;
+}
+
+.close-cart-btn:hover {
+    color: #ffc33e;
+    opacity: 0.9;
+}
+
+.menu-cart {
+    overflow: auto;
+    flex: 1 1 auto;
+}
+
+.pizza-in-cart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px
+}
+
+.chosen-pizza {
+    display: flex;
+    align-items: center;
+}
+
+
+.pizza-amount {
+    display: flex;
+    align-items: center;
+}
+
+.pizza-amount-container {
+    height: 50px;
+    display: flex;
+    padding-right: 16px;
+}
+
+.xmark-container:hover {
+    cursor: pointer;
+    background: rgb(139, 134, 134);
+    color: #ffc33e;
+}
+
+.order-price-container {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #2b2f35;
+    padding: 16px;
+}
+
+.need-to-pay {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+}
+
+.order-apply {
+    padding-right: 15px;
+    cursor: pointer;
+    text-align: right;
+    font-family: 'Acme', sans-serif;
+    background: #2b2f35;
+    font-size: 24px;
+    border: none;
+    outline: none;
+    height: 60px;
+    width: 100%;
+    color: #fff;
+}
+
+.order-apply:hover {
+    background: rgb(41, 41, 41);
+    color: #ffc33e;
+
+    .fa-sack-dollar {
+        color: #ffc33e;
+    }
+}
+
+.fa-sack-dollar {
+    margin-left: 30px;
+}
+
+.display-none {
+    visibility: hidden;
+}
+
+.display-block {
+    visibility: visible;
+}

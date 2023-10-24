@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+
+.Header {
+    font-weight: 800;
+    width: 100%;
+    background-color: #232323;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+}
+
+.logo {
+    width: 150px;
+    height: 80px;
+    cursor: pointer;
+}
+
+.fa-cart-shopping {
+    width: 100px;
+    height: 30px;
+    color: white;
+}
+
+.fa-cart-shopping:hover {
+    cursor: pointer;
+    width: 100px;
+    height: 32px;
+    color: #dbd2b5;
+}
+
+.cart-img {
+    padding-right: 90px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-weight: 600;
+    font-size: 14px;
+    width: 50px;
+    height: 50px;
+    line-height: 22px;
+    text-align: center;
+}
+
+.cart-count {
+    font-family: 'Acme', sans-serif;
+    top: -3px;
+    right: 88px;
+    position: absolute;
+    background-color: #ffc33e;
+    color: black;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    font-weight: normal;
+}
+
+.menubar {
+    color: white;
+    min-width: 1000px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.item {
+    font-family: 'Acme', sans-serif;
+    font-size: 28px;
+    margin-right: 45px;
+    margin-left: 45px;
+}
+
+.item:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    color: #ffc33e;
+}
