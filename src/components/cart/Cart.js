@@ -23,7 +23,7 @@ import {
   faSackDollar,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { removeFromCart } from "../slice/pizzaSlice";
+import { removeFromCart, incrementInCart } from "../slice/pizzaSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const cart = <FontAwesomeIcon icon={faCartShopping} />;
@@ -35,13 +35,13 @@ const up = <FontAwesomeIcon icon={faAngleUp} />;
 const sackdollar = <FontAwesomeIcon icon={faSackDollar} />;
 
 const Cart = (props) => {
-  const { id, price, cartVisible, toggleCartVisible } = props;
+  const { id, cartVisible, toggleCartVisible } = props;
 
   // как удалить пиццу с корзины
   const dispatch = useDispatch();
 
-  const handleRemoveFromCart = () => {
-    dispatch(removeFromCart({ pizzaId: id }));
+  const handleRemoveFromCart = (pizzaId) => {
+    dispatch(removeFromCart({ pizzaId }));
   };
 
   //делаем что бы добавленная пицца появлялась в корзине
@@ -181,7 +181,7 @@ const Cart = (props) => {
                 </div>
                 <div
                   className="xmark-container"
-                  onClick={handleRemoveFromCart}
+                  onClick={() => handleRemoveFromCart(pizzaId)}
                   style={{
                     fontSize: "20px",
                     height: "25px",

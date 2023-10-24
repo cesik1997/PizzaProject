@@ -31,6 +31,10 @@ const pizzaSlice = createSlice({
         state.pizzaCount[pizzaId] -= 1;
       }
     },
+    // incrementInCart(state, action) {
+    //   const { pizzaId } = action.payload;
+    //   state.pizzaAmountInCart += 1;
+    // },
     setPizzaPrice(state, action) {
       const { pizzaId, price } = action.payload;
       state.pizzaPrices[pizzaId] = price;
@@ -41,10 +45,7 @@ const pizzaSlice = createSlice({
     },
     removeFromCart(state, action) {
       const { pizzaId } = action.payload;
-      const index = state.pizzaInCart.indexOf(pizzaId);
-      if (index !== -1) {
-        state.pizzaInCart.splice(index, 1);
-      }
+      state.pizzaInCart = state.pizzaInCart.filter((id) => id !== pizzaId);
     },
   },
 });
@@ -55,6 +56,7 @@ export const {
   setPizzaPrice,
   addToCart,
   removeFromCart,
+  incrementInCart,
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;

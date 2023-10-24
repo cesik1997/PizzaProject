@@ -29,6 +29,8 @@ const PizzaCard = (props) => {
   };
 
   // Работа с счетчиком пицц и ценой пиццы
+  // const [selectedCount, setSelectedCount] = useState(1);
+
   const pizzaCount = useSelector((state) => state.pizza.pizzaCount[id]);
   const pizzaPrice = useSelector(
     (state) => state.pizza.pizzaPrices[id] || price
@@ -38,11 +40,14 @@ const PizzaCard = (props) => {
     const newCount = pizzaCount + 1;
     dispatch(increment({ pizzaId: id }));
     updatePrice(newCount);
+    // setSelectedCount(newCount);
   };
 
   const handleDecrement = () => {
+    const newCount = pizzaCount - 1;
     dispatch(decrement({ pizzaId: id }));
-    updatePrice(pizzaCount - 1);
+    updatePrice(newCount);
+    // setSelectedCount(newCount);
   };
 
   const updatePrice = (newCount) => {
