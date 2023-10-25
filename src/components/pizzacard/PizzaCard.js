@@ -8,6 +8,8 @@ import {
   addToCart,
 } from "../slice/pizzaSlice";
 
+import { incrementCart } from "../slice/cartSlice";
+
 import smallpizza from "../images/small-pizza.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
@@ -29,9 +31,8 @@ const PizzaCard = (props) => {
   };
 
   // Работа с счетчиком пицц и ценой пиццы
-  // const [selectedCount, setSelectedCount] = useState(1);
 
-  const pizzaCount = useSelector((state) => state.pizza.pizzaCount[id]);
+  const pizzaCount = useSelector((state) => state.pizza.pizzaCount[id]); // кол-во пицц в счетчике
   const pizzaPrice = useSelector(
     (state) => state.pizza.pizzaPrices[id] || price
   );
@@ -70,13 +71,12 @@ const PizzaCard = (props) => {
 
   const handleAddToCart = () => {
     if (isPizzaInCart(id)) {
-      console.log(`ТАКАЯ ПИЦЦА УЖЕ ЕСТЬ В КОРЗИНЕ`);
+      dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
     } else {
-      dispatch(addToCart({ pizzaId: id }));
+      dispatch(addToCart({ pizzaId: id, count: pizzaCount }));
+      dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
     }
   };
-
-  // Добавляем пиццу в корзину и увеличиваем счётчик 0 у КОРЗИНЫ
 
   return (
     <div className="pizza-card">

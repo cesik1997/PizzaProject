@@ -23,8 +23,13 @@ import {
   faSackDollar,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { removeFromCart, incrementInCart } from "../slice/pizzaSlice";
+import { removeFromCart } from "../slice/pizzaSlice";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  decrementCart,
+  incrementCart,
+  resetPizzaCount,
+} from "../slice/cartSlice";
 
 const cart = <FontAwesomeIcon icon={faCartShopping} />;
 const arrow = <FontAwesomeIcon icon={faArrowRightLong} />;
@@ -42,13 +47,20 @@ const Cart = (props) => {
 
   const handleRemoveFromCart = (pizzaId) => {
     dispatch(removeFromCart({ pizzaId }));
+    dispatch(resetPizzaCount({ pizzaId }));
   };
 
-  //делаем что бы добавленная пицца появлялась в корзине
-
+  //делаем что бы добавленная пицца появлялась в корзине - МАССИВ который я .map для отображения добавленых пицц в корзину.
   const cartItems = useSelector((state) => state.pizza.pizzaInCart); //  массив пицц в корзине
 
-  const cartItemCount = useSelector((state) => state.pizza.pizzaAmountInCart); // общее кол-во пицц в корзине
+  // общее кол-во пицц в корзине (ПРОХОДИМСЯ ПО КАЖДОЙ ПИЦЦЫ через [pizzaId])
+  const cartCounts = useSelector((state) => state.cart.pizzaCounts);
+
+  //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
+  // Суммируем счетчики для всех видов пицц в корзине
+  const totalCartItemCount = cartItems.reduce((total, pizzaId) => {
+    return total + cartCounts[pizzaId];
+  }, 0);
 
   const pizzaData = [
     {
@@ -134,7 +146,7 @@ const Cart = (props) => {
           <div className="my-cart">
             <div>
               {cart}
-              <div className="cart-count-in-cart">{cartItemCount}</div>
+              <div className="cart-count-in-cart">{totalCartItemCount}</div>
             </div>
             <div className="my-cart-text">My cart</div>
           </div>
@@ -173,10 +185,24 @@ const Cart = (props) => {
               </div>
               <div className="pizza-amount">
                 <div className="pizza-amount-container">
-                  <div className="pizza-count">1</div>
+                  <div className="pizza-count">{cartCounts[pizzaId]}</div>
                   <div className="pizza-count-btns">
-                    <button className="pizzabtnup">{up}</button>
-                    <button className="pizzabtndown">{down}</button>
+                    <button
+                      className="pizzabtnup"
+                      onClick={() =>
+                        dispatch(incrementCart({ pizzaId, count: 1 }))
+                      }
+                    >
+                      {up}
+                    </button>
+                    <button
+                      className="pizzabtndown"
+                      onClick={() =>
+                        dispatch(decrementCart({ pizzaId, count: -1 }))
+                      }
+                    >
+                      {down}
+                    </button>
                   </div>
                 </div>
                 <div

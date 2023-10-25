@@ -9,9 +9,14 @@ import { useSelector } from "react-redux";
 const cartlogo = <FontAwesomeIcon icon={faCartShopping} />;
 
 const Header = (props) => {
-  const { toggleCartVisible } = props;
+  //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
+  const cartItems = useSelector((state) => state.pizza.pizzaInCart);
+  const cartCounts = useSelector((state) => state.cart.pizzaCounts);
 
-  const cartItemCount = useSelector((state) => state.pizza.pizzaAmountInCart);
+  // Суммируем счетчики для всех видов пицц в корзине
+  const totalCartItemCount = cartItems.reduce((total, pizzaId) => {
+    return total + cartCounts[pizzaId];
+  }, 0);
 
   return (
     <div className="Header">
@@ -25,9 +30,9 @@ const Header = (props) => {
           <div className="item">DELIVERY</div>
           <div className="item">ABOUT US</div>
         </div>
-        <div className="cart-img" onClick={toggleCartVisible}>
+        <div className="cart-img" onClick={props.toggleCartVisible}>
           {cartlogo}
-          <div className="cart-count">{cartItemCount}</div>
+          <div className="cart-count">{totalCartItemCount}</div>
         </div>
       </div>
     </div>

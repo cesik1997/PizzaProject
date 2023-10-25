@@ -31,10 +31,6 @@ const pizzaSlice = createSlice({
         state.pizzaCount[pizzaId] -= 1;
       }
     },
-    // incrementInCart(state, action) {
-    //   const { pizzaId } = action.payload;
-    //   state.pizzaAmountInCart += 1;
-    // },
     setPizzaPrice(state, action) {
       const { pizzaId, price } = action.payload;
       state.pizzaPrices[pizzaId] = price;
@@ -56,7 +52,6 @@ export const {
   setPizzaPrice,
   addToCart,
   removeFromCart,
-  incrementInCart,
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;
