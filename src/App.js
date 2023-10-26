@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "./App.css";
+
 import Cart from "./components/cart/Cart";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -10,8 +10,13 @@ import NavBar from "./components/navbar/NavBar";
 import { Provider } from "react-redux";
 import { store } from "./components/store/store";
 
+import "./App.css";
+
 function App(props) {
   const [cartVisible, setCartVisible] = useState(false);
+
+  // Определяем id пиццы, которую пользователь добавил в корзину
+  const [pizzaIdInCart, setPizzaIdInCart] = useState(null);
 
   const toggleCartVisible = () => {
     setCartVisible(!cartVisible);
@@ -24,7 +29,11 @@ function App(props) {
         <NavBar />
         <MainPage />
         <Footer />
-        <Cart cartVisible={cartVisible} toggleCartVisible={toggleCartVisible} />
+        <Cart
+          cartVisible={cartVisible}
+          toggleCartVisible={toggleCartVisible}
+          id={pizzaIdInCart}
+        />
       </Provider>
     </div>
   );

@@ -1,33 +1,18 @@
 import React from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEarthAsia,
-  faPhone,
-  faAt,
-  faClock,
-} from "@fortawesome/free-solid-svg-icons";
-
-import {
-  faInstagram,
-  faYoutube,
-  faTwitter,
-  faFacebook,
-} from "@fortawesome/free-brands-svg-icons";
-
 import logo from "../images/logo-pizzza.svg";
+import {
+  earth,
+  phone,
+  email,
+  clock,
+  instagram,
+  youtube,
+  twitter,
+  facebook,
+} from "../icons/fontawesome-icons/icons";
 
 import "./footer.css";
-
-const earth = <FontAwesomeIcon icon={faEarthAsia} />;
-const phone = <FontAwesomeIcon icon={faPhone} />;
-const email = <FontAwesomeIcon icon={faAt} />;
-const clock = <FontAwesomeIcon icon={faClock} />;
-
-const instagram = <FontAwesomeIcon icon={faInstagram} />;
-const facebook = <FontAwesomeIcon icon={faFacebook} />;
-const twitter = <FontAwesomeIcon icon={faTwitter} />;
-const youtube = <FontAwesomeIcon icon={faYoutube} />;
 
 const Footer = () => {
   return (

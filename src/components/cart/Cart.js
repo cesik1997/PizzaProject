@@ -1,43 +1,25 @@
 import React from "react";
-
-import "./cart.css";
-
-import pizzaimg1 from "../images/10pizzas/1pizza.png";
-import pizzaimg2 from "../images/10pizzas/2pizza.png";
-import pizzaimg3 from "../images/10pizzas/3pizza.png";
-import pizzaimg4 from "../images/10pizzas/4pizza.png";
-import pizzaimg5 from "../images/10pizzas/5pizza.png";
-import pizzaimg6 from "../images/10pizzas/6pizza.png";
-import pizzaimg7 from "../images/10pizzas/7pizza.png";
-import pizzaimg8 from "../images/10pizzas/8pizza.png";
-import pizzaimg9 from "../images/10pizzas/9pizza.png";
-import pizzaimg10 from "../images/10pizzas/10pizza.png";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCartShopping,
-  faArrowRightLong,
-  faXmark,
-  faAngleDown,
-  faAngleUp,
-  faSackDollar,
-} from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
 
 import { removeFromCart } from "../slice/pizzaSlice";
-import { useDispatch, useSelector } from "react-redux";
 import {
   decrementCart,
   incrementCart,
   resetPizzaCount,
+  setPizzaPriceInCart,
 } from "../slice/cartSlice";
 
-const cart = <FontAwesomeIcon icon={faCartShopping} />;
-const arrow = <FontAwesomeIcon icon={faArrowRightLong} />;
-const xmark = <FontAwesomeIcon icon={faXmark} />;
+import pizzaData from "../pizzaData/pizzaData";
 
-const down = <FontAwesomeIcon icon={faAngleDown} />;
-const up = <FontAwesomeIcon icon={faAngleUp} />;
-const sackdollar = <FontAwesomeIcon icon={faSackDollar} />;
+import {
+  cart,
+  arrow,
+  xmark,
+  down,
+  up,
+  sackdollar,
+} from "../icons/fontawesome-icons/icons";
+import "./cart.css";
 
 const Cart = (props) => {
   const { id, cartVisible, toggleCartVisible } = props;
@@ -48,6 +30,7 @@ const Cart = (props) => {
   const handleRemoveFromCart = (pizzaId) => {
     dispatch(removeFromCart({ pizzaId }));
     dispatch(resetPizzaCount({ pizzaId }));
+    dispatch(setPizzaPriceInCart({ pizzaId, price: "0.00 €" }));
   };
 
   //делаем что бы добавленная пицца появлялась в корзине - МАССИВ который я .map для отображения добавленых пицц в корзину.
@@ -61,79 +44,6 @@ const Cart = (props) => {
   const totalCartItemCount = cartItems.reduce((total, pizzaId) => {
     return total + cartCounts[pizzaId];
   }, 0);
-
-  const pizzaData = [
-    {
-      id: 1,
-      image: pizzaimg1,
-      name: "Supreme",
-      size: "40cm",
-      price: "16.30 €",
-    },
-    {
-      id: 2,
-      image: pizzaimg2,
-      name: "Diavola",
-      size: "40cm",
-      price: "15.20 €",
-    },
-    {
-      id: 3,
-      image: pizzaimg3,
-      name: "Giovanni",
-      size: "40cm",
-      price: "15.20 €",
-    },
-    {
-      id: 4,
-      image: pizzaimg4,
-      name: "Jazzo",
-      size: "40cm",
-      price: "15.20 €",
-    },
-    {
-      id: 5,
-      image: pizzaimg5,
-      name: "Polina",
-      size: "40cm",
-      price: "16.80 €",
-    },
-    {
-      id: 6,
-      image: pizzaimg6,
-      name: "Caesar",
-      size: "40cm",
-      price: "17.80 €",
-    },
-    {
-      id: 7,
-      image: pizzaimg7,
-      name: "Azteca (Hot)",
-      size: "40cm",
-      price: "16.20 €",
-    },
-    {
-      id: 8,
-      image: pizzaimg8,
-      name: "Acapulco (Hot)",
-      size: "40cm",
-      price: "16.20 €",
-    },
-    {
-      id: 9,
-      image: pizzaimg9,
-      name: "Rucollete",
-      size: "40cm",
-      price: "17.20 €",
-    },
-    {
-      id: 10,
-      image: pizzaimg10,
-      name: "Prosciutto",
-      size: "40cm",
-      price: "17.20 €",
-    },
-  ];
 
   return (
     <div

@@ -4,11 +4,9 @@ import Burgers from "../images/burger.png";
 import Snack from "../images/snack.png";
 import Drink from "../images/drink.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { glass } from "../icons/fontawesome-icons/icons";
 
 import "./navbar.css";
-const element = <FontAwesomeIcon icon={faMagnifyingGlass} />;
 
 const NavBar = () => {
   return (
@@ -55,7 +53,7 @@ const NavBar = () => {
         <div className="nav-search-style">
           <div className="bobo">
             <input className="search" type="text" placeholder="Search" />
-            {element}
+            {glass}
           </div>
         </div>
       </div>

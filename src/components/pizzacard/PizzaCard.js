@@ -10,17 +10,14 @@ import {
 
 import { incrementCart } from "../slice/cartSlice";
 
+import { down, up } from "../icons/fontawesome-icons/icons";
 import smallpizza from "../images/small-pizza.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 import "./pizzacard.css";
 
-const down = <FontAwesomeIcon icon={faAngleDown} />;
-const up = <FontAwesomeIcon icon={faAngleUp} />;
-
 const PizzaCard = (props) => {
   const { id, price } = props;
+
   const dispatch = useDispatch();
 
   // Тогл корзины

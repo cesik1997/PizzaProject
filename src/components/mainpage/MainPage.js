@@ -3,49 +3,49 @@ import PizzaCard from "../pizzacard/PizzaCard";
 
 import "./mainpage.css";
 
-import pizza1 from "../images/10pizzas/1pizza.png";
-import pizza2 from "../images/10pizzas/2pizza.png";
-import pizza3 from "../images/10pizzas/3pizza.png";
-import pizza4 from "../images/10pizzas/4pizza.png";
-import pizza5 from "../images/10pizzas/5pizza.png";
-import pizza6 from "../images/10pizzas/6pizza.png";
-import pizza7 from "../images/10pizzas/7pizza.png";
-import pizza8 from "../images/10pizzas/8pizza.png";
-import pizza9 from "../images/10pizzas/9pizza.png";
-import pizza10 from "../images/10pizzas/10pizza.png";
+import pizzaimg1 from "../images/10pizzas/1pizza.png";
+import pizzaimg2 from "../images/10pizzas/2pizza.png";
+import pizzaimg3 from "../images/10pizzas/3pizza.png";
+import pizzaimg4 from "../images/10pizzas/4pizza.png";
+import pizzaimg5 from "../images/10pizzas/5pizza.png";
+import pizzaimg6 from "../images/10pizzas/6pizza.png";
+import pizzaimg7 from "../images/10pizzas/7pizza.png";
+import pizzaimg8 from "../images/10pizzas/8pizza.png";
+import pizzaimg9 from "../images/10pizzas/9pizza.png";
+import pizzaimg10 from "../images/10pizzas/10pizza.png";
 
 const pizzaDataLeft = [
   {
     id: 1,
-    image: pizza1,
+    image: pizzaimg1,
     name: "Supreme",
     description: "Cheese, ham, feta cheese, cherry tomato, dill, BBQ sauce",
     price: "16.30  €",
   },
   {
     id: 2,
-    image: pizza2,
+    image: pizzaimg2,
     name: "Diavola",
     description: "Cheese, ham, mushrooms, pickles, pizza sauce",
     price: "15.20 €",
   },
   {
     id: 3,
-    image: pizza3,
+    image: pizzaimg3,
     name: "Giovanni",
     description: "Cheese, ham, onion, salami, tomato sauce",
     price: "15.20 €",
   },
   {
     id: 4,
-    image: pizza4,
+    image: pizzaimg4,
     name: "Jazzo",
     description: "Cheese, ham, bacon, pickles, dill, BBQ sauce",
     price: "15.20 €",
   },
   {
     id: 5,
-    image: pizza5,
+    image: pizzaimg5,
     name: "Polina",
     description:
       "Cheese, mushrooms, chicken, paprika, tomato sauce, curry sauce",
@@ -56,7 +56,7 @@ const pizzaDataLeft = [
 const pizzaDataRight = [
   {
     id: 6,
-    image: pizza6,
+    image: pizzaimg6,
     name: "Caesar",
     description:
       "Cheese, parmesan, chicken, roman salad, cherry tomato, pizza sauce, caesara sauce",
@@ -64,7 +64,7 @@ const pizzaDataRight = [
   },
   {
     id: 7,
-    image: pizza7,
+    image: pizzaimg7,
     name: "Azteca (Hot)",
     description:
       "Cheese, ham, jalapeno, tomato sauce, salsa sauce, cream sauce",
@@ -72,7 +72,7 @@ const pizzaDataRight = [
   },
   {
     id: 8,
-    image: pizza8,
+    image: pizzaimg8,
     name: "Acapulco (Hot)",
     description:
       "Cheese, fillet of beef, mushrooms, onion, jalapeno, salsa sauce, tomato sauce",
@@ -80,7 +80,7 @@ const pizzaDataRight = [
   },
   {
     id: 9,
-    image: pizza9,
+    image: pizzaimg9,
     name: "Rucollete",
     description:
       "Cheese, parmesan, arugula, olives, cherry tomato, mozzarella, pizza sauce",
@@ -88,7 +88,7 @@ const pizzaDataRight = [
   },
   {
     id: 10,
-    image: pizza10,
+    image: pizzaimg10,
     name: "Prosciutto",
     description: "Cheese, parmesan, prosciutto, arugula, pizza sauce",
     price: "17.20 €",

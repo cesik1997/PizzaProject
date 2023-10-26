@@ -1,12 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import logo from "../images/logo-pizzza.svg";
+import { cart } from "../icons/fontawesome-icons/icons";
 import "./header.css";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-const cartlogo = <FontAwesomeIcon icon={faCartShopping} />;
+const cartlogo = cart;
 
 const Header = (props) => {
   //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
