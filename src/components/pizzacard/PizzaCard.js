@@ -68,9 +68,13 @@ const PizzaCard = (props) => {
 
   const handleAddToCart = () => {
     if (isPizzaInCart(id)) {
-      dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
+      dispatch(
+        incrementCart({ pizzaId: id, count: pizzaCount, price: pizzaPrice })
+      );
     } else {
-      dispatch(addToCart({ pizzaId: id, count: pizzaCount }));
+      dispatch(
+        addToCart({ pizzaId: id, count: pizzaCount, price: pizzaPrice })
+      );
       dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
     }
   };

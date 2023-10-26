@@ -28,10 +28,11 @@ const cartSlice = createSlice({
       const { pizzaId } = action.payload;
       state.pizzaCounts[pizzaId] = 0;
     },
-    setPizzaPriceInCart(state, action) {
-      const { pizzaId, price } = action.payload;
-      state.pizzaPricesInCart[pizzaId] = price;
-    },
+    // setPizzaPriceInCart(state, action) {
+    //   const { pizzaId, price } = action.payload;
+    //   state.pizzaPricesInCart[pizzaId] = price;
+    //   console.log("Updated pizza price:", state.pizzaPricesInCart);
+    // },
   },
 });
 
@@ -39,7 +40,7 @@ export const {
   incrementCart,
   decrementCart,
   resetPizzaCount,
-  setPizzaPriceInCart,
+  // setPizzaPriceInCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -10,7 +10,8 @@ const pizzaSlice = createSlice({
   // Начальное состояние, включая начальное значение счетчика и цены
   initialState: {
     pizzaCount: initialCounts,
-    pizzaPrices: {},
+    pizzaPrices: {}, // цены пицц на главной страницы
+    pizzaPricesInCart: {},
     pizzaAmountInCart: 0,
     pizzaInCart: [],
   },
@@ -36,12 +37,18 @@ const pizzaSlice = createSlice({
       state.pizzaPrices[pizzaId] = price;
     },
     addToCart(state, action) {
-      const { pizzaId } = action.payload;
+      const { pizzaId, price } = action.payload;
       state.pizzaInCart.push(pizzaId);
+      state.pizzaPricesInCart[pizzaId] = price;
     },
     removeFromCart(state, action) {
       const { pizzaId } = action.payload;
       state.pizzaInCart = state.pizzaInCart.filter((id) => id !== pizzaId);
+    },
+    setPizzaPriceInCart(state, action) {
+      const { pizzaId, price } = action.payload;
+      state.pizzaPricesInCart[pizzaId] = price;
+      console.log("Updated pizza price:", state.pizzaPricesInCart);
     },
   },
 });
@@ -52,6 +59,7 @@ export const {
   setPizzaPrice,
   addToCart,
   removeFromCart,
+  setPizzaPriceInCart,
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;

@@ -15,9 +15,6 @@ import "./App.css";
 function App(props) {
   const [cartVisible, setCartVisible] = useState(false);
 
-  // Определяем id пиццы, которую пользователь добавил в корзину
-  const [pizzaIdInCart, setPizzaIdInCart] = useState(null);
-
   const toggleCartVisible = () => {
     setCartVisible(!cartVisible);
   };
@@ -29,11 +26,7 @@ function App(props) {
         <NavBar />
         <MainPage />
         <Footer />
-        <Cart
-          cartVisible={cartVisible}
-          toggleCartVisible={toggleCartVisible}
-          id={pizzaIdInCart}
-        />
+        <Cart cartVisible={cartVisible} toggleCartVisible={toggleCartVisible} />
       </Provider>
     </div>
   );

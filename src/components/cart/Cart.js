@@ -1,12 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { removeFromCart } from "../slice/pizzaSlice";
+import { removeFromCart, setPizzaPriceInCart } from "../slice/pizzaSlice";
 import {
   decrementCart,
   incrementCart,
   resetPizzaCount,
-  setPizzaPriceInCart,
 } from "../slice/cartSlice";
 
 import pizzaData from "../pizzaData/pizzaData";
@@ -22,7 +21,7 @@ import {
 import "./cart.css";
 
 const Cart = (props) => {
-  const { id, cartVisible, toggleCartVisible } = props;
+  const { cartVisible, toggleCartVisible } = props;
 
   // как удалить пиццу с корзины
   const dispatch = useDispatch();
@@ -30,7 +29,6 @@ const Cart = (props) => {
   const handleRemoveFromCart = (pizzaId) => {
     dispatch(removeFromCart({ pizzaId }));
     dispatch(resetPizzaCount({ pizzaId }));
-    dispatch(setPizzaPriceInCart({ pizzaId, price: "0.00 €" }));
   };
 
   //делаем что бы добавленная пицца появлялась в корзине - МАССИВ который я .map для отображения добавленых пицц в корзину.
@@ -44,6 +42,36 @@ const Cart = (props) => {
   const totalCartItemCount = cartItems.reduce((total, pizzaId) => {
     return total + cartCounts[pizzaId];
   }, 0);
+
+  // ПОЛУЧАЕМ ИНФУ ИЗ МАССИВА ГДЕ ХРАНЯТСЯ УЖЕ ВЫБРАННЫЕ ЦЕНЫ ПИЦЦЫ ( и с главной странице за счет ADD TO CART они поподают в корзину)
+  const pizzaPricesInCart = useSelector(
+    (state) => state.pizza.pizzaPricesInCart
+  );
+  //Пробуем настроить счетчик в корзине что бы норм отображал цену
+  const handleIncrement = (pizzaId) => {
+    dispatch(incrementCart({ pizzaId, count: 1 }));
+    updatePrice(pizzaId, 1);
+  };
+
+  const handleDecrement = (pizzaId) => {
+    if (cartCounts[pizzaId] > 1) {
+      dispatch(decrementCart({ pizzaId, count: 1 }));
+      updatePrice(pizzaId, -1);
+    }
+  };
+
+  const updatePrice = (pizzaId, countChange) => {
+    const pizza = pizzaData.find((item) => item.id === pizzaId);
+    if (pizza) {
+      const basePrice = parseFloat(pizza.price);
+      const currentPrice = parseFloat(pizzaPricesInCart[pizzaId]);
+      const newPrice = currentPrice + countChange * basePrice;
+      console.log(newPrice);
+      dispatch(
+        setPizzaPriceInCart({ pizzaId, price: newPrice.toFixed(2) + " €" })
+      );
+    }
+  };
 
   return (
     <div
@@ -68,6 +96,7 @@ const Cart = (props) => {
       <div className="menu-cart">
         {cartItems.map((pizzaId) => {
           const pizza = pizzaData.find((item) => item.id === pizzaId);
+          const priceInCart = pizzaPricesInCart[pizzaId]; // Получите цену из нового поля
           if (!pizza) {
             return null; // Пицца не найдена
           }
@@ -89,7 +118,7 @@ const Cart = (props) => {
                   <h3>{pizza.name}</h3>
                   <p>{pizza.size}</p>
                   <div className="price">
-                    <span>{pizza.price}</span>
+                    <span>{priceInCart}</span>
                   </div>
                 </div>
               </div>
@@ -99,17 +128,13 @@ const Cart = (props) => {
                   <div className="pizza-count-btns">
                     <button
                       className="pizzabtnup"
-                      onClick={() =>
-                        dispatch(incrementCart({ pizzaId, count: 1 }))
-                      }
+                      onClick={() => handleIncrement(pizzaId)}
                     >
                       {up}
                     </button>
                     <button
                       className="pizzabtndown"
-                      onClick={() =>
-                        dispatch(decrementCart({ pizzaId, count: -1 }))
-                      }
+                      onClick={() => handleDecrement(pizzaId)}
                     >
                       {down}
                     </button>
