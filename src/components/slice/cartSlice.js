@@ -4,7 +4,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     pizzaCounts: {}, // Счетчик пицц в моей корзине
-    pizzaPricesInCart: {}, //Цены пицц в моей корзине
+    totalOrderPrice: 0, // Подсчитываем финальную сумму заказа
   },
   reducers: {
     incrementCart(state, action) {
@@ -28,19 +28,10 @@ const cartSlice = createSlice({
       const { pizzaId } = action.payload;
       state.pizzaCounts[pizzaId] = 0;
     },
-    // setPizzaPriceInCart(state, action) {
-    //   const { pizzaId, price } = action.payload;
-    //   state.pizzaPricesInCart[pizzaId] = price;
-    //   console.log("Updated pizza price:", state.pizzaPricesInCart);
-    // },
   },
 });
 
-export const {
-  incrementCart,
-  decrementCart,
-  resetPizzaCount,
-  // setPizzaPriceInCart,
-} = cartSlice.actions;
+export const { incrementCart, decrementCart, resetPizzaCount } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

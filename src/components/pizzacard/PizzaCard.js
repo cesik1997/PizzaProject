@@ -6,6 +6,8 @@ import {
   decrement,
   setPizzaPrice,
   addToCart,
+  updateTotalOrderPrice,
+  setPizzaPriceInCart,
 } from "../slice/pizzaSlice";
 
 import { incrementCart } from "../slice/cartSlice";
@@ -38,14 +40,12 @@ const PizzaCard = (props) => {
     const newCount = pizzaCount + 1;
     dispatch(increment({ pizzaId: id }));
     updatePrice(newCount);
-    // setSelectedCount(newCount);
   };
 
   const handleDecrement = () => {
     const newCount = pizzaCount - 1;
     dispatch(decrement({ pizzaId: id }));
     updatePrice(newCount);
-    // setSelectedCount(newCount);
   };
 
   const updatePrice = (newCount) => {
@@ -59,8 +59,14 @@ const PizzaCard = (props) => {
     const newPrice = (newCount * priceValue).toFixed(2) + " €";
     dispatch(setPizzaPrice({ pizzaId: id, price: newPrice }));
   };
+
   // Работа с добавление пиццы в корзину и проверим есть ли там уже эта пицца
   const cartItems = useSelector((state) => state.pizza.pizzaInCart);
+
+  // Проверка массива в котором лежат все пиццы в моей корзине
+  const pizzaPricesInCart = useSelector(
+    (state) => state.pizza.pizzaPricesInCart
+  );
 
   const isPizzaInCart = (pizzaId) => {
     return cartItems.includes(pizzaId);
@@ -68,14 +74,19 @@ const PizzaCard = (props) => {
 
   const handleAddToCart = () => {
     if (isPizzaInCart(id)) {
-      dispatch(
-        incrementCart({ pizzaId: id, count: pizzaCount, price: pizzaPrice })
-      );
+      const currentPrice = pizzaPricesInCart[id] || 0; // Получаем текущую цену из КОРЗИНЫ у конкретной пиццы
+      const newPrice =
+        (parseFloat(currentPrice) + parseFloat(pizzaPrice)).toFixed(2) + " €";
+
+      dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
+      dispatch(setPizzaPriceInCart({ pizzaId: id, price: newPrice }));
+      dispatch(updateTotalOrderPrice());
     } else {
       dispatch(
         addToCart({ pizzaId: id, count: pizzaCount, price: pizzaPrice })
       );
       dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
+      dispatch(updateTotalOrderPrice());
     }
   };
 

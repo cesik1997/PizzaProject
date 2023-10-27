@@ -48,7 +48,11 @@ const pizzaSlice = createSlice({
     setPizzaPriceInCart(state, action) {
       const { pizzaId, price } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
-      console.log("Updated pizza price:", state.pizzaPricesInCart);
+    },
+    updateTotalOrderPrice(state) {
+      state.totalOrderPrice = Object.values(state.pizzaPricesInCart)
+        .reduce((total, price) => total + parseFloat(price), 0)
+        .toFixed(2);
     },
   },
 });
@@ -60,6 +64,7 @@ export const {
   addToCart,
   removeFromCart,
   setPizzaPriceInCart,
+  updateTotalOrderPrice,
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;
