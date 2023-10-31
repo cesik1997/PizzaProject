@@ -46,6 +46,10 @@ const Cart = (props) => {
     (state) => state.pizza.pizzaPricesInCart
   );
 
+  const selectedPizzaSize = useSelector(
+    (state) => state.pizza.selectedPizzaSize
+  ); // Получите размер из выбранного поля
+
   //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
   // Суммируем счетчики для всех видов пицц в корзине
   const totalCartItemCount = cartItems.reduce((total, pizzaId) => {
@@ -110,6 +114,8 @@ const Cart = (props) => {
         {cartItems.map((pizzaId) => {
           const pizza = pizzaData.find((item) => item.id === pizzaId);
           const priceInCart = pizzaPricesInCart[pizzaId]; // Получите цену из нового поля
+          const sizeInCart = selectedPizzaSize[pizzaId]; // Получите размер из выбранного поля
+
           if (!pizza) {
             return null; // Пицца не найдена
           }
@@ -129,7 +135,7 @@ const Cart = (props) => {
                 </div>
                 <div style={{ paddingTop: "5px" }} className="this-pizza-info">
                   <h3>{pizza.name}</h3>
-                  <p>{pizza.size}</p>
+                  <p>{sizeInCart}</p>
                   <div className="price">
                     <span>{priceInCart}</span>
                   </div>

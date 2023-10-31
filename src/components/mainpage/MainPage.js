@@ -20,28 +20,44 @@ const pizzaDataLeft = [
     image: pizzaimg1,
     name: "Supreme",
     description: "Cheese, ham, feta cheese, cherry tomato, dill, BBQ sauce",
-    price: "16.30  €",
+    prices: {
+      "30cm": "13.50 €",
+      "40cm": "16.30 €",
+      "50cm": "20.00 €",
+    },
   },
   {
     id: 2,
     image: pizzaimg2,
     name: "Diavola",
     description: "Cheese, ham, mushrooms, pickles, pizza sauce",
-    price: "15.20 €",
+    prices: {
+      "30cm": "12.50 €",
+      "40cm": "15.20 €",
+      "50cm": "19.00 €",
+    },
   },
   {
     id: 3,
     image: pizzaimg3,
     name: "Giovanni",
     description: "Cheese, ham, onion, salami, tomato sauce",
-    price: "15.20 €",
+    prices: {
+      "30cm": "12.50 €",
+      "40cm": "15.20 €",
+      "50cm": "19.00 €",
+    },
   },
   {
     id: 4,
     image: pizzaimg4,
     name: "Jazzo",
     description: "Cheese, ham, bacon, pickles, dill, BBQ sauce",
-    price: "15.20 €",
+    prices: {
+      "30cm": "12.50 €",
+      "40cm": "15.20 €",
+      "50cm": "19.00 €",
+    },
   },
   {
     id: 5,
@@ -49,7 +65,11 @@ const pizzaDataLeft = [
     name: "Polina",
     description:
       "Cheese, mushrooms, chicken, paprika, tomato sauce, curry sauce",
-    price: "16.80 €",
+    prices: {
+      "30cm": "13.50 €",
+      "40cm": "16.80 €",
+      "50cm": "19.80 €",
+    },
   },
 ];
 
@@ -60,7 +80,11 @@ const pizzaDataRight = [
     name: "Caesar",
     description:
       "Cheese, parmesan, chicken, roman salad, cherry tomato, pizza sauce, caesara sauce",
-    price: "17.80 €",
+    prices: {
+      "30cm": "14.50 €",
+      "40cm": "17.80 €",
+      "50cm": "20.60 €",
+    },
   },
   {
     id: 7,
@@ -68,7 +92,11 @@ const pizzaDataRight = [
     name: "Azteca (Hot)",
     description:
       "Cheese, ham, jalapeno, tomato sauce, salsa sauce, cream sauce",
-    price: "16.20 €",
+    prices: {
+      "30cm": "13.50 €",
+      "40cm": "16.20 €",
+      "50cm": "19.80 €",
+    },
   },
   {
     id: 8,
@@ -76,7 +104,11 @@ const pizzaDataRight = [
     name: "Acapulco (Hot)",
     description:
       "Cheese, fillet of beef, mushrooms, onion, jalapeno, salsa sauce, tomato sauce",
-    price: "16.50 €",
+    prices: {
+      "30cm": "13.50 €",
+      "40cm": "16.50 €",
+      "50cm": "20.00 €",
+    },
   },
   {
     id: 9,
@@ -84,14 +116,22 @@ const pizzaDataRight = [
     name: "Rucollete",
     description:
       "Cheese, parmesan, arugula, olives, cherry tomato, mozzarella, pizza sauce",
-    price: "17.20 €",
+    prices: {
+      "30cm": "14.50 €",
+      "40cm": "17.20 €",
+      "50cm": "21.20 €",
+    },
   },
   {
     id: 10,
     image: pizzaimg10,
     name: "Prosciutto",
     description: "Cheese, parmesan, prosciutto, arugula, pizza sauce",
-    price: "17.20 €",
+    prices: {
+      "30cm": "14.50 €",
+      "40cm": "17.20 €",
+      "50cm": "21.20 €",
+    },
   },
 ];
 
@@ -107,7 +147,7 @@ const MainPage = (props) => {
               image={pizza.image}
               name={pizza.name}
               description={pizza.description}
-              price={pizza.price}
+              price={pizza.prices} // Передаем все доступные размеры и цены
             />
           ))}
         </div>
@@ -119,7 +159,7 @@ const MainPage = (props) => {
               image={pizza.image}
               name={pizza.name}
               description={pizza.description}
-              price={pizza.price}
+              price={pizza.prices} // Передаем все доступные размеры и цены
             />
           ))}
         </div>

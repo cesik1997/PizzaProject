@@ -8,6 +8,7 @@ import {
   addToCart,
   updateTotalOrderPrice,
   setPizzaPriceInCart,
+  setPizzaCountToOne,
 } from "../slice/pizzaSlice";
 
 import { incrementCart } from "../slice/cartSlice";
@@ -19,8 +20,16 @@ import "./pizzacard.css";
 
 const PizzaCard = (props) => {
   const { id, price } = props;
-
   const dispatch = useDispatch();
+
+  const [selectedSize, setSelectedSize] = useState("40cm");
+  const sizeInCart = useSelector((state) => state.pizza.selectedPizzaSize[id]); // Размер в корзине для этой пиццы
+
+  const handleSizeChange = (newSize) => {
+    setSelectedSize(newSize);
+    dispatch(setPizzaPrice({ pizzaId: id, price: price[newSize] })); // Обновим цену на выбранную
+    dispatch(setPizzaCountToOne({ pizzaId: id })); // Установим счетчик в 1
+  };
 
   // Тогл корзины
   const [ulVisible, setUlVisible] = useState(false);
@@ -33,7 +42,7 @@ const PizzaCard = (props) => {
 
   const pizzaCount = useSelector((state) => state.pizza.pizzaCount[id]); // кол-во пицц в счетчике
   const pizzaPrice = useSelector(
-    (state) => state.pizza.pizzaPrices[id] || price
+    (state) => state.pizza.pizzaPrices[id] || price[selectedSize]
   );
 
   const handleIncrement = () => {
@@ -52,8 +61,8 @@ const PizzaCard = (props) => {
     if (newCount < 1) {
       return; // Не допускать счетчик меньше 1
     }
-    const priceStr = price;
-    const priceParts = priceStr.split(" ");
+
+    const priceParts = price[selectedSize].split(" ");
     const priceValue = parseFloat(priceParts[0]);
 
     const newPrice = (newCount * priceValue).toFixed(2) + " €";
@@ -74,16 +83,34 @@ const PizzaCard = (props) => {
 
   const handleAddToCart = () => {
     if (isPizzaInCart(id)) {
-      const currentPrice = pizzaPricesInCart[id] || 0; // Получаем текущую цену из КОРЗИНЫ у конкретной пиццы
-      const newPrice =
-        (parseFloat(currentPrice) + parseFloat(pizzaPrice)).toFixed(2) + " €";
-
-      dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
-      dispatch(setPizzaPriceInCart({ pizzaId: id, price: newPrice }));
+      if (selectedSize !== sizeInCart) {
+        // Если выбран размер отличный от того, что уже в корзине, добавьте новую пиццу
+        dispatch(
+          addToCart({
+            pizzaId: id,
+            count: pizzaCount,
+            price: pizzaPrice,
+            size: selectedSize,
+          })
+        );
+        dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
+      } else {
+        // Размер не изменился, просто увеличьте количество
+        const currentPrice = pizzaPricesInCart[id] || 0;
+        const newPrice =
+          (parseFloat(currentPrice) + parseFloat(pizzaPrice)).toFixed(2) + " €";
+        dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
+        dispatch(setPizzaPriceInCart({ pizzaId: id, price: newPrice }));
+      }
       dispatch(updateTotalOrderPrice());
     } else {
       dispatch(
-        addToCart({ pizzaId: id, count: pizzaCount, price: pizzaPrice })
+        addToCart({
+          pizzaId: id,
+          count: pizzaCount,
+          price: pizzaPrice,
+          size: selectedSize,
+        })
       );
       dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
       dispatch(updateTotalOrderPrice());
@@ -130,7 +157,7 @@ const PizzaCard = (props) => {
                           src={smallpizza}
                           alt=""
                         />
-                        40cm
+                        {selectedSize}
                       </span>
                     </div>
                     <div className="vs-actions">
@@ -157,9 +184,15 @@ const PizzaCard = (props) => {
                       ulVisible ? "display-block" : "display-none"
                     }`}
                   >
-                    <li className="pizza-size30">30cm</li>
-                    <li className="pizza-size40">40cm</li>
-                    <li className="pizza-size50">50cm</li>
+                    {Object.keys(price).map((size) => (
+                      <li
+                        key={size}
+                        className={`pizza-size${size}`}
+                        onClick={() => handleSizeChange(size)}
+                      >
+                        {size}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>

@@ -219,9 +219,9 @@ p {
     z-index: 1;
 }
 
-.pizza-size30,
-.pizza-size40,
-.pizza-size50 {
+.pizza-size30cm,
+.pizza-size40cm,
+.pizza-size50cm {
     /* margin-left: 45px; */
     padding-left: 25px;
     display: flex;
@@ -234,17 +234,23 @@ p {
 
 }
 
-.pizza-size30,
-.pizza-size40 {
+.pizza-size30cm,
+.pizza-size40cm {
     border-bottom: 1px solid #d3dde4;
 }
 
-.pizza-size30:hover,
-.pizza-size40:hover,
-.pizza-size50:hover {
+.pizza-size30cm:hover,
+.pizza-size40cm:hover,
+.pizza-size50cm:hover {
     cursor: pointer;
     background: #e9dfdf71;
     color: rgb(26, 25, 25);
+}
+
+.pizza-size30cm:active,
+.pizza-size40cm:active,
+.pizza-size50cm:active {
+    background: #a4a0a071;
 }
 
 .display-none {
