@@ -6,7 +6,6 @@ const cartSlice = createSlice({
     totalOrderPrice: 0, // Подсчитываем финальную сумму заказа
     cartItems: [], // Массив объектов, представляющих пиццы в корзине
     pizzaPricesInCart: {},
-
     basePrices: {}, // Содержит базовые цены пиццы по уникальному айди
   },
   reducers: {
@@ -85,6 +84,11 @@ const cartSlice = createSlice({
       const { pizzaId, price } = action.payload;
       state.basePrices[pizzaId] = price;
     },
+    updateTotalOrderPrice(state) {
+      state.totalOrderPrice = Object.values(state.pizzaPricesInCart)
+        .reduce((total, price) => total + parseFloat(price), 0)
+        .toFixed(2);
+    },
   },
 });
 
@@ -96,6 +100,7 @@ export const {
   removeFromCart,
   setPizzaPriceInCart,
   setBasePrice,
+  updateTotalOrderPrice,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

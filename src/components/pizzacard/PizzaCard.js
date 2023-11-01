@@ -8,7 +8,12 @@ import {
   setPizzaCountToOne,
 } from "../slice/pizzaSlice";
 
-import { updateCart, addToCart, setBasePrice } from "../slice/cartSlice";
+import {
+  updateCart,
+  addToCart,
+  setBasePrice,
+  updateTotalOrderPrice,
+} from "../slice/cartSlice";
 
 import { down, up } from "../icons/fontawesome-icons/icons";
 import smallpizza from "../images/small-pizza.jpg";
@@ -26,6 +31,7 @@ const PizzaCard = (props) => {
     setSelectedSize(newSize);
     dispatch(setPizzaPrice({ pizzaId: id, price: price[newSize] }));
     dispatch(setPizzaCountToOne({ pizzaId: id })); // ставим счетчик пиццы в 1
+    toggleUlVisibility();
   };
 
   // Тогл корзины
@@ -92,6 +98,7 @@ const PizzaCard = (props) => {
           price: newPrice,
         })
       );
+      dispatch(updateTotalOrderPrice());
     } else {
       dispatch(
         addToCart({
@@ -105,6 +112,7 @@ const PizzaCard = (props) => {
       );
     }
     dispatch(setBasePrice({ pizzaId: uniquePizzaId, price: basePizzaPrice })); // Установите базовую цену
+    dispatch(updateTotalOrderPrice());
   };
 
   return (

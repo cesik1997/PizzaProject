@@ -6,6 +6,7 @@ import {
   incrementCart,
   removeFromCart,
   setPizzaPriceInCart,
+  updateTotalOrderPrice,
 } from "../slice/cartSlice";
 
 import {
@@ -35,12 +36,14 @@ const Cart = (props) => {
   // Функция для удаления пиццы из корзины
   const handleRemoveFromCart = (pizzaId, size) => {
     dispatch(removeFromCart({ pizzaId, size }));
+    dispatch(updateTotalOrderPrice());
   };
 
   //Пробуем настроить счетчик в корзине что бы норм отображал цену
   const handleIncrement = (pizzaId, size) => {
     dispatch(incrementCart({ pizzaId, count: 1, size }));
     updatePrice(pizzaId, size, 1);
+    dispatch(updateTotalOrderPrice());
   };
 
   const handleDecrement = (pizzaId, size) => {
@@ -50,6 +53,7 @@ const Cart = (props) => {
     if (pizzaInCart && pizzaInCart.quantity > 1) {
       dispatch(decrementCart({ pizzaId, count: 1, size }));
       updatePrice(pizzaId, size, -1);
+      dispatch(updateTotalOrderPrice());
     }
   };
 
@@ -66,10 +70,10 @@ const Cart = (props) => {
     );
   };
 
-  // // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
-  // const totalOrderPrice = useSelector((state) => state.pizza.totalOrderPrice);
-  // const totalOrderPriceDisplay =
-  //   cartItems.length > 0 ? totalOrderPrice + " €" : "0 €";
+  // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
+  const totalOrderPrice = useSelector((state) => state.cart.totalOrderPrice);
+  const totalOrderPriceDisplay =
+    cartItems.length > 0 ? totalOrderPrice + " €" : "0 €";
 
   // ПОДСЧИТЫВАЕМ СКОЛЬКО ПИЦЦ(QUANTITY) в корзине ВСЕГО
   const getTotalPizzaCount = () => {
@@ -163,7 +167,7 @@ const Cart = (props) => {
       <div className="footer-cart">
         <div className="order-price-container">
           <div className="need-to-pay">Order price</div>
-          <div className="price">{}</div>
+          <div className="price">{totalOrderPriceDisplay}</div>
         </div>
         <button className="order-apply">Place an order {sackdollar}</button>
       </div>

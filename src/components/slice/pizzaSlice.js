@@ -10,7 +10,7 @@ const pizzaSlice = createSlice({
   // Начальное состояние, включая начальное значение счетчика и цены
   initialState: {
     pizzaCount: initialCounts,
-    pizzaPrices: {}, // цены пицц на главной страницы
+    pizzaPrices: {}, // цены пицц на главной странице
   },
   reducers: {
     increment(state, action) {
