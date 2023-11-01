@@ -120,6 +120,14 @@ p {
     outline: none;
 }
 
+.vs-actions:hover {
+    background: #e9dfdf71;
+}
+
+.vs-actions:active {
+    background: #cac7c771;
+}
+
 .pizza-menu {
     max-width: 420px;
 }

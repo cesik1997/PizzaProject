@@ -4,8 +4,8 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     totalOrderPrice: 0, // Подсчитываем финальную сумму заказа
-    cartItems: [], // Массив объектов, представляющих пиццы в корзине
-    pizzaPricesInCart: {},
+    cartItems: [], // Массив объектов, представляющих пиццы в корзине (там вся инфа о пиццах. айди размер цена и тд)
+    pizzaPricesInCart: {}, // объект в котором содержаться цены каждой пиццы ДОБАВЛЕННОЙ В КОРЗИНУ
     basePrices: {}, // Содержит базовые цены пиццы по уникальному айди
   },
   reducers: {
@@ -42,10 +42,11 @@ const cartSlice = createSlice({
       );
 
       if (pizzaInCart) {
+        // если мы нашли такую пиццу уже в корзине то мы можем передать ей новую цену и так же увеличить ее кол-во в корзине( расчеты находяться в PIzzaCARD)
         pizzaInCart.quantity += count;
         pizzaInCart.price = price;
       } else {
-        // В противном случае, добавьте новую пиццу в корзину
+        // Если такой пиццы еще нету( размер + айди), то добавляем ёё в наш массив cartItems .( И она отобразится в корзине)
         state.cartItems.push({
           pizzaId,
           price,

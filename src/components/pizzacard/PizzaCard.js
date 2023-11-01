@@ -30,7 +30,7 @@ const PizzaCard = (props) => {
   const handleSizeChange = (newSize) => {
     setSelectedSize(newSize);
     dispatch(setPizzaPrice({ pizzaId: id, price: price[newSize] }));
-    dispatch(setPizzaCountToOne({ pizzaId: id })); // ставим счетчик пиццы в 1
+    dispatch(setPizzaCountToOne({ pizzaId: id })); // ставим счетчик пиццы в 1 если выбираем другой размер пиццы
     toggleUlVisibility();
   };
 
@@ -73,7 +73,7 @@ const PizzaCard = (props) => {
   // Работа с добавление пиццы в корзину и проверим есть ли там уже эта пицца
   const cartItems = useSelector((state) => state.cart.cartItems);
 
-  // Проверка массива в котором лежат все пиццы в моей корзине
+  // Массив где записаны все цены выбранной пиццы в формате [ 1-40cm : '40,50 €']
   const pizzaPricesInCart = useSelector(
     (state) => state.cart.pizzaPricesInCart
   );
@@ -111,7 +111,7 @@ const PizzaCard = (props) => {
         })
       );
     }
-    dispatch(setBasePrice({ pizzaId: uniquePizzaId, price: basePizzaPrice })); // Установите базовую цену
+    dispatch(setBasePrice({ pizzaId: uniquePizzaId, price: basePizzaPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранной пиццы (ИМЕННО 1шт)
     dispatch(updateTotalOrderPrice());
   };
 
