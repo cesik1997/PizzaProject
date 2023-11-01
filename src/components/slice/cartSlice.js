@@ -3,35 +3,99 @@ import { createSlice } from "@reduxjs/toolkit";
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    pizzaCounts: {}, // Счетчик пицц в моей корзине
     totalOrderPrice: 0, // Подсчитываем финальную сумму заказа
+    cartItems: [], // Массив объектов, представляющих пиццы в корзине
+    pizzaPricesInCart: {},
+
+    basePrices: {}, // Содержит базовые цены пиццы по уникальному айди
   },
   reducers: {
     incrementCart(state, action) {
-      const { pizzaId, count } = action.payload;
-      if (state.pizzaCounts[pizzaId] === undefined) {
-        state.pizzaCounts[pizzaId] = count;
-      } else {
-        state.pizzaCounts[pizzaId] += count;
+      const { pizzaId, size } = action.payload;
+      const pizzaInCart = state.cartItems.find(
+        (item) => item.pizzaId === pizzaId && item.size === size
+      );
+
+      if (pizzaInCart) {
+        pizzaInCart.quantity += 1;
       }
     },
     decrementCart(state, action) {
-      const { pizzaId } = action.payload;
-      if (state.pizzaCounts[pizzaId] === 1) {
-        // Если значение равно 1, не уменьшаем
-        return;
-      } else {
-        state.pizzaCounts[pizzaId] -= 1;
+      const { pizzaId, size } = action.payload;
+      const pizzaInCart = state.cartItems.find(
+        (item) => item.pizzaId === pizzaId && item.size === size
+      );
+
+      if (pizzaInCart) {
+        if (pizzaInCart.quantity === 1) {
+          // Если количество равно 1, ничего не делаем
+          return;
+        } else {
+          pizzaInCart.quantity -= 1;
+        }
       }
     },
-    resetPizzaCount(state, action) {
-      const { pizzaId } = action.payload;
-      state.pizzaCounts[pizzaId] = 0;
+    addToCart(state, action) {
+      const { pizzaId, price, size, name, image, count } = action.payload;
+      state.pizzaPricesInCart[pizzaId] = price;
+      const pizzaInCart = state.cartItems.find(
+        (item) => item.pizzaId === pizzaId && item.size === size
+      );
+
+      if (pizzaInCart) {
+        pizzaInCart.quantity += count;
+        pizzaInCart.price = price;
+      } else {
+        // В противном случае, добавьте новую пиццу в корзину
+        state.cartItems.push({
+          pizzaId,
+          price,
+          size,
+          quantity: count,
+          name,
+          image,
+          count,
+        });
+      }
+    },
+    updateCart(state, action) {
+      const { pizzaId, size, quantity, price } = action.payload;
+      state.pizzaPricesInCart[pizzaId] = price;
+      const pizzaInCart = state.cartItems.find(
+        (item) => item.pizzaId === pizzaId && item.size === size
+      );
+
+      if (pizzaInCart) {
+        pizzaInCart.quantity = quantity;
+        pizzaInCart.price = price;
+      }
+    },
+    removeFromCart(state, action) {
+      const { pizzaId, size } = action.payload;
+      state.cartItems = state.cartItems.filter(
+        (item) => !(item.pizzaId === pizzaId && item.size === size)
+      );
+      delete state.pizzaPricesInCart[pizzaId];
+    },
+    setPizzaPriceInCart(state, action) {
+      const { pizzaId, price } = action.payload;
+      state.pizzaPricesInCart[pizzaId] = price;
+    },
+    setBasePrice(state, action) {
+      const { pizzaId, price } = action.payload;
+      state.basePrices[pizzaId] = price;
     },
   },
 });
 
-export const { incrementCart, decrementCart, resetPizzaCount } =
-  cartSlice.actions;
+export const {
+  incrementCart,
+  decrementCart,
+  addToCart,
+  updateCart,
+  removeFromCart,
+  setPizzaPriceInCart,
+  setBasePrice,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

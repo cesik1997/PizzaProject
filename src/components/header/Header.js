@@ -9,13 +9,16 @@ const cartlogo = cart;
 
 const Header = (props) => {
   //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
-  const cartItems = useSelector((state) => state.pizza.pizzaInCart);
-  const cartCounts = useSelector((state) => state.cart.pizzaCounts);
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
-  // Суммируем счетчики для всех видов пицц в корзине
-  const totalCartItemCount = cartItems.reduce((total, pizzaId) => {
-    return total + cartCounts[pizzaId];
-  }, 0);
+  // ПОДСЧИТЫВАЕМ СКОЛЬКО ПИЦЦ(QUANTITY) в корзине ВСЕГО
+  const getTotalPizzaCount = () => {
+    let totalCount = 0;
+    for (const item of cartItems) {
+      totalCount += item.quantity;
+    }
+    return totalCount;
+  };
 
   return (
     <div className="Header">
@@ -31,7 +34,7 @@ const Header = (props) => {
         </div>
         <div className="cart-img" onClick={props.toggleCartVisible}>
           {cartlogo}
-          <div className="cart-count">{totalCartItemCount}</div>
+          <div className="cart-count">{getTotalPizzaCount()}</div>
         </div>
       </div>
     </div>

@@ -2,17 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  removeFromCart,
-  setPizzaPriceInCart,
-  updateTotalOrderPrice,
-} from "../slice/pizzaSlice";
-import {
   decrementCart,
   incrementCart,
-  resetPizzaCount,
+  removeFromCart,
+  setPizzaPriceInCart,
 } from "../slice/cartSlice";
-
-import pizzaData from "../pizzaData/pizzaData";
 
 import {
   cart,
@@ -27,68 +21,64 @@ import "./cart.css";
 const Cart = (props) => {
   const dispatch = useDispatch();
 
-  // Функция для удаления пиццы из корзины
-  const handleRemoveFromCart = (pizzaId) => {
-    dispatch(removeFromCart({ pizzaId }));
-    dispatch(resetPizzaCount({ pizzaId }));
-    updatePrice(pizzaId, -cartCounts[pizzaId]);
-    dispatch(updateTotalOrderPrice());
-  };
-
   //делаем что бы добавленная пицца появлялась в корзине - МАССИВ который я .map для отображения добавленых пицц в корзину.
-  const cartItems = useSelector((state) => state.pizza.pizzaInCart); //  массив пицц в корзине
-
-  // общее кол-во пицц в корзине (ПРОХОДИМСЯ ПО КАЖДОЙ ПИЦЦЫ через [pizzaId])
-  const cartCounts = useSelector((state) => state.cart.pizzaCounts);
+  const cartItems = useSelector((state) => state.cart.cartItems); // ОСНОВНОЙ МАССИВ ПИЦЦ В КОРЗИНЕ
 
   // ПОЛУЧАЕМ ИНФУ ИЗ МАССИВА ГДЕ ХРАНЯТСЯ УЖЕ ВЫБРАННЫЕ  !!ЦЕНЫ!!!  ПИЦЦЫ ( и с главной странице за счет ADD TO CART они поподают в корзину)
   const pizzaPricesInCart = useSelector(
-    (state) => state.pizza.pizzaPricesInCart
+    (state) => state.cart.pizzaPricesInCart
   );
 
-  const selectedPizzaSize = useSelector(
-    (state) => state.pizza.selectedPizzaSize
-  ); // Получите размер из выбранного поля
+  // Ищем базовую цену пиццы в корзине
+  const basePriceInCart = useSelector((state) => state.cart.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
 
-  //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
-  // Суммируем счетчики для всех видов пицц в корзине
-  const totalCartItemCount = cartItems.reduce((total, pizzaId) => {
-    return total + cartCounts[pizzaId];
-  }, 0);
+  // Функция для удаления пиццы из корзины
+  const handleRemoveFromCart = (pizzaId, size) => {
+    dispatch(removeFromCart({ pizzaId, size }));
+  };
 
   //Пробуем настроить счетчик в корзине что бы норм отображал цену
-  const handleIncrement = (pizzaId) => {
-    dispatch(incrementCart({ pizzaId, count: 1 }));
-    updatePrice(pizzaId, 1);
-    dispatch(updateTotalOrderPrice());
+  const handleIncrement = (pizzaId, size) => {
+    dispatch(incrementCart({ pizzaId, count: 1, size }));
+    updatePrice(pizzaId, size, 1);
   };
 
-  const handleDecrement = (pizzaId) => {
-    if (cartCounts[pizzaId] > 1) {
-      dispatch(decrementCart({ pizzaId, count: 1 }));
-      updatePrice(pizzaId, -1);
-      dispatch(updateTotalOrderPrice());
+  const handleDecrement = (pizzaId, size) => {
+    const pizzaInCart = cartItems.find(
+      (item) => item.pizzaId === pizzaId && item.size === size
+    );
+    if (pizzaInCart && pizzaInCart.quantity > 1) {
+      dispatch(decrementCart({ pizzaId, count: 1, size }));
+      updatePrice(pizzaId, size, -1);
     }
   };
 
-  const updatePrice = (pizzaId, countChange) => {
-    const pizza = pizzaData.find((item) => item.id === pizzaId);
-    if (pizza) {
-      const basePrice = parseFloat(pizza.price);
+  const updatePrice = (pizzaId, size, countChange) => {
+    const currentPrice = parseFloat(pizzaPricesInCart[pizzaId] || 0); // Получаем текущую цену по уникальному ключу
+    const basePrice = parseFloat(basePriceInCart[pizzaId] || 0); // Получите базовую цену пиццы
+    const newPrice = currentPrice + countChange * basePrice;
 
-      const currentPrice = parseFloat(pizzaPricesInCart[pizzaId]);
-      const newPrice = currentPrice + countChange * basePrice;
-
-      dispatch(
-        setPizzaPriceInCart({ pizzaId, price: newPrice.toFixed(2) + " €" })
-      );
-    }
+    dispatch(
+      setPizzaPriceInCart({
+        pizzaId: pizzaId,
+        price: newPrice.toFixed(2) + " €",
+      })
+    );
   };
 
-  // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
-  const totalOrderPrice = useSelector((state) => state.pizza.totalOrderPrice);
-  const totalOrderPriceDisplay =
-    cartItems.length > 0 ? totalOrderPrice + " €" : "0 €";
+  // // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
+  // const totalOrderPrice = useSelector((state) => state.pizza.totalOrderPrice);
+  // const totalOrderPriceDisplay =
+  //   cartItems.length > 0 ? totalOrderPrice + " €" : "0 €";
+
+  // ПОДСЧИТЫВАЕМ СКОЛЬКО ПИЦЦ(QUANTITY) в корзине ВСЕГО
+  const getTotalPizzaCount = () => {
+    let totalCount = 0;
+    for (const item of cartItems) {
+      totalCount += item.quantity;
+    }
+    return totalCount;
+  };
 
   return (
     <div
@@ -101,7 +91,7 @@ const Cart = (props) => {
           <div className="my-cart">
             <div>
               {cart}
-              <div className="cart-count-in-cart">{totalCartItemCount}</div>
+              <div className="cart-count-in-cart">{getTotalPizzaCount()}</div>
             </div>
             <div className="my-cart-text">My cart</div>
           </div>
@@ -111,17 +101,9 @@ const Cart = (props) => {
         </div>
       </div>
       <div className="menu-cart">
-        {cartItems.map((pizzaId) => {
-          const pizza = pizzaData.find((item) => item.id === pizzaId);
-          const priceInCart = pizzaPricesInCart[pizzaId]; // Получите цену из нового поля
-          const sizeInCart = selectedPizzaSize[pizzaId]; // Получите размер из выбранного поля
-
-          if (!pizza) {
-            return null; // Пицца не найдена
-          }
-
+        {cartItems.map((item) => {
           return (
-            <div key={pizza.id} className="pizza-in-cart">
+            <div key={`${item.pizzaId}-${item.size}`} className="pizza-in-cart">
               <div className="chosen-pizza">
                 <div className="this-pizza-img">
                   <img
@@ -129,31 +111,31 @@ const Cart = (props) => {
                       maxWidth: "125px",
                       marginRight: "10px",
                     }}
-                    src={pizza.image}
+                    src={item.image}
                     alt=""
                   />
                 </div>
                 <div style={{ paddingTop: "5px" }} className="this-pizza-info">
-                  <h3>{pizza.name}</h3>
-                  <p>{sizeInCart}</p>
+                  <h3>{item.name}</h3>
+                  <p>{item.size}</p>
                   <div className="price">
-                    <span>{priceInCart}</span>
+                    <span>{pizzaPricesInCart[`${item.pizzaId}`]}</span>
                   </div>
                 </div>
               </div>
               <div className="pizza-amount">
                 <div className="pizza-amount-container">
-                  <div className="pizza-count">{cartCounts[pizzaId]}</div>
+                  <div className="pizza-count">{item.quantity}</div>
                   <div className="pizza-count-btns">
                     <button
                       className="pizzabtnup"
-                      onClick={() => handleIncrement(pizzaId)}
+                      onClick={() => handleIncrement(item.pizzaId, item.size)}
                     >
                       {up}
                     </button>
                     <button
                       className="pizzabtndown"
-                      onClick={() => handleDecrement(pizzaId)}
+                      onClick={() => handleDecrement(item.pizzaId, item.size)}
                     >
                       {down}
                     </button>
@@ -161,7 +143,7 @@ const Cart = (props) => {
                 </div>
                 <div
                   className="xmark-container"
-                  onClick={() => handleRemoveFromCart(pizzaId)}
+                  onClick={() => handleRemoveFromCart(item.pizzaId, item.size)}
                   style={{
                     fontSize: "20px",
                     height: "25px",
@@ -181,7 +163,7 @@ const Cart = (props) => {
       <div className="footer-cart">
         <div className="order-price-container">
           <div className="need-to-pay">Order price</div>
-          <div className="price">{totalOrderPriceDisplay}</div>
+          <div className="price">{}</div>
         </div>
         <button className="order-apply">Place an order {sackdollar}</button>
       </div>

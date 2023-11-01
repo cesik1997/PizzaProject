@@ -5,13 +5,10 @@ import {
   increment,
   decrement,
   setPizzaPrice,
-  addToCart,
-  updateTotalOrderPrice,
-  setPizzaPriceInCart,
   setPizzaCountToOne,
 } from "../slice/pizzaSlice";
 
-import { incrementCart } from "../slice/cartSlice";
+import { updateCart, addToCart, setBasePrice } from "../slice/cartSlice";
 
 import { down, up } from "../icons/fontawesome-icons/icons";
 import smallpizza from "../images/small-pizza.jpg";
@@ -19,16 +16,16 @@ import smallpizza from "../images/small-pizza.jpg";
 import "./pizzacard.css";
 
 const PizzaCard = (props) => {
-  const { id, price } = props;
+  const { id, price, name, image } = props;
   const dispatch = useDispatch();
 
   const [selectedSize, setSelectedSize] = useState("40cm");
-  const sizeInCart = useSelector((state) => state.pizza.selectedPizzaSize[id]); // Размер в корзине для этой пиццы
 
+  //меняем Размеры пиццы
   const handleSizeChange = (newSize) => {
     setSelectedSize(newSize);
-    dispatch(setPizzaPrice({ pizzaId: id, price: price[newSize] })); // Обновим цену на выбранную
-    dispatch(setPizzaCountToOne({ pizzaId: id })); // Установим счетчик в 1
+    dispatch(setPizzaPrice({ pizzaId: id, price: price[newSize] }));
+    dispatch(setPizzaCountToOne({ pizzaId: id })); // ставим счетчик пиццы в 1
   };
 
   // Тогл корзины
@@ -61,60 +58,53 @@ const PizzaCard = (props) => {
     if (newCount < 1) {
       return; // Не допускать счетчик меньше 1
     }
-
     const priceParts = price[selectedSize].split(" ");
     const priceValue = parseFloat(priceParts[0]);
-
     const newPrice = (newCount * priceValue).toFixed(2) + " €";
     dispatch(setPizzaPrice({ pizzaId: id, price: newPrice }));
   };
 
   // Работа с добавление пиццы в корзину и проверим есть ли там уже эта пицца
-  const cartItems = useSelector((state) => state.pizza.pizzaInCart);
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   // Проверка массива в котором лежат все пиццы в моей корзине
   const pizzaPricesInCart = useSelector(
-    (state) => state.pizza.pizzaPricesInCart
+    (state) => state.cart.pizzaPricesInCart
   );
 
-  const isPizzaInCart = (pizzaId) => {
-    return cartItems.includes(pizzaId);
-  };
-
   const handleAddToCart = () => {
-    if (isPizzaInCart(id)) {
-      if (selectedSize !== sizeInCart) {
-        // Если выбран размер отличный от того, что уже в корзине, добавьте новую пиццу
-        dispatch(
-          addToCart({
-            pizzaId: id,
-            count: pizzaCount,
-            price: pizzaPrice,
-            size: selectedSize,
-          })
-        );
-        dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
-      } else {
-        // Размер не изменился, просто увеличьте количество
-        const currentPrice = pizzaPricesInCart[id] || 0;
-        const newPrice =
-          (parseFloat(currentPrice) + parseFloat(pizzaPrice)).toFixed(2) + " €";
-        dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
-        dispatch(setPizzaPriceInCart({ pizzaId: id, price: newPrice }));
-      }
-      dispatch(updateTotalOrderPrice());
+    const uniquePizzaId = `${id}-${selectedSize}`;
+    const pizzaInCart = cartItems.find(
+      (item) => item.pizzaId === uniquePizzaId
+    );
+
+    const basePizzaPrice = price[selectedSize];
+
+    if (pizzaInCart) {
+      const currentPrice = pizzaPricesInCart[uniquePizzaId] || 0;
+      const newPrice =
+        (parseFloat(currentPrice) + parseFloat(pizzaPrice)).toFixed(2) + " €";
+      dispatch(
+        updateCart({
+          pizzaId: uniquePizzaId,
+          size: selectedSize,
+          quantity: pizzaInCart.quantity + pizzaCount,
+          price: newPrice,
+        })
+      );
     } else {
       dispatch(
         addToCart({
-          pizzaId: id,
-          count: pizzaCount,
+          pizzaId: uniquePizzaId,
           price: pizzaPrice,
           size: selectedSize,
+          name: name,
+          image: image,
+          count: pizzaCount,
         })
       );
-      dispatch(incrementCart({ pizzaId: id, count: pizzaCount }));
-      dispatch(updateTotalOrderPrice());
     }
+    dispatch(setBasePrice({ pizzaId: uniquePizzaId, price: basePizzaPrice })); // Установите базовую цену
   };
 
   return (

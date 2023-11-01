@@ -11,10 +11,6 @@ const pizzaSlice = createSlice({
   initialState: {
     pizzaCount: initialCounts,
     pizzaPrices: {}, // цены пицц на главной страницы
-    pizzaPricesInCart: {},
-    pizzaAmountInCart: 0,
-    pizzaInCart: [],
-    selectedPizzaSize: {},
   },
   reducers: {
     increment(state, action) {
@@ -37,25 +33,6 @@ const pizzaSlice = createSlice({
       const { pizzaId, price } = action.payload;
       state.pizzaPrices[pizzaId] = price;
     },
-    addToCart(state, action) {
-      const { pizzaId, price, size } = action.payload;
-      state.pizzaInCart.push(pizzaId);
-      state.pizzaPricesInCart[pizzaId] = price;
-      state.selectedPizzaSize[pizzaId] = size;
-    },
-    removeFromCart(state, action) {
-      const { pizzaId } = action.payload;
-      state.pizzaInCart = state.pizzaInCart.filter((id) => id !== pizzaId);
-    },
-    setPizzaPriceInCart(state, action) {
-      const { pizzaId, price } = action.payload;
-      state.pizzaPricesInCart[pizzaId] = price;
-    },
-    updateTotalOrderPrice(state) {
-      state.totalOrderPrice = Object.values(state.pizzaPricesInCart)
-        .reduce((total, price) => total + parseFloat(price), 0)
-        .toFixed(2);
-    },
     setPizzaCountToOne(state, action) {
       const { pizzaId } = action.payload;
       state.pizzaCount[pizzaId] = 1;
@@ -63,16 +40,7 @@ const pizzaSlice = createSlice({
   },
 });
 
-export const {
-  increment,
-  decrement,
-  setPizzaPrice,
-  addToCart,
-  removeFromCart,
-  setPizzaPriceInCart,
-  updateTotalOrderPrice,
-  setPizzaCountToOne,
-  setSelectedPizzaSize,
-} = pizzaSlice.actions;
+export const { increment, decrement, setPizzaPrice, setPizzaCountToOne } =
+  pizzaSlice.actions;
 
 export default pizzaSlice.reducer;
