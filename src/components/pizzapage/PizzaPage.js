@@ -1,7 +1,7 @@
 import React from "react";
 import PizzaCard from "../pizzacard/PizzaCard";
 
-import "./mainpage.css";
+import "./pizzapage.css";
 
 import pizzaimg1 from "../images/10pizzas/1pizza.png";
 import pizzaimg2 from "../images/10pizzas/2pizza.png";
@@ -135,7 +135,7 @@ const pizzaDataRight = [
   },
 ];
 
-const MainPage = (props) => {
+const PizzaPage = (props) => {
   return (
     <div className="content">
       <div className="mainpage-container">
@@ -143,11 +143,11 @@ const MainPage = (props) => {
           {pizzaDataLeft.map((pizza) => (
             <PizzaCard
               key={pizza.id}
-              id={pizza.id}
-              image={pizza.image}
-              name={pizza.name}
-              description={pizza.description}
-              price={pizza.prices} // Передаем все доступные размеры и цены
+              thisPizzaId={pizza.id}
+              thisPizzaImage={pizza.image}
+              thisPizzaName={pizza.name}
+              thisPizzaDescription={pizza.description}
+              thisPizzaPrice={pizza.prices} // Передаем все доступные размеры и цены
             />
           ))}
         </div>
@@ -155,11 +155,11 @@ const MainPage = (props) => {
           {pizzaDataRight.map((pizza) => (
             <PizzaCard
               key={pizza.id}
-              id={pizza.id}
-              image={pizza.image}
-              name={pizza.name}
-              description={pizza.description}
-              price={pizza.prices} // Передаем все доступные размеры и цены
+              thisPizzaId={pizza.id}
+              thisPizzaImage={pizza.image}
+              thisPizzaName={pizza.name}
+              thisPizzaDescription={pizza.description}
+              thisPizzaPrice={pizza.prices} // Передаем все доступные размеры и цены
             />
           ))}
         </div>
@@ -168,4 +168,4 @@ const MainPage = (props) => {
   );
 };
 
-export default MainPage;
+export default PizzaPage;

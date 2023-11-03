@@ -16,7 +16,7 @@ import {
   down,
   up,
   sackdollar,
-} from "../icons/fontawesome-icons/icons";
+} from "../fontawesome-icons/icons";
 import "./cart.css";
 
 const Cart = (props) => {

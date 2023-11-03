@@ -1,6 +1,6 @@
 import React from "react";
 
-import logo from "../images/logo-pizzza.svg";
+import logo from "../images/icons/logo-pizzza.svg";
 import {
   earth,
   phone,
@@ -10,7 +10,7 @@ import {
   youtube,
   twitter,
   facebook,
-} from "../icons/fontawesome-icons/icons";
+} from "../fontawesome-icons/icons";
 
 import "./footer.css";
 

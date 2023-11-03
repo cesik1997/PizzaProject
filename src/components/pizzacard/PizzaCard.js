@@ -15,13 +15,12 @@ import {
   updateTotalOrderPrice,
 } from "../slice/cartSlice";
 
-import { down, up } from "../icons/fontawesome-icons/icons";
-import smallpizza from "../images/small-pizza.jpg";
+import { down, up } from "../fontawesome-icons/icons";
+import smallpizza from "../images/icons/small-pizza.jpg";
 
 import "./pizzacard.css";
 
 const PizzaCard = (props) => {
-  const { id, price, name, image } = props;
   const dispatch = useDispatch();
 
   const [selectedSize, setSelectedSize] = useState("40cm");
@@ -29,8 +28,13 @@ const PizzaCard = (props) => {
   //меняем Размеры пиццы
   const handleSizeChange = (newSize) => {
     setSelectedSize(newSize);
-    dispatch(setPizzaPrice({ pizzaId: id, price: price[newSize] }));
-    dispatch(setPizzaCountToOne({ pizzaId: id })); // ставим счетчик пиццы в 1 если выбираем другой размер пиццы
+    dispatch(
+      setPizzaPrice({
+        pizzaId: props.thisPizzaId,
+        price: props.thisPizzaPrice[newSize],
+      })
+    );
+    dispatch(setPizzaCountToOne({ pizzaId: props.thisPizzaId })); // ставим счетчик пиццы в 1 если выбираем другой размер пиццы
     toggleUlVisibility();
   };
 
@@ -43,20 +47,24 @@ const PizzaCard = (props) => {
 
   // Работа с счетчиком пицц и ценой пиццы
 
-  const pizzaCount = useSelector((state) => state.pizza.pizzaCount[id]); // кол-во пицц в счетчике
+  const pizzaCount = useSelector(
+    (state) => state.pizza.pizzaCount[props.thisPizzaId]
+  ); // кол-во пицц в счетчике
   const pizzaPrice = useSelector(
-    (state) => state.pizza.pizzaPrices[id] || price[selectedSize]
+    (state) =>
+      state.pizza.pizzaPrices[props.thisPizzaId] ||
+      props.thisPizzaPrice[selectedSize]
   );
 
   const handleIncrement = () => {
     const newCount = pizzaCount + 1;
-    dispatch(increment({ pizzaId: id }));
+    dispatch(increment({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
   };
 
   const handleDecrement = () => {
     const newCount = pizzaCount - 1;
-    dispatch(decrement({ pizzaId: id }));
+    dispatch(decrement({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
   };
 
@@ -64,10 +72,10 @@ const PizzaCard = (props) => {
     if (newCount < 1) {
       return; // Не допускать счетчик меньше 1
     }
-    const priceParts = price[selectedSize].split(" ");
+    const priceParts = props.thisPizzaPrice[selectedSize].split(" ");
     const priceValue = parseFloat(priceParts[0]);
     const newPrice = (newCount * priceValue).toFixed(2) + " €";
-    dispatch(setPizzaPrice({ pizzaId: id, price: newPrice }));
+    dispatch(setPizzaPrice({ pizzaId: props.thisPizzaId, price: newPrice }));
   };
 
   // Работа с добавление пиццы в корзину и проверим есть ли там уже эта пицца
@@ -79,12 +87,12 @@ const PizzaCard = (props) => {
   );
 
   const handleAddToCart = () => {
-    const uniquePizzaId = `${id}-${selectedSize}`;
+    const uniquePizzaId = `${props.thisPizzaId}-${selectedSize}`;
     const pizzaInCart = cartItems.find(
       (item) => item.pizzaId === uniquePizzaId
     );
 
-    const basePizzaPrice = price[selectedSize];
+    const basePizzaPrice = props.thisPizzaPrice[selectedSize];
 
     if (pizzaInCart) {
       const currentPrice = pizzaPricesInCart[uniquePizzaId] || 0;
@@ -105,8 +113,8 @@ const PizzaCard = (props) => {
           pizzaId: uniquePizzaId,
           price: pizzaPrice,
           size: selectedSize,
-          name: name,
-          image: image,
+          name: props.thisPizzaName,
+          image: props.thisPizzaImage,
           count: pizzaCount,
         })
       );
@@ -121,17 +129,17 @@ const PizzaCard = (props) => {
         <div className="pizza-img-bar">
           <div className="pizza-img">
             <img
-              style={{ width: "300px", height: "300px" }}
-              src={props.image}
-              alt={props.name}
+              className="main-pizza-img"
+              src={props.thisPizzaImage}
+              alt={props.thisPizzaName}
             />
           </div>
         </div>
       </div>
       <div className="pizza-right-side">
         <div className="pizza-menu">
-          <h3>{props.name}</h3>
-          <p style={{ letterSpacing: "0.5px" }}>{props.description}</p>
+          <h3>{props.thisPizzaName}</h3>
+          <p style={{ letterSpacing: "0.5px" }}>{props.thisPizzaDescription}</p>
           <div className="pizza-bars">
             <div className="pizza-size-bar">
               <div className="choose-size">Choose size</div>
@@ -182,7 +190,7 @@ const PizzaCard = (props) => {
                       ulVisible ? "display-block" : "display-none"
                     }`}
                   >
-                    {Object.keys(price).map((size) => (
+                    {Object.keys(props.thisPizzaPrice).map((size) => (
                       <li
                         key={size}
                         className={`pizza-size${size}`}

@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import logo from "../images/logo-pizzza.svg";
-import { cart } from "../icons/fontawesome-icons/icons";
+import logo from "../images/icons/logo-pizzza.svg";
+import { cart } from "../fontawesome-icons/icons";
 import "./header.css";
 
 const cartlogo = cart;
