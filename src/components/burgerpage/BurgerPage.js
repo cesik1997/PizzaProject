@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./burgerpage.css";
 import BurgerCard from "../burgercard/BurgerCard";
 
 import burgerimg1 from "../images/6burgers/burger1.png";

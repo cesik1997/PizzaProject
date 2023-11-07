@@ -5,9 +5,6 @@ import Snack from "../images/icons/snack.png";
 import Drink from "../images/icons/drink.png";
 
 import { glass } from "../fontawesome-icons/icons";
-
-import { Link } from "react-router-dom";
-
 import "./navbar.css";
 
 const NavBar = () => {
@@ -17,7 +14,7 @@ const NavBar = () => {
         <div className="nav-top-content">
           <div className="nav-items-menu">
             <div className="food-icon">
-              <a href="/pizza-page">
+              <a href="/menu/pizzas">
                 <div className="food-filter">
                   <img className="food-img" src={Pizza} alt="" />
                 </div>
@@ -25,7 +22,7 @@ const NavBar = () => {
               </a>
             </div>
             <div className="food-icon">
-              <a href="/burger-page">
+              <a href="/menu/burgers">
                 <div className="food-filter">
                   <img className="food-img" src={Burgers} alt="" />
                 </div>
@@ -33,7 +30,7 @@ const NavBar = () => {
               </a>
             </div>
             <div className="food-icon">
-              <a href="/snacks-page">
+              <a href="/menu/snacks">
                 <div className="food-filter">
                   <img className="food-img" src={Snack} alt="" />
                 </div>
@@ -41,7 +38,7 @@ const NavBar = () => {
               </a>
             </div>
             <div className="food-icon">
-              <a href="/drinks-page">
+              <a href="/menu/drinks">
                 <div className="food-filter">
                   <img className="food-img" src={Drink} alt="" />
                 </div>

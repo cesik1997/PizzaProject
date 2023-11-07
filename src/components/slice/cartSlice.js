@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -80,6 +81,13 @@ const cartSlice = createSlice({
     setPizzaPriceInCart(state, action) {
       const { pizzaId, price } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
+
+      const pizzaInCart = state.cartItems.find(
+        (item) => item.pizzaId === pizzaId
+      );
+      if (pizzaInCart) {
+        pizzaInCart.price = price;
+      }
     },
     setBasePrice(state, action) {
       const { pizzaId, price } = action.payload;

@@ -24,6 +24,9 @@ const burgerSlice = createSlice({
       const { burgerId, price } = action.payload;
       state.burgerPrices[burgerId] = price;
     },
+    addToCart(state, action) {
+      const { burgerId, price, count, name, image } = action.payload;
+    },
   },
 });
 

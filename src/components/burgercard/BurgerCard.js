@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./burgercard.css";
 import { down, up } from "../fontawesome-icons/icons";
 
 import {
@@ -54,6 +53,8 @@ const BurgerCard = (props) => {
     dispatch(setBurgerPrice({ burgerId: props.thisBurgerId, price: newPrice }));
   };
 
+  const handleAddToCart = () => {};
+
   return (
     <div className="pizza-card">
       <div className="pizza-left-side">
@@ -81,7 +82,7 @@ const BurgerCard = (props) => {
           </div>
           <div className="cart">
             <div className="cart-btn">
-              <button className="addtocartbtn">
+              <button className="addtocartbtn" onClick={handleAddToCart}>
                 <span
                   style={{
                     fontFamily: "Roboto",

@@ -1,20 +1,21 @@
 import React from "react";
 import { useState } from "react";
 
+import { Provider } from "react-redux";
+import { store } from "./components/store/store";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Cart from "./components/cart/Cart";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
-import PizzaPage from "./components/pizzapage/PizzaPage";
 import NavBar from "./components/navbar/NavBar";
 
-import { Provider } from "react-redux";
-import { store } from "./components/store/store";
+import PizzaPage from "./components/pizzapage/PizzaPage";
+import BurgerPage from "./components/burgerpage/BurgerPage";
+import DrinksPage from "./components/drinkspage/DrinksPage";
+import SnacksPage from "./components/snackspage/SnacksPage";
 
 import "./App.css";
-import BurgerPage from "./components/burgerpage/BurgerPage";
-
 function App(props) {
   const [cartVisible, setCartVisible] = useState(false);
 
@@ -29,10 +30,11 @@ function App(props) {
           <Header toggleCartVisible={toggleCartVisible} />
           <NavBar />
           <Routes>
-            <Route path="/pizza-page" element={<PizzaPage />} />
-            <Route path="/burger-page" element={<BurgerPage />} />
+            <Route path="/menu/pizzas" element={<PizzaPage />} />
+            <Route path="/menu/burgers" element={<BurgerPage />} />
+            <Route path="/menu/snacks" element={<SnacksPage />} />
+            <Route path="/menu/drinks" element={<DrinksPage />} />
           </Routes>
-          {/* <PizzaPage /> */}
           <Footer />
           <Cart
             cartVisible={cartVisible}
