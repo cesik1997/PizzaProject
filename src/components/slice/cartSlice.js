@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -35,7 +34,7 @@ const cartSlice = createSlice({
         }
       }
     },
-    addToCart(state, action) {
+    addToCartPizza(state, action) {
       const { pizzaId, price, size, name, image, count } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
       const pizzaInCart = state.cartItems.find(
@@ -104,7 +103,7 @@ const cartSlice = createSlice({
 export const {
   incrementCart,
   decrementCart,
-  addToCart,
+  addToCartPizza,
   updateCart,
   removeFromCart,
   setPizzaPriceInCart,

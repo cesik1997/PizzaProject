@@ -10,7 +10,7 @@ import {
 
 import {
   updateCart,
-  addToCart,
+  addToCartPizza,
   setBasePrice,
   updateTotalOrderPrice,
 } from "../slice/cartSlice";
@@ -22,8 +22,47 @@ import "./pizzacard.css";
 
 const PizzaCard = (props) => {
   const dispatch = useDispatch();
-
   const [selectedSize, setSelectedSize] = useState("40cm");
+
+  ///////////////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage  ///////////////////////
+
+  // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    // dispatch action to update the cart with loaded data
+
+    if (cartData.length > 0) {
+      cartData.forEach((item) => {
+        const basePizzaPrice = props.thisPizzaPrice[item.size];
+        dispatch(
+          addToCartPizza({
+            pizzaId: item.pizzaId,
+            price: item.price,
+            size: item.size,
+            name: item.name,
+            image: item.image,
+            count: item.quantity,
+          })
+        );
+        dispatch(
+          setBasePrice({ pizzaId: item.pizzaId, price: basePizzaPrice })
+        );
+        dispatch(updateTotalOrderPrice());
+      });
+    }
+  }, []);
+
+  // функция для сохранения данных КОРЗИНЫ в localstorage
+  useEffect(() => {
+    saveCartToLocalStorage(cartItems);
+  }, [cartItems]);
+
+  const saveCartToLocalStorage = (cartData) => {
+    localStorage.setItem("cart", JSON.stringify(cartData));
+  };
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //меняем Размеры пиццы
   const handleSizeChange = (newSize) => {
@@ -60,12 +99,14 @@ const PizzaCard = (props) => {
     const newCount = pizzaCount + 1;
     dispatch(increment({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
+    saveCartToLocalStorage(cartItems);
   };
 
   const handleDecrement = () => {
     const newCount = pizzaCount - 1;
     dispatch(decrement({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
+    saveCartToLocalStorage(cartItems);
   };
 
   const updatePrice = (newCount) => {
@@ -78,14 +119,12 @@ const PizzaCard = (props) => {
     dispatch(setPizzaPrice({ pizzaId: props.thisPizzaId, price: newPrice }));
   };
 
-  // Работа с добавление пиццы в корзину и проверим есть ли там уже эта пицца
-  const cartItems = useSelector((state) => state.cart.cartItems);
-
   // Массив где записаны все цены выбранной пиццы в формате [ 1-40cm : '40,50 €']
   const pizzaPricesInCart = useSelector(
     (state) => state.cart.pizzaPricesInCart
   );
 
+  // Добавление пиццы в корзину при нажатии ADD TO CART
   const handleAddToCart = () => {
     const uniquePizzaId = `${props.thisPizzaId}-${selectedSize}`;
     const pizzaInCart = cartItems.find(
@@ -107,20 +146,23 @@ const PizzaCard = (props) => {
         })
       );
       dispatch(updateTotalOrderPrice());
+      saveCartToLocalStorage(cartItems);
     } else {
       dispatch(
-        addToCart({
+        addToCartPizza({
           pizzaId: uniquePizzaId,
           price: pizzaPrice,
           size: selectedSize,
           name: props.thisPizzaName,
           image: props.thisPizzaImage,
           count: pizzaCount,
+          quantity: pizzaCount,
         })
       );
     }
     dispatch(setBasePrice({ pizzaId: uniquePizzaId, price: basePizzaPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранной пиццы (ИМЕННО 1шт)
     dispatch(updateTotalOrderPrice());
+    saveCartToLocalStorage(cartItems);
   };
 
   return (

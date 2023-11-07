@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { down, up } from "../fontawesome-icons/icons";
 
@@ -6,11 +6,57 @@ import {
   decrementBurger,
   incrementBurger,
   setBurgerPrice,
+  updateCart,
+  addToCartBurger,
 } from "../slice/burgerSlice";
+
+import { addToCartPizza } from "../slice/cartSlice";
+
 import { useDispatch, useSelector } from "react-redux";
+import { setBasePrice, updateTotalOrderPrice } from "../slice/cartSlice";
 
 const BurgerCard = (props) => {
   const dispatch = useDispatch();
+
+  ///////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage    /////////////////////////////
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    // dispatch action to update the cart with loaded data
+
+    if (cartData.length > 0) {
+      cartData.forEach((item) => {
+        const basePizzaPrice = parseFloat(item.price) / item.quantity;
+        dispatch(
+          addToCartPizza({
+            pizzaId: item.pizzaId,
+            price: item.price,
+            size: item.size,
+            name: item.name,
+            image: item.image,
+            count: item.quantity,
+          })
+        );
+        dispatch(
+          setBasePrice({ pizzaId: item.pizzaId, price: basePizzaPrice })
+        );
+        dispatch(updateTotalOrderPrice());
+      });
+    }
+  }, []);
+
+  // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  // функция для сохранения данных КОРЗИНЫ в localstorage
+  useEffect(() => {
+    saveCartToLocalStorage(cartItems);
+  }, [cartItems]);
+
+  const saveCartToLocalStorage = (cartData) => {
+    localStorage.setItem("cart", JSON.stringify(cartData));
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const burgerCount = useSelector(
     (state) => state.burger.burgerCount[props.thisBurgerId]
@@ -19,6 +65,14 @@ const BurgerCard = (props) => {
   const burgerPrice = useSelector(
     (state) =>
       state.burger.burgerPrices[props.thisBurgerId] || props.thisBurgerPrice
+  );
+
+  const burgerPricesInCart = useSelector(
+    (state) => state.burger.burgerPricesInCart
+  );
+
+  const allBurgersInCart = useSelector(
+    (state) => state.burger.allBurgersInCart
   );
 
   const handleIncrement = () => {
@@ -53,7 +107,35 @@ const BurgerCard = (props) => {
     dispatch(setBurgerPrice({ burgerId: props.thisBurgerId, price: newPrice }));
   };
 
-  const handleAddToCart = () => {};
+  const handleAddToCart = (burgerId) => {
+    // Сделаем проверку если такие бургеры уже есть в корзине
+    const burgersInCart = allBurgersInCart.find(
+      (item) => item.burgerId === burgerId
+    );
+    if (burgersInCart) {
+      const currentPrice = burgerPricesInCart[burgerId];
+      const newPrice = parseFloat(currentPrice) + parseFloat(burgerPrice);
+      dispatch(
+        updateCart({
+          burgerId: burgerId,
+          count: burgerCount.count + burgerCount,
+          price: newPrice,
+        })
+      );
+      dispatch(updateTotalOrderPrice());
+    } else {
+      dispatch(
+        addToCartBurger({
+          burgerId: burgerId,
+          name: props.thisBurgerName,
+          price: burgerPrice,
+          count: burgerCount,
+          image: props.thisBurgerImage,
+        })
+      );
+      dispatch(updateTotalOrderPrice());
+    }
+  };
 
   return (
     <div className="pizza-card">

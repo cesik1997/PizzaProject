@@ -9,7 +9,9 @@ const burgerSlice = createSlice({
   name: "burger",
   initialState: {
     burgerCount: initialCounts,
-    burgerPrices: {},
+    burgerPrices: {}, // цены бургеров на главной странице
+    burgerPricesInCart: {}, // объект в котором содержаться цены каждого бургера ДОБАВЛЕННОГО В КОРЗИНУ
+    allBurgersInCart: [], // Сюда будем помещать все бургеры добавленные в корзину
   },
   reducers: {
     incrementBurger(state, action) {
@@ -24,12 +26,37 @@ const burgerSlice = createSlice({
       const { burgerId, price } = action.payload;
       state.burgerPrices[burgerId] = price;
     },
-    addToCart(state, action) {
+    addToCartBurger(state, action) {
       const { burgerId, price, count, name, image } = action.payload;
+      state.burgerPricesInCart[burgerId] = price;
+      state.allBurgersInCart.push({
+        burgerId,
+        name,
+        price,
+        count,
+        image,
+      });
+    },
+    updateCart(state, action) {
+      const { burgerId, price, count } = action.payload;
+      state.burgerPricesInCart[burgerId] = price;
+
+      const burgerInCart = state.allBurgersInCart.find(
+        (item) => item.burgerId === burgerId
+      );
+      if (burgerInCart) {
+        burgerInCart.price = price;
+        burgerInCart.count = count;
+      }
     },
   },
 });
 
-export const { incrementBurger, decrementBurger, setBurgerPrice } =
-  burgerSlice.actions;
+export const {
+  incrementBurger,
+  decrementBurger,
+  setBurgerPrice,
+  addToCartBurger,
+  updateCart,
+} = burgerSlice.actions;
 export default burgerSlice.reducer;
