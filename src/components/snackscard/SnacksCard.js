@@ -9,7 +9,7 @@ import {
   updateSnackCart,
   updateTotalOrderPriceSnacks,
 } from "../slice/snackSlice";
-import { setBasePrice } from "../slice/cartSlice";
+import { setBasePrice } from "../slice/pizzaSlice";
 
 const SnacksCard = (props) => {
   const dispatch = useDispatch();

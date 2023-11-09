@@ -2,14 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  decrementPizzaInCart,
-  incrementPizzaInCart,
-  removePizzaFromCart,
-  setPizzaPriceInCart,
-  updateTotalOrderPrice,
-} from "../slice/cartSlice";
-
-import {
   cart,
   arrow,
   xmark,
@@ -18,6 +10,14 @@ import {
   sackdollar,
 } from "../fontawesome-icons/icons";
 import "./cart.css";
+
+import {
+  decrementPizzaInCart,
+  incrementPizzaInCart,
+  removePizzaFromCart,
+  setPizzaPriceInCart,
+  updateTotalOrderPricePizzas,
+} from "../slice/pizzaSlice";
 import {
   decrementBurgerInCart,
   incrementBurgerInCart,
@@ -45,27 +45,27 @@ const Cart = (props) => {
 
   /////////////////////////// Добавление пиццы в корзину и все их функции /////////////////////////
   //делаем что бы добавленная пицца появлялась в корзине - МАССИВ который я .map для отображения добавленых пицц в корзину.
-  const allPizzasInCart = useSelector((state) => state.cart.allPizzasInCart); // ОСНОВНОЙ МАССИВ ПИЦЦ В КОРЗИНЕ
+  const allPizzasInCart = useSelector((state) => state.pizza.allPizzasInCart); // ОСНОВНОЙ МАССИВ ПИЦЦ В КОРЗИНЕ
 
   // ПОЛУЧАЕМ ИНФУ ИЗ МАССИВА ГДЕ ХРАНЯТСЯ УЖЕ ВЫБРАННЫЕ  !!ЦЕНЫ!!!  ПИЦЦЫ ( и с главной странице за счет ADD TO CART они поподают в корзину)
   const pizzaPricesInCart = useSelector(
-    (state) => state.cart.pizzaPricesInCart
+    (state) => state.pizza.pizzaPricesInCart
   );
 
   // Ищем базовую цену пиццы в корзине
-  const basePriceInCart = useSelector((state) => state.cart.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
+  const basePriceInCart = useSelector((state) => state.pizza.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
 
   // Функция для удаления пиццы из корзины
   const handleRemovePizzaFromCart = (pizzaId, size) => {
     dispatch(removePizzaFromCart({ pizzaId, size }));
-    dispatch(updateTotalOrderPrice());
+    dispatch(updateTotalOrderPricePizzas());
   };
 
   //Пробуем настроить счетчик в корзине что бы норм отображал цену
   const handlePizzaIncrement = (pizzaId, size) => {
     dispatch(incrementPizzaInCart({ pizzaId, count: 1, size }));
     updatePizzaPrice(pizzaId, size, 1);
-    dispatch(updateTotalOrderPrice());
+    dispatch(updateTotalOrderPricePizzas());
   };
 
   const handlePizzaDecrement = (pizzaId, size) => {
@@ -75,7 +75,7 @@ const Cart = (props) => {
     if (pizzaInCart && pizzaInCart.quantity > 1) {
       dispatch(decrementPizzaInCart({ pizzaId, count: 1, size }));
       updatePizzaPrice(pizzaId, size, -1);
-      dispatch(updateTotalOrderPrice());
+      dispatch(updateTotalOrderPricePizzas());
     }
   };
 
@@ -244,7 +244,7 @@ const Cart = (props) => {
 
   // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
   const totalOrderPricePizza = useSelector(
-    (state) => state.cart.totalOrderPricePizza
+    (state) => state.pizza.totalOrderPricePizza
   );
   const totalOrderPriceBurgers = useSelector(
     (state) => state.burger.totalOrderPriceBurgers

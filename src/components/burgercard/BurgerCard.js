@@ -15,8 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addToCartPizza,
   setBasePrice,
-  updateTotalOrderPrice,
-} from "../slice/cartSlice";
+  updateTotalOrderPricePizzas,
+} from "../slice/pizzaSlice";
 
 const BurgerCard = (props) => {
   const dispatch = useDispatch();
@@ -42,13 +42,13 @@ const BurgerCard = (props) => {
         dispatch(
           setBasePrice({ pizzaId: item.pizzaId, price: basePizzaPrice })
         );
-        dispatch(updateTotalOrderPrice());
+        dispatch(updateTotalOrderPricePizzas());
       });
     }
   }, []);
 
   // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
-  const allPizzasInCart = useSelector((state) => state.cart.allPizzasInCart);
+  const allPizzasInCart = useSelector((state) => state.pizza.allPizzasInCart);
 
   // функция для сохранения данных КОРЗИНЫ в localstorage
   useEffect(() => {
