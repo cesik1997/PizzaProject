@@ -10,6 +10,7 @@
     width: 100%;
     height: 100%;
     background: #e7e2e2;
+    overflow: auto;
 }
 
 .cart-count-in-cart {
@@ -69,8 +70,8 @@
 }
 
 .menu-cart {
-    overflow: auto;
     flex: 1 1 auto;
+    overflow-y: auto;
 }
 
 .pizza-in-cart {

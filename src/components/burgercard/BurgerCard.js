@@ -6,14 +6,17 @@ import {
   decrementBurger,
   incrementBurger,
   setBurgerPrice,
-  updateCart,
+  updateBurgerCart,
   addToCartBurger,
+  updateTotalOrderPriceBurgers,
 } from "../slice/burgerSlice";
 
-import { addToCartPizza } from "../slice/cartSlice";
-
 import { useDispatch, useSelector } from "react-redux";
-import { setBasePrice, updateTotalOrderPrice } from "../slice/cartSlice";
+import {
+  addToCartPizza,
+  setBasePrice,
+  updateTotalOrderPrice,
+} from "../slice/cartSlice";
 
 const BurgerCard = (props) => {
   const dispatch = useDispatch();
@@ -45,12 +48,12 @@ const BurgerCard = (props) => {
   }, []);
 
   // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const allPizzasInCart = useSelector((state) => state.cart.allPizzasInCart);
 
   // функция для сохранения данных КОРЗИНЫ в localstorage
   useEffect(() => {
-    saveCartToLocalStorage(cartItems);
-  }, [cartItems]);
+    saveCartToLocalStorage(allPizzasInCart);
+  }, [allPizzasInCart]);
 
   const saveCartToLocalStorage = (cartData) => {
     localStorage.setItem("cart", JSON.stringify(cartData));
@@ -107,22 +110,27 @@ const BurgerCard = (props) => {
     dispatch(setBurgerPrice({ burgerId: props.thisBurgerId, price: newPrice }));
   };
 
-  const handleAddToCart = (burgerId) => {
+  const handleAddToCartBurger = () => {
+    const burgerId = props.thisBurgerId;
+
+    const baseBurgerPrice = props.thisBurgerPrice;
+
     // Сделаем проверку если такие бургеры уже есть в корзине
     const burgersInCart = allBurgersInCart.find(
       (item) => item.burgerId === burgerId
     );
     if (burgersInCart) {
       const currentPrice = burgerPricesInCart[burgerId];
-      const newPrice = parseFloat(currentPrice) + parseFloat(burgerPrice);
+      const newPrice =
+        (parseFloat(currentPrice) + parseFloat(burgerPrice)).toFixed(2) + " €";
       dispatch(
-        updateCart({
+        updateBurgerCart({
           burgerId: burgerId,
-          count: burgerCount.count + burgerCount,
+          count: burgersInCart.count + burgerCount,
           price: newPrice,
         })
       );
-      dispatch(updateTotalOrderPrice());
+      dispatch(updateTotalOrderPriceBurgers());
     } else {
       dispatch(
         addToCartBurger({
@@ -133,7 +141,8 @@ const BurgerCard = (props) => {
           image: props.thisBurgerImage,
         })
       );
-      dispatch(updateTotalOrderPrice());
+      dispatch(updateTotalOrderPriceBurgers());
+      dispatch(setBasePrice({ burgerId: burgerId, price: baseBurgerPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного бургера (ИМЕННО 1шт)
     }
   };
 
@@ -164,7 +173,7 @@ const BurgerCard = (props) => {
           </div>
           <div className="cart">
             <div className="cart-btn">
-              <button className="addtocartbtn" onClick={handleAddToCart}>
+              <button className="addtocartbtn" onClick={handleAddToCartBurger}>
                 <span
                   style={{
                     fontFamily: "Roboto",

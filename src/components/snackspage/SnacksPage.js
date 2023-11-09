@@ -13,10 +13,11 @@ const snacksDataLeft = [
   {
     id: 1,
     image: snackimg1,
-    name: "Onion Rings",
+    name: "Onion Rings ",
     description:
       "Our thick-cut onion rings are made from whole white onions, battered with a subtle blend of spices, letting the onion’s natural sweetness shine through.",
-    price: "4.50 €",
+    price: "4.00 €",
+    size: "10pcs",
   },
   {
     id: 2,
@@ -25,6 +26,7 @@ const snacksDataLeft = [
     description:
       "A nice crispy crust with a soft mashed potato pillow in the center. Yum!",
     price: "4.50 €",
+    size: "5pcs",
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const snacksDataLeft = [
     description:
       "The combination of mozzarella and cheddar cheese string sticks adds much flavor to them. Also, the panko crumbs topping and the flour mixture give them that irresistible and crispy coating.",
     price: "4.00 €",
+    size: "8pcs",
   },
 ];
 const snacksDataRight = [
@@ -43,6 +46,7 @@ const snacksDataRight = [
     description:
       "An original favourite and the one and only fry you’ll ever need in your life. Fried crisp and golden, with the perfect amount of salt. ",
     price: "4.00 €",
+    size: "200g",
   },
   {
     id: 5,
@@ -51,6 +55,7 @@ const snacksDataRight = [
     description:
       "Golden crisp crust with juicy chicken meat and subtle oregano flavours makes the Chicken Nuggets an all-time favourite loved by kids and adults alike. ",
     price: "4.50 €",
+    size: "8pcs",
   },
   {
     id: 6,
@@ -59,6 +64,7 @@ const snacksDataRight = [
     description:
       "Squid rings are chewy, subtle in flavour yet perfect as a snack or side dish. Coat it with some crispy flour, eggs and bread crumbs and we have a lovely crunch on the outside with a chewy texture on the inside.",
     price: "4.50 €",
+    size: "10pcs",
   },
 ];
 const SnacksPage = () => {
@@ -74,6 +80,7 @@ const SnacksPage = () => {
               thisSnackName={snack.name}
               thisSnackDescription={snack.description}
               thisSnackPrice={snack.price} // Передаем все доступные размеры и цены
+              thisSnackSize={snack.size}
             />
           ))}
         </div>
@@ -86,6 +93,7 @@ const SnacksPage = () => {
               thisSnackName={snack.name}
               thisSnackDescription={snack.description}
               thisSnackPrice={snack.price} // Передаем все доступные размеры и цены
+              thisSnackSize={snack.size}
             />
           ))}
         </div>

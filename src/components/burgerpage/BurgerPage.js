@@ -20,7 +20,7 @@ const burgerDataLeft = [
   {
     id: 2,
     image: burgerimg2,
-    name: "Double Whopper ",
+    name: "Double Whopper",
     description:
       "Cheese, 2 pattys of ground beef, tomato, lettuce, pickles, onion, mayo ",
     price: "10.00 €",
@@ -58,7 +58,7 @@ const burgerDataRight = [
     price: "8.50 €",
   },
 ];
-const BurgerPage = () => {
+const BurgerPage = (props) => {
   return (
     <div className="content">
       <div className="mainpage-container">

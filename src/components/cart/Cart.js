@@ -2,9 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  decrementCart,
-  incrementCart,
-  removeFromCart,
+  decrementPizzaInCart,
+  incrementPizzaInCart,
+  removePizzaFromCart,
   setPizzaPriceInCart,
   updateTotalOrderPrice,
 } from "../slice/cartSlice";
@@ -18,12 +18,34 @@ import {
   sackdollar,
 } from "../fontawesome-icons/icons";
 import "./cart.css";
+import {
+  decrementBurgerInCart,
+  incrementBurgerInCart,
+  removeBurgerFromCart,
+  setBurgerPriceInCart,
+  updateTotalOrderPriceBurgers,
+} from "../slice/burgerSlice";
+import {
+  decrementSnackInCart,
+  incrementSnackInCart,
+  removeSnackFromCart,
+  setSnackPriceInCart,
+  updateTotalOrderPriceSnacks,
+} from "../slice/snackSlice";
+import {
+  decrementDrinkInCart,
+  incrementDrinkInCart,
+  removeDrinkFromCart,
+  setDrinkPriceInCart,
+  updateTotalOrderPriceDrinks,
+} from "../slice/drinkSlice";
 
 const Cart = (props) => {
   const dispatch = useDispatch();
 
+  /////////////////////////// Добавление пиццы в корзину и все их функции /////////////////////////
   //делаем что бы добавленная пицца появлялась в корзине - МАССИВ который я .map для отображения добавленых пицц в корзину.
-  const cartItems = useSelector((state) => state.cart.cartItems); // ОСНОВНОЙ МАССИВ ПИЦЦ В КОРЗИНЕ
+  const allPizzasInCart = useSelector((state) => state.cart.allPizzasInCart); // ОСНОВНОЙ МАССИВ ПИЦЦ В КОРЗИНЕ
 
   // ПОЛУЧАЕМ ИНФУ ИЗ МАССИВА ГДЕ ХРАНЯТСЯ УЖЕ ВЫБРАННЫЕ  !!ЦЕНЫ!!!  ПИЦЦЫ ( и с главной странице за счет ADD TO CART они поподают в корзину)
   const pizzaPricesInCart = useSelector(
@@ -34,31 +56,32 @@ const Cart = (props) => {
   const basePriceInCart = useSelector((state) => state.cart.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
 
   // Функция для удаления пиццы из корзины
-  const handleRemoveFromCart = (pizzaId, size) => {
-    dispatch(removeFromCart({ pizzaId, size }));
+  const handleRemovePizzaFromCart = (pizzaId, size) => {
+    dispatch(removePizzaFromCart({ pizzaId, size }));
     dispatch(updateTotalOrderPrice());
   };
 
   //Пробуем настроить счетчик в корзине что бы норм отображал цену
-  const handleIncrement = (pizzaId, size) => {
-    dispatch(incrementCart({ pizzaId, count: 1, size }));
-    updatePrice(pizzaId, size, 1);
+  const handlePizzaIncrement = (pizzaId, size) => {
+    dispatch(incrementPizzaInCart({ pizzaId, count: 1, size }));
+    updatePizzaPrice(pizzaId, size, 1);
     dispatch(updateTotalOrderPrice());
   };
 
-  const handleDecrement = (pizzaId, size) => {
-    const pizzaInCart = cartItems.find(
+  const handlePizzaDecrement = (pizzaId, size) => {
+    const pizzaInCart = allPizzasInCart.find(
       (item) => item.pizzaId === pizzaId && item.size === size
     );
     if (pizzaInCart && pizzaInCart.quantity > 1) {
-      dispatch(decrementCart({ pizzaId, count: 1, size }));
-      updatePrice(pizzaId, size, -1);
+      dispatch(decrementPizzaInCart({ pizzaId, count: 1, size }));
+      updatePizzaPrice(pizzaId, size, -1);
       dispatch(updateTotalOrderPrice());
     }
   };
 
-  const updatePrice = (pizzaId, size, countChange) => {
+  const updatePizzaPrice = (pizzaId, size, countChange) => {
     const currentPrice = parseFloat(pizzaPricesInCart[pizzaId] || 0); // Получаем текущую цену по уникальному ключу
+    console.log(currentPrice);
     const basePrice = parseFloat(basePriceInCart[pizzaId] || 0); // Получите базовую цену пиццы
     const newPrice = currentPrice + countChange * basePrice;
 
@@ -70,19 +93,182 @@ const Cart = (props) => {
     );
   };
 
-  // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
-  const totalOrderPrice = useSelector((state) => state.cart.totalOrderPrice);
-  const totalOrderPriceDisplay =
-    cartItems.length > 0 ? totalOrderPrice + " €" : "0 €";
+  //////////////////////////////// Добавление бургеров в корзину и все их функции  //////////////////////
 
-  // ПОДСЧИТЫВАЕМ СКОЛЬКО ПИЦЦ(QUANTITY) в корзине ВСЕГО
-  const getTotalPizzaCount = () => {
-    let totalCount = 0;
-    for (const item of cartItems) {
-      totalCount += item.quantity;
-    }
-    return totalCount;
+  const allBurgersInCart = useSelector(
+    (state) => state.burger.allBurgersInCart
+  );
+
+  const burgerPricesInCart = useSelector(
+    (state) => state.burger.burgerPricesInCart
+  );
+
+  // ИНКРЕМЕНТ И ДИКРЕМЕНТ БУРГЕРОВ В КОРЗИНЕ
+  const handleBurgerIncrement = (burgerId) => {
+    dispatch(incrementBurgerInCart({ burgerId, count: 1 }));
+    updateBurgerPrice(burgerId, 1);
+    dispatch(updateTotalOrderPriceBurgers());
   };
+
+  const handleBurgerDecrement = (burgerId) => {
+    const burgerInCart = allBurgersInCart.find(
+      (item) => item.burgerId === burgerId
+    );
+    if (burgerInCart && burgerInCart.count > 1) {
+      dispatch(decrementBurgerInCart({ burgerId, count: 1 }));
+      updateBurgerPrice(burgerId, -1);
+      dispatch(updateTotalOrderPriceBurgers());
+    }
+  };
+
+  // Обновление цены бургеров в корзине
+  const updateBurgerPrice = (burgerId, countChange) => {
+    const currentPrice = parseFloat(burgerPricesInCart[burgerId]); // Получаем текущую цену по уникальному ключу
+    const basePrice = parseFloat(basePriceInCart[burgerId]); // Получите базовую цену пиццы
+    const newPrice = currentPrice + countChange * basePrice;
+
+    dispatch(
+      setBurgerPriceInCart({
+        burgerId: burgerId,
+        price: newPrice.toFixed(2) + " €",
+      })
+    );
+  };
+
+  // Функция для удаление бургеров из корзины
+  const handleRemoveBurggerFromCart = (burgerId) => {
+    dispatch(removeBurgerFromCart({ burgerId }));
+    dispatch(updateTotalOrderPriceBurgers());
+  };
+
+  ////////////////  Добавление СНЭКОВ В КОРЗИНУ И Все их функции ///////////////////////
+
+  const allSnacksInCart = useSelector((state) => state.snack.allSnacksInCart);
+
+  const snackPricesInCart = useSelector(
+    (state) => state.snack.snackPricesInCart
+  );
+  // ИНКРЕМЕНТ И ДИКРЕМЕНТ БУРГЕРОВ В КОРЗИНЕ
+  const handleSnackIncrement = (snackId) => {
+    dispatch(incrementSnackInCart({ snackId, count: 1 }));
+    updateSnackPrice(snackId, 1);
+    dispatch(updateTotalOrderPriceSnacks());
+  };
+
+  const handleSnackDecrement = (snackId) => {
+    const snackInCart = allSnacksInCart.find(
+      (item) => item.snackId === snackId
+    );
+    if (snackInCart && snackInCart.count > 1) {
+      dispatch(decrementSnackInCart({ snackId, count: 1 }));
+      updateSnackPrice(snackId, -1);
+      dispatch(updateTotalOrderPriceSnacks());
+    }
+  };
+
+  // Обновление цены бургеров в корзине
+  const updateSnackPrice = (snackId, countChange) => {
+    const currentPrice = parseFloat(snackPricesInCart[snackId]); // Получаем текущую цену по уникальному ключу
+    const basePrice = parseFloat(basePriceInCart[snackId]); // Получите базовую цену пиццы
+    const newPrice = currentPrice + countChange * basePrice;
+
+    dispatch(
+      setSnackPriceInCart({
+        snackId: snackId,
+        price: newPrice.toFixed(2) + " €",
+      })
+    );
+  };
+
+  // Функция для удаление бургеров из корзины
+  const handleRemoveSnackFromCart = (snackId) => {
+    dispatch(removeSnackFromCart({ snackId }));
+    dispatch(updateTotalOrderPriceSnacks());
+  };
+
+  //////////////////////////////// Добавляем дринки в корзину и все их функции /////////////////// ////////////
+
+  const allDrinksInCart = useSelector((state) => state.drink.allDrinksInCart);
+
+  const drinkPricesInCart = useSelector(
+    (state) => state.drink.drinkPricesInCart
+  );
+  // ИНКРЕМЕНТ И ДИКРЕМЕНТ БУРГЕРОВ В КОРЗИНЕ
+  const handleDrinkIncrement = (drinkId) => {
+    dispatch(incrementDrinkInCart({ drinkId, count: 1 }));
+    updateDrinkPrice(drinkId, 1);
+    dispatch(updateTotalOrderPriceDrinks());
+  };
+
+  const handleDrinkDecrement = (drinkId) => {
+    const drinkInCart = allDrinksInCart.find(
+      (item) => item.drinkId === drinkId
+    );
+    if (drinkInCart && drinkInCart.count > 1) {
+      dispatch(decrementDrinkInCart({ drinkId, count: 1 }));
+      updateDrinkPrice(drinkId, -1);
+      dispatch(updateTotalOrderPriceDrinks());
+    }
+  };
+
+  // Обновление цены бургеров в корзине
+  const updateDrinkPrice = (drinkId, countChange) => {
+    const currentPrice = parseFloat(drinkPricesInCart[drinkId]); // Получаем текущую цену по уникальному ключу
+    const basePrice = parseFloat(basePriceInCart[drinkId]); // Получите базовую цену пиццы
+    const newPrice = currentPrice + countChange * basePrice;
+
+    dispatch(
+      setDrinkPriceInCart({
+        drinkId: drinkId,
+        price: newPrice.toFixed(2) + " €",
+      })
+    );
+  };
+
+  // Функция для удаление бургеров из корзины
+  const handleRemoveDrinkFromCart = (drinkId) => {
+    dispatch(removeDrinkFromCart({ drinkId }));
+    dispatch(updateTotalOrderPriceDrinks());
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // // ПОДСЧИТЫВАЕМ СКОЛЬКО ТОВАРОВ в корзине ВСЕГО
+  // const getTotalPizzaCount = () => {
+  //   let totalCount = 0;
+  //   for (const item of allPizzasInCart) {
+  //     totalCount += item.quantity;
+  //   }
+  //   return totalCount;
+  // };
+
+  // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
+  const totalOrderPricePizza = useSelector(
+    (state) => state.cart.totalOrderPricePizza
+  );
+  const totalOrderPriceBurgers = useSelector(
+    (state) => state.burger.totalOrderPriceBurgers
+  );
+
+  const totalOrderPriceSnacks = useSelector(
+    (state) => state.snack.totalOrderPriceSnacks
+  );
+  const totalOrderPriceDrinks = useSelector(
+    (state) => state.drink.totalOrderPriceDrinks
+  );
+
+  const totalOrderPriceDisplay =
+    allPizzasInCart.length > 0 ||
+    allBurgersInCart.length > 0 ||
+    allSnacksInCart.length > 0 ||
+    allDrinksInCart.length > 0
+      ? (
+          parseFloat(totalOrderPricePizza) +
+          parseFloat(totalOrderPriceBurgers) +
+          parseFloat(totalOrderPriceSnacks) +
+          parseFloat(totalOrderPriceDrinks)
+        ).toFixed(2) + " €"
+      : "0 €";
 
   return (
     <div
@@ -95,7 +281,7 @@ const Cart = (props) => {
           <div className="my-cart">
             <div>
               {cart}
-              <div className="cart-count-in-cart">{getTotalPizzaCount()}</div>
+              <div className="cart-count-in-cart">{}</div>
             </div>
             <div className="my-cart-text">My cart</div>
           </div>
@@ -105,7 +291,7 @@ const Cart = (props) => {
         </div>
       </div>
       <div className="menu-cart">
-        {cartItems.map((item) => {
+        {allPizzasInCart.map((item) => {
           return (
             <div key={`${item.pizzaId}-${item.size}`} className="pizza-in-cart">
               <div className="chosen-pizza">
@@ -133,13 +319,17 @@ const Cart = (props) => {
                   <div className="pizza-count-btns">
                     <button
                       className="pizzabtnup"
-                      onClick={() => handleIncrement(item.pizzaId, item.size)}
+                      onClick={() =>
+                        handlePizzaIncrement(item.pizzaId, item.size)
+                      }
                     >
                       {up}
                     </button>
                     <button
                       className="pizzabtndown"
-                      onClick={() => handleDecrement(item.pizzaId, item.size)}
+                      onClick={() =>
+                        handlePizzaDecrement(item.pizzaId, item.size)
+                      }
                     >
                       {down}
                     </button>
@@ -147,7 +337,185 @@ const Cart = (props) => {
                 </div>
                 <div
                   className="xmark-container"
-                  onClick={() => handleRemoveFromCart(item.pizzaId, item.size)}
+                  onClick={() =>
+                    handleRemovePizzaFromCart(item.pizzaId, item.size)
+                  }
+                  style={{
+                    fontSize: "20px",
+                    height: "25px",
+                    width: "25px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {xmark}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        {allBurgersInCart.map((item) => {
+          return (
+            <div key={item.burgerId} className="pizza-in-cart">
+              <div className="chosen-pizza">
+                <div className="this-pizza-img">
+                  <img
+                    style={{
+                      maxWidth: "125px",
+                      height: "105px",
+                      marginRight: "5px",
+                    }}
+                    src={item.image}
+                    alt=""
+                  />
+                </div>
+                <div style={{ paddingTop: "5px" }} className="this-pizza-info">
+                  <h3>{item.name}</h3>
+                  <div className="price">
+                    <span>{burgerPricesInCart[item.burgerId]}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="pizza-amount">
+                <div className="pizza-amount-container">
+                  <div className="pizza-count">{item.count}</div>
+                  <div className="pizza-count-btns">
+                    <button
+                      className="pizzabtnup"
+                      onClick={() => handleBurgerIncrement(item.burgerId)}
+                    >
+                      {up}
+                    </button>
+                    <button
+                      className="pizzabtndown"
+                      onClick={() => handleBurgerDecrement(item.burgerId)}
+                    >
+                      {down}
+                    </button>
+                  </div>
+                </div>
+                <div
+                  className="xmark-container"
+                  onClick={() => handleRemoveBurggerFromCart(item.burgerId)}
+                  style={{
+                    fontSize: "20px",
+                    height: "25px",
+                    width: "25px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {xmark}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        {allSnacksInCart.map((item) => {
+          return (
+            <div key={item.snackId} className="pizza-in-cart">
+              <div className="chosen-pizza">
+                <div className="this-pizza-img">
+                  <img
+                    style={{
+                      maxWidth: "125px",
+                      height: "105px",
+                      marginRight: "5px",
+                    }}
+                    src={item.image}
+                    alt=""
+                  />
+                </div>
+                <div style={{ paddingTop: "5px" }} className="this-pizza-info">
+                  <h3>{item.name}</h3>
+                  <p>{item.size}</p>
+                  <div className="price">
+                    <span>{snackPricesInCart[item.snackId]}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="pizza-amount">
+                <div className="pizza-amount-container">
+                  <div className="pizza-count">{item.count}</div>
+                  <div className="pizza-count-btns">
+                    <button
+                      className="pizzabtnup"
+                      onClick={() => handleSnackIncrement(item.snackId)}
+                    >
+                      {up}
+                    </button>
+                    <button
+                      className="pizzabtndown"
+                      onClick={() => handleSnackDecrement(item.snackId)}
+                    >
+                      {down}
+                    </button>
+                  </div>
+                </div>
+                <div
+                  className="xmark-container"
+                  onClick={() => handleRemoveSnackFromCart(item.snackId)}
+                  style={{
+                    fontSize: "20px",
+                    height: "25px",
+                    width: "25px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {xmark}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        {allDrinksInCart.map((item) => {
+          return (
+            <div key={item.drinkId} className="pizza-in-cart">
+              <div className="chosen-pizza">
+                <div className="this-pizza-img">
+                  <img
+                    style={{
+                      maxWidth: "125px",
+                      height: "105px",
+                      marginRight: "5px",
+                    }}
+                    src={item.image}
+                    alt=""
+                  />
+                </div>
+                <div style={{ paddingTop: "5px" }} className="this-pizza-info">
+                  <h3>{item.name}</h3>
+                  <p>{item.size}</p>
+                  <div className="price">
+                    <span>{drinkPricesInCart[item.drinkId]}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="pizza-amount">
+                <div className="pizza-amount-container">
+                  <div className="pizza-count">{item.count}</div>
+                  <div className="pizza-count-btns">
+                    <button
+                      className="pizzabtnup"
+                      onClick={() => handleDrinkIncrement(item.drinkId)}
+                    >
+                      {up}
+                    </button>
+                    <button
+                      className="pizzabtndown"
+                      onClick={() => handleDrinkDecrement(item.drinkId)}
+                    >
+                      {down}
+                    </button>
+                  </div>
+                </div>
+                <div
+                  className="xmark-container"
+                  onClick={() => handleRemoveDrinkFromCart(item.drinkId)}
                   style={{
                     fontSize: "20px",
                     height: "25px",
@@ -164,6 +532,7 @@ const Cart = (props) => {
           );
         })}
       </div>
+
       <div className="footer-cart">
         <div className="order-price-container">
           <div className="need-to-pay">Order price</div>

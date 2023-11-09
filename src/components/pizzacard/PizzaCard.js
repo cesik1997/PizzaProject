@@ -27,7 +27,7 @@ const PizzaCard = (props) => {
   ///////////////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage  ///////////////////////
 
   // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const allPizzasInCart = useSelector((state) => state.cart.allPizzasInCart);
 
   useEffect(() => {
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
@@ -56,8 +56,8 @@ const PizzaCard = (props) => {
 
   // функция для сохранения данных КОРЗИНЫ в localstorage
   useEffect(() => {
-    saveCartToLocalStorage(cartItems);
-  }, [cartItems]);
+    saveCartToLocalStorage(allPizzasInCart);
+  }, [allPizzasInCart]);
 
   const saveCartToLocalStorage = (cartData) => {
     localStorage.setItem("cart", JSON.stringify(cartData));
@@ -99,14 +99,14 @@ const PizzaCard = (props) => {
     const newCount = pizzaCount + 1;
     dispatch(increment({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
-    saveCartToLocalStorage(cartItems);
+    saveCartToLocalStorage(allPizzasInCart);
   };
 
   const handleDecrement = () => {
     const newCount = pizzaCount - 1;
     dispatch(decrement({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
-    saveCartToLocalStorage(cartItems);
+    saveCartToLocalStorage(allPizzasInCart);
   };
 
   const updatePrice = (newCount) => {
@@ -125,9 +125,9 @@ const PizzaCard = (props) => {
   );
 
   // Добавление пиццы в корзину при нажатии ADD TO CART
-  const handleAddToCart = () => {
+  const handleAddToCartPizza = () => {
     const uniquePizzaId = `${props.thisPizzaId}-${selectedSize}`;
-    const pizzaInCart = cartItems.find(
+    const pizzaInCart = allPizzasInCart.find(
       (item) => item.pizzaId === uniquePizzaId
     );
 
@@ -146,7 +146,7 @@ const PizzaCard = (props) => {
         })
       );
       dispatch(updateTotalOrderPrice());
-      saveCartToLocalStorage(cartItems);
+      saveCartToLocalStorage(allPizzasInCart);
     } else {
       dispatch(
         addToCartPizza({
@@ -162,7 +162,7 @@ const PizzaCard = (props) => {
     }
     dispatch(setBasePrice({ pizzaId: uniquePizzaId, price: basePizzaPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранной пиццы (ИМЕННО 1шт)
     dispatch(updateTotalOrderPrice());
-    saveCartToLocalStorage(cartItems);
+    saveCartToLocalStorage(allPizzasInCart);
   };
 
   return (
@@ -254,7 +254,7 @@ const PizzaCard = (props) => {
           </div>
           <div className="cart">
             <div className="cart-btn">
-              <button className="addtocartbtn" onClick={handleAddToCart}>
+              <button className="addtocartbtn" onClick={handleAddToCartPizza}>
                 <span
                   style={{
                     fontFamily: "Roboto",

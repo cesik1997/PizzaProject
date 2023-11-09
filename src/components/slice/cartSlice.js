@@ -3,15 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    totalOrderPrice: 0, // Подсчитываем финальную сумму заказа
-    cartItems: [], // Массив объектов, представляющих пиццы в корзине (там вся инфа о пиццах. айди размер цена и тд)
+    totalOrderPricePizza: 0, // Подсчитываем финальную сумму заказа
+    allPizzasInCart: [], // Массив объектов, представляющих пиццы в корзине (там вся инфа о пиццах. айди размер цена и тд)
     pizzaPricesInCart: {}, // объект в котором содержаться цены каждой пиццы ДОБАВЛЕННОЙ В КОРЗИНУ
     basePrices: {}, // Содержит базовые цены пиццы по уникальному айди
   },
   reducers: {
-    incrementCart(state, action) {
+    incrementPizzaInCart(state, action) {
       const { pizzaId, size } = action.payload;
-      const pizzaInCart = state.cartItems.find(
+      const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId && item.size === size
       );
 
@@ -19,9 +19,9 @@ const cartSlice = createSlice({
         pizzaInCart.quantity += 1;
       }
     },
-    decrementCart(state, action) {
+    decrementPizzaInCart(state, action) {
       const { pizzaId, size } = action.payload;
-      const pizzaInCart = state.cartItems.find(
+      const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId && item.size === size
       );
 
@@ -37,7 +37,7 @@ const cartSlice = createSlice({
     addToCartPizza(state, action) {
       const { pizzaId, price, size, name, image, count } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
-      const pizzaInCart = state.cartItems.find(
+      const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId && item.size === size
       );
 
@@ -47,7 +47,7 @@ const cartSlice = createSlice({
         pizzaInCart.price = price;
       } else {
         // Если такой пиццы еще нету( размер + айди), то добавляем ёё в наш массив cartItems .( И она отобразится в корзине)
-        state.cartItems.push({
+        state.allPizzasInCart.push({
           pizzaId,
           price,
           size,
@@ -61,7 +61,7 @@ const cartSlice = createSlice({
     updateCart(state, action) {
       const { pizzaId, size, quantity, price } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
-      const pizzaInCart = state.cartItems.find(
+      const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId && item.size === size
       );
 
@@ -70,9 +70,9 @@ const cartSlice = createSlice({
         pizzaInCart.price = price;
       }
     },
-    removeFromCart(state, action) {
+    removePizzaFromCart(state, action) {
       const { pizzaId, size } = action.payload;
-      state.cartItems = state.cartItems.filter(
+      state.allPizzasInCart = state.allPizzasInCart.filter(
         (item) => !(item.pizzaId === pizzaId && item.size === size)
       );
       delete state.pizzaPricesInCart[pizzaId];
@@ -81,7 +81,7 @@ const cartSlice = createSlice({
       const { pizzaId, price } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
 
-      const pizzaInCart = state.cartItems.find(
+      const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId
       );
       if (pizzaInCart) {
@@ -89,11 +89,14 @@ const cartSlice = createSlice({
       }
     },
     setBasePrice(state, action) {
-      const { pizzaId, price } = action.payload;
+      const { pizzaId, burgerId, snackId, drinkId, price } = action.payload;
       state.basePrices[pizzaId] = price;
+      state.basePrices[burgerId] = price;
+      state.basePrices[snackId] = price;
+      state.basePrices[drinkId] = price;
     },
     updateTotalOrderPrice(state) {
-      state.totalOrderPrice = Object.values(state.pizzaPricesInCart)
+      state.totalOrderPricePizza = Object.values(state.pizzaPricesInCart)
         .reduce((total, price) => total + parseFloat(price), 0)
         .toFixed(2);
     },
@@ -101,11 +104,11 @@ const cartSlice = createSlice({
 });
 
 export const {
-  incrementCart,
-  decrementCart,
+  incrementPizzaInCart,
+  decrementPizzaInCart,
   addToCartPizza,
   updateCart,
-  removeFromCart,
+  removePizzaFromCart,
   setPizzaPriceInCart,
   setBasePrice,
   updateTotalOrderPrice,

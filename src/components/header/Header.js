@@ -9,12 +9,12 @@ const cartlogo = cart;
 
 const Header = (props) => {
   //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const allPizzasInCart = useSelector((state) => state.cart.allPizzasInCart);
 
   // ПОДСЧИТЫВАЕМ СКОЛЬКО ПИЦЦ(QUANTITY) в корзине ВСЕГО
   const getTotalPizzaCount = () => {
     let totalCount = 0;
-    for (const item of cartItems) {
+    for (const item of allPizzasInCart) {
       totalCount += item.quantity;
     }
     return totalCount;
