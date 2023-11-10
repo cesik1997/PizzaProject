@@ -40,7 +40,7 @@ const pizzaSlice = createSlice({
       );
 
       if (pizzaInCart) {
-        pizzaInCart.quantity += 1;
+        pizzaInCart.count += 1;
       }
     },
     decrementPizzaInCart(state, action) {
@@ -48,37 +48,34 @@ const pizzaSlice = createSlice({
       const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId && item.size === size
       );
-
       if (pizzaInCart) {
-        if (pizzaInCart.quantity === 1) {
-          // Если количество равно 1, ничего не делаем
-          return;
-        } else {
-          pizzaInCart.quantity -= 1;
-        }
+        pizzaInCart.count -= 1;
       }
+    },
+    setPizzaPrice(state, action) {
+      const { pizzaId, price } = action.payload;
+      state.pizzaPrices[pizzaId] = price;
     },
     addToCartPizza(state, action) {
       const { pizzaId, price, size, name, image, count } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
+
       const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId && item.size === size
       );
 
       if (pizzaInCart) {
-        // если мы нашли такую пиццу уже в корзине то мы можем передать ей новую цену и так же увеличить ее кол-во в корзине( расчеты находяться в PIzzaCARD)
-        pizzaInCart.quantity += count;
+        pizzaInCart.count = count;
         pizzaInCart.price = price;
       } else {
         // Если такой пиццы еще нету( размер + айди), то добавляем ёё в наш массив cartItems .( И она отобразится в корзине)
         state.allPizzasInCart.push({
-          pizzaId,
-          price,
-          size,
-          quantity: count,
-          name,
-          image,
-          count,
+          pizzaId: pizzaId,
+          price: price,
+          size: size,
+          count: count,
+          name: name,
+          image: image,
         });
       }
     },
@@ -91,14 +88,14 @@ const pizzaSlice = createSlice({
     },
 
     updatePizzaCart(state, action) {
-      const { pizzaId, size, quantity, price } = action.payload;
+      const { pizzaId, size, count, price } = action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
+
       const pizzaInCart = state.allPizzasInCart.find(
         (item) => item.pizzaId === pizzaId && item.size === size
       );
-
       if (pizzaInCart) {
-        pizzaInCart.quantity = quantity;
+        pizzaInCart.count = count;
         pizzaInCart.price = price;
       }
     },
@@ -125,10 +122,7 @@ const pizzaSlice = createSlice({
         .reduce((total, price) => total + parseFloat(price), 0)
         .toFixed(2);
     },
-    setPizzaPrice(state, action) {
-      const { pizzaId, price } = action.payload;
-      state.pizzaPrices[pizzaId] = price;
-    },
+
     setPizzaCountToOne(state, action) {
       const { pizzaId } = action.payload;
       state.pizzaCount[pizzaId] = 1;

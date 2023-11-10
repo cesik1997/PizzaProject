@@ -48,14 +48,6 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-      <div className="nav-search">
-        <div className="nav-search-style">
-          <div className="bobo">
-            <input className="search" type="text" placeholder="Search" />
-            {glass}
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

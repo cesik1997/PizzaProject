@@ -9,7 +9,6 @@ import {
   instagram,
   youtube,
   twitter,
-  facebook,
 } from "../fontawesome-icons/icons";
 
 import "./footer.css";
@@ -85,14 +84,6 @@ const Footer = () => {
                 title="CHES PIZZA YouTube"
               >
                 <i className="icon">{youtube}</i>
-              </a>
-              <a
-                href="#"
-                style={{ background: "blue" }}
-                className="icon-bar"
-                title="CHES PIZZA Facebook"
-              >
-                <i className="icon">{facebook}</i>
               </a>
               <a
                 href="#"

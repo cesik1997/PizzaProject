@@ -23,11 +23,8 @@ const PizzaCard = (props) => {
 
   ///////////////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage  ///////////////////////
 
-  // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
-  const allPizzasInCart = useSelector((state) => state.pizza.allPizzasInCart);
-
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartData = JSON.parse(localStorage.getItem("pizzaInCart")) || [];
     // dispatch action to update the cart with loaded data
 
     if (cartData.length > 0) {
@@ -40,7 +37,7 @@ const PizzaCard = (props) => {
             size: item.size,
             name: item.name,
             image: item.image,
-            count: item.quantity,
+            count: item.count,
           })
         );
         dispatch(
@@ -51,13 +48,17 @@ const PizzaCard = (props) => {
     }
   }, []);
 
+  
+// ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
+  const allPizzasInCart = useSelector((state) => state.pizza.allPizzasInCart);
+
   // функция для сохранения данных КОРЗИНЫ в localstorage
   useEffect(() => {
     saveCartToLocalStorage(allPizzasInCart);
   }, [allPizzasInCart]);
 
   const saveCartToLocalStorage = (cartData) => {
-    localStorage.setItem("cart", JSON.stringify(cartData));
+    localStorage.setItem("pizzaInCart", JSON.stringify(cartData));
   };
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,14 +97,12 @@ const PizzaCard = (props) => {
     const newCount = pizzaCount + 1;
     dispatch(incrementPizza({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
-    saveCartToLocalStorage(allPizzasInCart);
   };
 
   const handleDecrement = () => {
     const newCount = pizzaCount - 1;
     dispatch(decrementPizza({ pizzaId: props.thisPizzaId }));
     updatePrice(newCount);
-    saveCartToLocalStorage(allPizzasInCart);
   };
 
   const updatePrice = (newCount) => {
@@ -138,7 +137,7 @@ const PizzaCard = (props) => {
         updatePizzaCart({
           pizzaId: uniquePizzaId,
           size: selectedSize,
-          quantity: pizzaInCart.quantity + pizzaCount,
+          count: pizzaInCart.count + pizzaCount,
           price: newPrice,
         })
       );
@@ -153,7 +152,6 @@ const PizzaCard = (props) => {
           name: props.thisPizzaName,
           image: props.thisPizzaImage,
           count: pizzaCount,
-          quantity: pizzaCount,
         })
       );
     }

@@ -10,11 +10,46 @@ import {
   updateTotalOrderPriceDrinks,
 } from "../slice/drinkSlice";
 import { setBasePrice } from "../slice/pizzaSlice";
+import { useEffect } from "react";
+
 
 const DrinksCard = (props) => {
   const dispatch = useDispatch();
+  ///////////////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage  ///////////////////////
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem("drinkInCart")) || [];
+    // dispatch action to update the cart with loaded data
+
+    if (cartData.length > 0) {
+      cartData.forEach((item) => {
+        dispatch(
+          addToCartDrink({
+            drinkId: item.drinkId,
+            name: item.name,
+            price: item.price,
+            count: item.count,
+            image: item.image,
+            size: item.size,
+          })
+        );
+        dispatch(updateTotalOrderPriceDrinks());
+      });
+    }
+  }, []);
+
+  const allDrinksInCart = useSelector((state) => state.drink.allDrinksInCart);
+  // функция для сохранения данных КОРЗИНЫ в localstorage
+  useEffect(() => {
+    saveCartToLocalStorage(allDrinksInCart);
+  }, [allDrinksInCart]);
+
+  const saveCartToLocalStorage = (cartData) => {
+    localStorage.setItem("drinkInCart", JSON.stringify(cartData));
+  };
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
   const drinkCount = useSelector(
     (state) => state.drink.drinkCount[props.thisDrinkId]
@@ -28,8 +63,6 @@ const DrinksCard = (props) => {
   const drinkPricesInCart = useSelector(
     (state) => state.drink.drinkPricesInCart
   );
-
-  const allDrinksInCart = useSelector((state) => state.drink.allDrinksInCart);
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleIncrement = () => {
@@ -101,19 +134,19 @@ const DrinksCard = (props) => {
     }
   };
   return (
-    <div className="pizza-card">
-      <div className="pizza-left-side">
+    <div className="pizza-card" >
+      <div className="pizza-left-side" style={{paddingTop: "30px", paddingLeft: '15px'}}>
         <div className="pizza-img-bar">
-          <div className="pizza-img">
+          <div className="pizza-img" style={{paddingRight: "20px"}}>
             <img
-              style={{ width: "200px", height: "270px" }}
+              style={{ width: "170px", height: "240px" }}
               src={props.thisDrinkImage}
               alt={props.thisDrinkName}
             />
           </div>
         </div>
       </div>
-      <div className="pizza-right-side">
+      <div className="pizza-right-side" style={{maxHeight: "370px", minWidth: "500px", paddingTop: '10px'}}>
         <div className="pizza-menu">
           <h3>{props.thisDrinkName}</h3>
           <div>

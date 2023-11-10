@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { down, up } from "../fontawesome-icons/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,6 +14,40 @@ import { setBasePrice } from "../slice/pizzaSlice";
 const SnacksCard = (props) => {
   const dispatch = useDispatch();
 
+  ///////////////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage  ///////////////////////
+
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem("snackInCart")) || [];
+    // dispatch action to update the cart with loaded data
+
+    if (cartData.length > 0) {
+      cartData.forEach((item) => {
+        dispatch(
+          addToCartSnack({
+            snackId: item.snackId,
+            name: item.name,
+            price: item.price,
+            count: item.count,
+            image: item.image,
+            size: item.size,
+          })
+        );
+        dispatch(updateTotalOrderPriceSnacks());
+      });
+    }
+  }, []);
+
+  const allSnacksInCart = useSelector((state) => state.snack.allSnacksInCart);
+  // функция для сохранения данных КОРЗИНЫ в localstorage
+  useEffect(() => {
+    saveCartToLocalStorage(allSnacksInCart);
+  }, [allSnacksInCart]);
+
+  const saveCartToLocalStorage = (cartData) => {
+    localStorage.setItem("snackInCart", JSON.stringify(cartData));
+  };
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const snackCount = useSelector(
@@ -28,8 +62,6 @@ const SnacksCard = (props) => {
   const snackPricesInCart = useSelector(
     (state) => state.snack.snackPricesInCart
   );
-
-  const allSnacksInCart = useSelector((state) => state.snack.allSnacksInCart);
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleIncrement = () => {
@@ -104,10 +136,10 @@ const SnacksCard = (props) => {
   return (
     <div className="pizza-card">
       <div className="pizza-left-side">
-        <div className="pizza-img-bar">
+        <div className="pizza-img-bar" style={{paddingRight: "0px"}}>
           <div className="pizza-img">
             <img
-              style={{ width: "300px", height: "220px" }}
+              style={{ width: "300px", height: "210px" }}
               src={props.thisSnackImage}
               alt={props.thisSnackName}
             />

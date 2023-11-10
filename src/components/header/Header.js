@@ -7,20 +7,29 @@ import "./header.css";
 
 const cartlogo = cart;
 
+
+
 const Header = (props) => {
   //ОТОБРАЗИТЬ СКОЛЬКО ТОВАРОВ в КОРЗИНЕ
   const allPizzasInCart = useSelector((state) => state.pizza.allPizzasInCart);
   const allDrinksInCart = useSelector((state) => state.drink.allDrinksInCart);
   const allSnacksInCart = useSelector((state) => state.snack.allSnacksInCart);
-  const allBurgersInCart = useSelector(
-    (state) => state.burger.allBurgersInCart
-  );
+  const allBurgersInCart = useSelector((state) => state.burger.allBurgersInCart);
 
-  // ПОДСЧИТЫВАЕМ СКОЛЬКО ПИЦЦ(QUANTITY) в корзине ВСЕГО
-  const getTotalPizzaCount = () => {
+  // ПОДСЧИТЫВАЕМ СКОЛЬКО ТОВАРОВ(count) в корзине ВСЕГО
+  const getTotalCountInCart = () => {
     let totalCount = 0;
     for (const item of allPizzasInCart) {
-      totalCount += item.quantity;
+      totalCount += item.count;
+    }
+    for (const item of allDrinksInCart) {
+      totalCount += item.count;
+    }
+    for (const item of allSnacksInCart) {
+      totalCount += item.count;
+    }
+    for (const item of allBurgersInCart) {
+      totalCount += item.count;
     }
     return totalCount;
   };
@@ -39,7 +48,7 @@ const Header = (props) => {
         </div>
         <div className="cart-img" onClick={props.toggleCartVisible}>
           {cartlogo}
-          <div className="cart-count">{getTotalPizzaCount()}</div>
+          <div className="cart-count">{getTotalCountInCart()}</div>
         </div>
       </div>
     </div>

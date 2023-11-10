@@ -72,7 +72,7 @@ const Cart = (props) => {
     const pizzaInCart = allPizzasInCart.find(
       (item) => item.pizzaId === pizzaId && item.size === size
     );
-    if (pizzaInCart && pizzaInCart.quantity > 1) {
+    if (pizzaInCart && pizzaInCart.count > 1) {
       dispatch(decrementPizzaInCart({ pizzaId, count: 1, size }));
       updatePizzaPrice(pizzaId, size, -1);
       dispatch(updateTotalOrderPricePizzas());
@@ -233,14 +233,24 @@ const Cart = (props) => {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // // ПОДСЧИТЫВАЕМ СКОЛЬКО ТОВАРОВ в корзине ВСЕГО
-  // const getTotalPizzaCount = () => {
-  //   let totalCount = 0;
-  //   for (const item of allPizzasInCart) {
-  //     totalCount += item.quantity;
-  //   }
-  //   return totalCount;
-  // };
+  // ПОДСЧИТЫВАЕМ СКОЛЬКО ТОВАРОВ(count) в корзине ВСЕГО
+  const getTotalCountInCart = () => {
+    let totalCount = 0;
+    for (const item of allPizzasInCart) {
+      totalCount += item.count;
+    }
+    for (const item of allDrinksInCart) {
+      totalCount += item.count;
+    }
+    for (const item of allSnacksInCart) {
+      totalCount += item.count;
+    }
+    for (const item of allBurgersInCart) {
+      totalCount += item.count;
+    }
+    return totalCount;
+  };
+
 
   // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
   const totalOrderPricePizza = useSelector(
@@ -281,7 +291,7 @@ const Cart = (props) => {
           <div className="my-cart">
             <div>
               {cart}
-              <div className="cart-count-in-cart">{}</div>
+              <div className="cart-count-in-cart">{getTotalCountInCart()}</div>
             </div>
             <div className="my-cart-text">My cart</div>
           </div>
@@ -315,7 +325,7 @@ const Cart = (props) => {
               </div>
               <div className="pizza-amount">
                 <div className="pizza-amount-container">
-                  <div className="pizza-count">{item.quantity}</div>
+                  <div className="pizza-count">{item.count}</div>
                   <div className="pizza-count-btns">
                     <button
                       className="pizzabtnup"

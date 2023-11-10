@@ -13,9 +13,7 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addToCartPizza,
   setBasePrice,
-  updateTotalOrderPricePizzas,
 } from "../slice/pizzaSlice";
 
 const BurgerCard = (props) => {
@@ -23,40 +21,36 @@ const BurgerCard = (props) => {
 
   ///////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage    /////////////////////////////
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartData = JSON.parse(localStorage.getItem("burgerInCart")) || [];
     // dispatch action to update the cart with loaded data
 
     if (cartData.length > 0) {
       cartData.forEach((item) => {
-        const basePizzaPrice = parseFloat(item.price) / item.quantity;
-        dispatch(
-          addToCartPizza({
-            pizzaId: item.pizzaId,
-            price: item.price,
-            size: item.size,
-            name: item.name,
-            image: item.image,
-            count: item.quantity,
-          })
-        );
-        dispatch(
-          setBasePrice({ pizzaId: item.pizzaId, price: basePizzaPrice })
-        );
-        dispatch(updateTotalOrderPricePizzas());
+        dispatch(addToCartBurger({
+          burgerId: item.burgerId,
+          name: item.name,
+          price: item.price,
+          count: item.count,
+          image: item.image,
+        }))
+        dispatch(updateTotalOrderPriceBurgers());
       });
     }
   }, []);
 
   // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
-  const allPizzasInCart = useSelector((state) => state.pizza.allPizzasInCart);
 
-  // функция для сохранения данных КОРЗИНЫ в localstorage
+  const allBurgersInCart = useSelector(
+    (state) => state.burger.allBurgersInCart
+  );
+
+  // функция для сохранения данных КОРЗИНЫ в localstorage и отображении их при загрузке страницы
   useEffect(() => {
-    saveCartToLocalStorage(allPizzasInCart);
-  }, [allPizzasInCart]);
+    saveCartToLocalStorage( allBurgersInCart);
+  }, [allBurgersInCart]);
 
   const saveCartToLocalStorage = (cartData) => {
-    localStorage.setItem("cart", JSON.stringify(cartData));
+    localStorage.setItem("burgerInCart", JSON.stringify(cartData));
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,10 +66,6 @@ const BurgerCard = (props) => {
 
   const burgerPricesInCart = useSelector(
     (state) => state.burger.burgerPricesInCart
-  );
-
-  const allBurgersInCart = useSelector(
-    (state) => state.burger.allBurgersInCart
   );
 
   const handleIncrement = () => {
@@ -131,6 +121,7 @@ const BurgerCard = (props) => {
         })
       );
       dispatch(updateTotalOrderPriceBurgers());
+      saveCartToLocalStorage(allBurgersInCart)
     } else {
       dispatch(
         addToCartBurger({
@@ -143,6 +134,7 @@ const BurgerCard = (props) => {
       );
       dispatch(updateTotalOrderPriceBurgers());
       dispatch(setBasePrice({ burgerId: burgerId, price: baseBurgerPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного бургера (ИМЕННО 1шт)
+      saveCartToLocalStorage(allBurgersInCart)
     }
   };
 
