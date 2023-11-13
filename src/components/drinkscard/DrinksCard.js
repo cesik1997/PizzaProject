@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { down, up } from "../fontawesome-icons/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,46 +10,29 @@ import {
   updateTotalOrderPriceDrinks,
 } from "../slice/drinkSlice";
 import { setBasePrice } from "../slice/pizzaSlice";
-import { useEffect } from "react";
 
+import { loadCartData } from "../cartdata/loadCartData"; // Тут храняться данные из localstorage
 
 const DrinksCard = (props) => {
   const dispatch = useDispatch();
+
   ///////////////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage  ///////////////////////
-
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("drinkInCart")) || [];
-    // dispatch action to update the cart with loaded data
-
-    if (cartData.length > 0) {
-      cartData.forEach((item) => {
-        dispatch(
-          addToCartDrink({
-            drinkId: item.drinkId,
-            name: item.name,
-            price: item.price,
-            count: item.count,
-            image: item.image,
-            size: item.size,
-          })
-        );
-        dispatch(updateTotalOrderPriceDrinks());
-      });
-    }
+    loadCartData(dispatch);
   }, []);
 
+  // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные дринки в мою корзину (каждый дринк в отдельный объект)
   const allDrinksInCart = useSelector((state) => state.drink.allDrinksInCart);
-  // функция для сохранения данных КОРЗИНЫ в localstorage
+
+  // // функция для сохранения данных КОРЗИНЫ в localstorage
   useEffect(() => {
     saveCartToLocalStorage(allDrinksInCart);
   }, [allDrinksInCart]);
 
   const saveCartToLocalStorage = (cartData) => {
-    localStorage.setItem("drinkInCart", JSON.stringify(cartData));
+    localStorage.setItem("drinksInCart", JSON.stringify(cartData));
   };
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
   const drinkCount = useSelector(
     (state) => state.drink.drinkCount[props.thisDrinkId]
@@ -127,6 +110,7 @@ const DrinksCard = (props) => {
           count: drinkCount,
           image: props.thisDrinkImage,
           size: props.thisDrinkSize,
+          type: props.thisDrinkType,
         })
       );
       dispatch(updateTotalOrderPriceDrinks());
@@ -134,10 +118,13 @@ const DrinksCard = (props) => {
     }
   };
   return (
-    <div className="pizza-card" >
-      <div className="pizza-left-side" style={{paddingTop: "30px", paddingLeft: '15px'}}>
+    <div className="pizza-card">
+      <div
+        className="pizza-left-side"
+        style={{ paddingTop: "30px", paddingLeft: "15px" }}
+      >
         <div className="pizza-img-bar">
-          <div className="pizza-img" style={{paddingRight: "20px"}}>
+          <div className="pizza-img" style={{ paddingRight: "20px" }}>
             <img
               style={{ width: "170px", height: "240px" }}
               src={props.thisDrinkImage}
@@ -146,7 +133,10 @@ const DrinksCard = (props) => {
           </div>
         </div>
       </div>
-      <div className="pizza-right-side" style={{maxHeight: "370px", minWidth: "500px", paddingTop: '10px'}}>
+      <div
+        className="pizza-right-side"
+        style={{ maxHeight: "370px", minWidth: "500px", paddingTop: "10px" }}
+      >
         <div className="pizza-menu">
           <h3>{props.thisDrinkName}</h3>
           <div>

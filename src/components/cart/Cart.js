@@ -42,6 +42,23 @@ import {
 
 const Cart = (props) => {
   const dispatch = useDispatch();
+  // Функция для удаления выбранной еды из localstorage и из корзины
+  const removeFromLocalStorage = (storageKey, itemId) => {
+    const itemInCart = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const itemIndexToRemove = itemInCart.findIndex(
+      (item) =>
+        item.drinkId === itemId ||
+        item.pizzaId === itemId ||
+        item.burgerId === itemId ||
+        item.snackId === itemId
+    );
+
+    if (itemIndexToRemove !== -1) {
+      itemInCart.splice(itemIndexToRemove, 1);
+    }
+
+    localStorage.setItem(storageKey, JSON.stringify(itemInCart));
+  };
 
   /////////////////////////// Добавление пиццы в корзину и все их функции /////////////////////////
   //делаем что бы добавленная пицца появлялась в корзине - МАССИВ который я .map для отображения добавленых пицц в корзину.
@@ -57,6 +74,7 @@ const Cart = (props) => {
 
   // Функция для удаления пиццы из корзины
   const handleRemovePizzaFromCart = (pizzaId, size) => {
+    removeFromLocalStorage("pizzasInCart", pizzaId);
     dispatch(removePizzaFromCart({ pizzaId, size }));
     dispatch(updateTotalOrderPricePizzas());
   };
@@ -137,6 +155,7 @@ const Cart = (props) => {
 
   // Функция для удаление бургеров из корзины
   const handleRemoveBurggerFromCart = (burgerId) => {
+    removeFromLocalStorage("burgersInCart", burgerId);
     dispatch(removeBurgerFromCart({ burgerId }));
     dispatch(updateTotalOrderPriceBurgers());
   };
@@ -182,6 +201,7 @@ const Cart = (props) => {
 
   // Функция для удаление бургеров из корзины
   const handleRemoveSnackFromCart = (snackId) => {
+    removeFromLocalStorage("snacksInCart", snackId);
     dispatch(removeSnackFromCart({ snackId }));
     dispatch(updateTotalOrderPriceSnacks());
   };
@@ -227,6 +247,7 @@ const Cart = (props) => {
 
   // Функция для удаление бургеров из корзины
   const handleRemoveDrinkFromCart = (drinkId) => {
+    removeFromLocalStorage("drinksInCart", drinkId);
     dispatch(removeDrinkFromCart({ drinkId }));
     dispatch(updateTotalOrderPriceDrinks());
   };
@@ -250,7 +271,6 @@ const Cart = (props) => {
     }
     return totalCount;
   };
-
 
   // Подсчитываем общую сумму заказа и делаем проверку ( если корзина пустая - то отображаем "0 €")
   const totalOrderPricePizza = useSelector(
@@ -309,7 +329,8 @@ const Cart = (props) => {
                   <img
                     style={{
                       maxWidth: "125px",
-                      marginRight: "10px",
+                      height: "105px",
+                      marginRight: "15px",
                     }}
                     src={item.image}
                     alt=""
@@ -372,15 +393,15 @@ const Cart = (props) => {
                 <div className="this-pizza-img">
                   <img
                     style={{
-                      maxWidth: "125px",
+                      maxWidth: "135px",
                       height: "105px",
-                      marginRight: "5px",
+                      marginLeft: "-20px",
                     }}
                     src={item.image}
                     alt=""
                   />
                 </div>
-                <div style={{ paddingTop: "5px" }} className="this-pizza-info">
+                <div className="this-pizza-info">
                   <h3>{item.name}</h3>
                   <div className="price">
                     <span>{burgerPricesInCart[item.burgerId]}</span>
@@ -432,7 +453,7 @@ const Cart = (props) => {
                     style={{
                       maxWidth: "125px",
                       height: "105px",
-                      marginRight: "5px",
+                      marginLeft: "-10px",
                     }}
                     src={item.image}
                     alt=""
@@ -491,7 +512,8 @@ const Cart = (props) => {
                     style={{
                       maxWidth: "125px",
                       height: "105px",
-                      marginRight: "5px",
+                      marginRight: "25px",
+                      marginLeft: "15px",
                     }}
                     src={item.image}
                     alt=""

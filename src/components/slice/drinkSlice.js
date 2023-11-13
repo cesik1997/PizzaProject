@@ -46,7 +46,7 @@ const drinkSlice = createSlice({
       state.drinkPrices[drinkId] = price;
     },
     addToCartDrink(state, action) {
-      const { drinkId, price, count, name, image, size } = action.payload;
+      const { drinkId, price, count, name, image, size, type } = action.payload;
       state.drinkPricesInCart[drinkId] = price;
 
       const drinkInCart = state.allDrinksInCart.find(
@@ -64,6 +64,7 @@ const drinkSlice = createSlice({
           count: count,
           image: image,
           size: size,
+          type: type
         });
       }
     },

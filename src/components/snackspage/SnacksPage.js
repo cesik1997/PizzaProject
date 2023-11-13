@@ -22,7 +22,7 @@ const snacksDataLeft = [
   {
     id: 2,
     image: snackimg2,
-    name: "Cheesy Mashed potato pancakes ",
+    name: "Potato pancakes ",
     description:
       "A nice crispy crust with a soft mashed potato pillow in the center. Yum!",
     price: "4.50 €",

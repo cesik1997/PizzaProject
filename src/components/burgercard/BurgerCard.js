@@ -12,45 +12,29 @@ import {
 } from "../slice/burgerSlice";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setBasePrice,
-} from "../slice/pizzaSlice";
+import { setBasePrice } from "../slice/pizzaSlice";
+import { loadCartData } from "../cartdata/loadCartData"; // Тут храняться данные  из localstorage
 
 const BurgerCard = (props) => {
   const dispatch = useDispatch();
 
   ///////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage    /////////////////////////////
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("burgerInCart")) || [];
-    // dispatch action to update the cart with loaded data
-
-    if (cartData.length > 0) {
-      cartData.forEach((item) => {
-        dispatch(addToCartBurger({
-          burgerId: item.burgerId,
-          name: item.name,
-          price: item.price,
-          count: item.count,
-          image: item.image,
-        }))
-        dispatch(updateTotalOrderPriceBurgers());
-      });
-    }
+    loadCartData(dispatch);
   }, []);
 
-  // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные пиццы в мою корзину (каждая пицца в отдельный объект)
-
+  // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные бургеры в мою корзину (каждый бургер в отдельный объект)
   const allBurgersInCart = useSelector(
     (state) => state.burger.allBurgersInCart
   );
 
   // функция для сохранения данных КОРЗИНЫ в localstorage и отображении их при загрузке страницы
   useEffect(() => {
-    saveCartToLocalStorage( allBurgersInCart);
+    saveCartToLocalStorage(allBurgersInCart);
   }, [allBurgersInCart]);
 
   const saveCartToLocalStorage = (cartData) => {
-    localStorage.setItem("burgerInCart", JSON.stringify(cartData));
+    localStorage.setItem("burgersInCart", JSON.stringify(cartData));
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +105,7 @@ const BurgerCard = (props) => {
         })
       );
       dispatch(updateTotalOrderPriceBurgers());
-      saveCartToLocalStorage(allBurgersInCart)
+      // saveCartToLocalStorage(allBurgersInCart)
     } else {
       dispatch(
         addToCartBurger({
@@ -134,7 +118,7 @@ const BurgerCard = (props) => {
       );
       dispatch(updateTotalOrderPriceBurgers());
       dispatch(setBasePrice({ burgerId: burgerId, price: baseBurgerPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного бургера (ИМЕННО 1шт)
-      saveCartToLocalStorage(allBurgersInCart)
+      // saveCartToLocalStorage(allBurgersInCart)
     }
   };
 

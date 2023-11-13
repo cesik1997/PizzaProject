@@ -10,45 +10,28 @@ import {
   updateTotalOrderPriceSnacks,
 } from "../slice/snackSlice";
 import { setBasePrice } from "../slice/pizzaSlice";
+import { loadCartData } from "../cartdata/loadCartData"; // Тут храняться данные из localstorage
 
 const SnacksCard = (props) => {
   const dispatch = useDispatch();
 
   ///////////////////////////////  РАБОТАЕМ С СОХРАНЕНИЕМ ДАННЫХ В КОРЗИНУ ЧЕРЕЗ localstorage  ///////////////////////
-
   useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem("snackInCart")) || [];
-    // dispatch action to update the cart with loaded data
-
-    if (cartData.length > 0) {
-      cartData.forEach((item) => {
-        dispatch(
-          addToCartSnack({
-            snackId: item.snackId,
-            name: item.name,
-            price: item.price,
-            count: item.count,
-            image: item.image,
-            size: item.size,
-          })
-        );
-        dispatch(updateTotalOrderPriceSnacks());
-      });
-    }
+    loadCartData(dispatch);
   }, []);
 
+  // ОСНОВНОЙ массив куда записываюися ВСЕ добавленные снэки в мою корзину (каждый снэк в отдельный объект)
   const allSnacksInCart = useSelector((state) => state.snack.allSnacksInCart);
+
   // функция для сохранения данных КОРЗИНЫ в localstorage
   useEffect(() => {
     saveCartToLocalStorage(allSnacksInCart);
   }, [allSnacksInCart]);
 
   const saveCartToLocalStorage = (cartData) => {
-    localStorage.setItem("snackInCart", JSON.stringify(cartData));
+    localStorage.setItem("snacksInCart", JSON.stringify(cartData));
   };
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const snackCount = useSelector(
     (state) => state.snack.snackCount[props.thisSnackId]
@@ -136,7 +119,7 @@ const SnacksCard = (props) => {
   return (
     <div className="pizza-card">
       <div className="pizza-left-side">
-        <div className="pizza-img-bar" style={{paddingRight: "0px"}}>
+        <div className="pizza-img-bar" style={{ paddingRight: "0px" }}>
           <div className="pizza-img">
             <img
               style={{ width: "300px", height: "210px" }}

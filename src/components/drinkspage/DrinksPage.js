@@ -19,6 +19,7 @@ const drinksDataLeft = [
     description: "Coca Cola original / Zero ",
     price: "3.50 €",
     size: "500ml",
+    type: "drink",
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const drinksDataLeft = [
     description: "Sprite original / Zero  ",
     price: "3.50 €",
     size: "500ml",
+    type: "drink",
   },
   {
     id: 3,
@@ -35,6 +37,7 @@ const drinksDataLeft = [
     description: "Fresh cold orange / apple / pineapple juice",
     price: "4.50 €",
     size: "330ml",
+    type: "drink",
   },
   {
     id: 4,
@@ -43,6 +46,7 @@ const drinksDataLeft = [
     description: "RedBull original / Zero ",
     price: "3.50 €",
     size: "330ml",
+    type: "drink",
   },
 ];
 const drinksDataRight = [
@@ -53,6 +57,7 @@ const drinksDataRight = [
     description: "Cold ice tea with lemon or peach taste",
     price: "3.50 €",
     size: "500ml",
+    type: "drink",
   },
   {
     id: 6,
@@ -61,14 +66,16 @@ const drinksDataRight = [
     description: "Sparkling water 'Mangali' ",
     price: "2.50 €",
     size: "500ml",
+    type: "drink",
   },
   {
     id: 7,
     image: drinkimg7,
-    name: "Maple syrup iced coffee ",
+    name: "Iced coffee ",
     description: "Iced coffee with maple syrup ",
     price: "4.50 €",
     size: "330ml",
+    type: "drink",
   },
   {
     id: 8,
@@ -78,6 +85,7 @@ const drinksDataRight = [
       "Banana / strawberry / chocolate milkshake with oreo toppings ",
     price: "5.00 €",
     size: "330ml",
+    type: "drink",
   },
 ];
 const DrinksPage = () => {
@@ -94,6 +102,7 @@ const DrinksPage = () => {
               thisDrinkDescription={drink.description}
               thisDrinkPrice={drink.price} // Передаем все доступные размеры и цены
               thisDrinkSize={drink.size}
+              thisDrinkType={drink.type}
             />
           ))}
         </div>
@@ -107,6 +116,7 @@ const DrinksPage = () => {
               thisDrinkDescription={drink.description}
               thisDrinkPrice={drink.price} // Передаем все доступные размеры и цены
               thisDrinkSize={drink.size}
+              thisDrinkType={drink.type}
             />
           ))}
         </div>
