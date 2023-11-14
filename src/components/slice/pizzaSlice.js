@@ -57,7 +57,8 @@ const pizzaSlice = createSlice({
       state.pizzaPrices[pizzaId] = price;
     },
     addToCartPizza(state, action) {
-      const { pizzaId, price, size, name, image, count } = action.payload;
+      const { pizzaId, price, size, name, image, count, baseprice } =
+        action.payload;
       state.pizzaPricesInCart[pizzaId] = price;
 
       const pizzaInCart = state.allPizzasInCart.find(
@@ -76,6 +77,7 @@ const pizzaSlice = createSlice({
           count: count,
           name: name,
           image: image,
+          baseprice: baseprice,
         });
       }
     },
@@ -110,12 +112,9 @@ const pizzaSlice = createSlice({
         pizzaInCart.price = price;
       }
     },
-    setBasePrice(state, action) {
-      const { pizzaId, burgerId, snackId, drinkId, price } = action.payload;
+    setBasePriceforPizza(state, action) {
+      const { pizzaId, price } = action.payload;
       state.basePrices[pizzaId] = price;
-      state.basePrices[burgerId] = price;
-      state.basePrices[snackId] = price;
-      state.basePrices[drinkId] = price;
     },
     updateTotalOrderPricePizzas(state) {
       state.totalOrderPricePizza = Object.values(state.pizzaPricesInCart)
@@ -139,7 +138,7 @@ export const {
   updatePizzaCart,
   removePizzaFromCart,
   setPizzaPriceInCart,
-  setBasePrice,
+  setBasePriceforPizza,
   updateTotalOrderPricePizzas,
   setPizzaPrice,
   setPizzaCountToOne,

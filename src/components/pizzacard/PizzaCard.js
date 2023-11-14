@@ -8,7 +8,7 @@ import {
   setPizzaCountToOne,
   updatePizzaCart,
   addToCartPizza,
-  setBasePrice,
+  setBasePriceforPizza,
   updateTotalOrderPricePizzas,
 } from "../slice/pizzaSlice";
 
@@ -130,10 +130,13 @@ const PizzaCard = (props) => {
           name: props.thisPizzaName,
           image: props.thisPizzaImage,
           count: pizzaCount,
+          baseprice: props.thisPizzaPrice[selectedSize], /////// ????
         })
       );
     }
-    dispatch(setBasePrice({ pizzaId: uniquePizzaId, price: basePizzaPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранной пиццы (ИМЕННО 1шт)
+    dispatch(
+      setBasePriceforPizza({ pizzaId: uniquePizzaId, price: basePizzaPrice })
+    ); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранной пиццы (ИМЕННО 1шт)
     dispatch(updateTotalOrderPricePizzas());
   };
 

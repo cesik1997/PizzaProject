@@ -9,10 +9,10 @@ import {
   updateBurgerCart,
   addToCartBurger,
   updateTotalOrderPriceBurgers,
+  setBasePriceforBurger,
 } from "../slice/burgerSlice";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setBasePrice } from "../slice/pizzaSlice";
 import { loadCartData } from "../cartdata/loadCartData"; // Тут храняться данные  из localstorage
 
 const BurgerCard = (props) => {
@@ -114,10 +114,13 @@ const BurgerCard = (props) => {
           price: burgerPrice,
           count: burgerCount,
           image: props.thisBurgerImage,
+          baseprice: props.thisBurgerPrice,
         })
       );
       dispatch(updateTotalOrderPriceBurgers());
-      dispatch(setBasePrice({ burgerId: burgerId, price: baseBurgerPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного бургера (ИМЕННО 1шт)
+      dispatch(
+        setBasePriceforBurger({ burgerId: burgerId, price: baseBurgerPrice })
+      ); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного бургера (ИМЕННО 1шт)
       // saveCartToLocalStorage(allBurgersInCart)
     }
   };

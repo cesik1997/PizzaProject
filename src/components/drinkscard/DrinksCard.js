@@ -5,11 +5,11 @@ import {
   addToCartDrink,
   decrementDrink,
   incrementDrink,
+  setBasePriceForDrink,
   setDrinkPrice,
   updateDrinkCart,
   updateTotalOrderPriceDrinks,
 } from "../slice/drinkSlice";
-import { setBasePrice } from "../slice/pizzaSlice";
 
 import { loadCartData } from "../cartdata/loadCartData"; // Тут храняться данные из localstorage
 
@@ -111,10 +111,13 @@ const DrinksCard = (props) => {
           image: props.thisDrinkImage,
           size: props.thisDrinkSize,
           type: props.thisDrinkType,
+          baseprice: props.thisDrinkPrice,
         })
       );
       dispatch(updateTotalOrderPriceDrinks());
-      dispatch(setBasePrice({ drinkId: drinkId, price: baseDrinkPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного бургера (ИМЕННО 1шт)
+      dispatch(
+        setBasePriceForDrink({ drinkId: drinkId, price: baseDrinkPrice })
+      ); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного дринка (ИМЕННО 1шт)
     }
   };
   return (

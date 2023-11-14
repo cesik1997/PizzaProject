@@ -70,7 +70,10 @@ const Cart = (props) => {
   );
 
   // Ищем базовую цену пиццы в корзине
-  const basePriceInCart = useSelector((state) => state.pizza.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
+  const basePriceInCartPizza = useSelector((state) => state.pizza.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
+  const basePriceInCartBurger = useSelector((state) => state.burger.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
+  const basePriceInCartSnack = useSelector((state) => state.snack.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
+  const basePriceInCartDrink = useSelector((state) => state.drink.basePrices); //(Она передается из PIZZACARD -> ADD TO CART)
 
   // Функция для удаления пиццы из корзины
   const handleRemovePizzaFromCart = (pizzaId, size) => {
@@ -99,8 +102,7 @@ const Cart = (props) => {
 
   const updatePizzaPrice = (pizzaId, size, countChange) => {
     const currentPrice = parseFloat(pizzaPricesInCart[pizzaId] || 0); // Получаем текущую цену по уникальному ключу
-    console.log(currentPrice);
-    const basePrice = parseFloat(basePriceInCart[pizzaId] || 0); // Получите базовую цену пиццы
+    const basePrice = parseFloat(basePriceInCartPizza[pizzaId] || 0); // Получите базовую цену пиццы
     const newPrice = currentPrice + countChange * basePrice;
 
     dispatch(
@@ -142,7 +144,7 @@ const Cart = (props) => {
   // Обновление цены бургеров в корзине
   const updateBurgerPrice = (burgerId, countChange) => {
     const currentPrice = parseFloat(burgerPricesInCart[burgerId]); // Получаем текущую цену по уникальному ключу
-    const basePrice = parseFloat(basePriceInCart[burgerId]); // Получите базовую цену пиццы
+    const basePrice = parseFloat(basePriceInCartBurger[burgerId]); // Получите базовую цену пиццы
     const newPrice = currentPrice + countChange * basePrice;
 
     dispatch(
@@ -188,7 +190,7 @@ const Cart = (props) => {
   // Обновление цены бургеров в корзине
   const updateSnackPrice = (snackId, countChange) => {
     const currentPrice = parseFloat(snackPricesInCart[snackId]); // Получаем текущую цену по уникальному ключу
-    const basePrice = parseFloat(basePriceInCart[snackId]); // Получите базовую цену пиццы
+    const basePrice = parseFloat(basePriceInCartSnack[snackId]); // Получите базовую цену пиццы
     const newPrice = currentPrice + countChange * basePrice;
 
     dispatch(
@@ -215,9 +217,23 @@ const Cart = (props) => {
   );
   // ИНКРЕМЕНТ И ДИКРЕМЕНТ БУРГЕРОВ В КОРЗИНЕ
   const handleDrinkIncrement = (drinkId) => {
-    dispatch(incrementDrinkInCart({ drinkId, count: 1 }));
-    updateDrinkPrice(drinkId, 1);
-    dispatch(updateTotalOrderPriceDrinks());
+    const drinkDataArray = JSON.parse(localStorage.getItem("drinksInCart"));
+
+    const targetDrink = drinkDataArray.find(
+      (drink) => drink.drinkId === drinkId
+    );
+    if (targetDrink && targetDrink.count && targetDrink.price) {
+      const basePrice = parseFloat(targetDrink.baseprice); // Получите базовую цену дринка ( тут я пытаюсь это делать из localstorage)
+
+      targetDrink.count = targetDrink.count + 1;
+      targetDrink.price =
+        (parseFloat(targetDrink.price) + basePrice).toFixed(2) + "€";
+      localStorage.setItem("drinksInCart", JSON.stringify(drinkDataArray));
+
+      dispatch(incrementDrinkInCart({ drinkId, count: 1 }));
+      updateDrinkPrice(drinkId, 1);
+      dispatch(updateTotalOrderPriceDrinks());
+    }
   };
 
   const handleDrinkDecrement = (drinkId) => {
@@ -225,6 +241,16 @@ const Cart = (props) => {
       (item) => item.drinkId === drinkId
     );
     if (drinkInCart && drinkInCart.count > 1) {
+      const drinkDataArray = JSON.parse(localStorage.getItem("drinksInCart"));
+
+      const targetDrink = drinkDataArray.find(
+        (drink) => drink.drinkId === drinkId
+      );
+      const basePrice = parseFloat(targetDrink.baseprice); // Получите базовую цену дринка ( тут я пытаюсь это делать из localstorage)
+      targetDrink.count = targetDrink.count - 1;
+      targetDrink.price =
+        (parseFloat(targetDrink.price) - basePrice).toFixed(2) + "€";
+      localStorage.setItem("drinksInCart", JSON.stringify(drinkDataArray));
       dispatch(decrementDrinkInCart({ drinkId, count: 1 }));
       updateDrinkPrice(drinkId, -1);
       dispatch(updateTotalOrderPriceDrinks());
@@ -234,15 +260,24 @@ const Cart = (props) => {
   // Обновление цены бургеров в корзине
   const updateDrinkPrice = (drinkId, countChange) => {
     const currentPrice = parseFloat(drinkPricesInCart[drinkId]); // Получаем текущую цену по уникальному ключу
-    const basePrice = parseFloat(basePriceInCart[drinkId]); // Получите базовую цену пиццы
-    const newPrice = currentPrice + countChange * basePrice;
+    console.log(currentPrice);
 
-    dispatch(
-      setDrinkPriceInCart({
-        drinkId: drinkId,
-        price: newPrice.toFixed(2) + " €",
-      })
+    const drinkDataArray = JSON.parse(localStorage.getItem("drinksInCart"));
+    const targetDrink = drinkDataArray.find(
+      (drink) => drink.drinkId === drinkId
     );
+    if (targetDrink && targetDrink.baseprice && targetDrink.name) {
+      const basePrice = parseFloat(targetDrink.baseprice); // Получите базовую цену дринка ( тут я пытаюсь это делать из localstorage)
+      console.log(basePrice);
+      const newPrice = currentPrice + countChange * basePrice;
+
+      dispatch(
+        setDrinkPriceInCart({
+          drinkId: drinkId,
+          price: newPrice.toFixed(2) + " €",
+        })
+      );
+    }
   };
 
   // Функция для удаление бургеров из корзины

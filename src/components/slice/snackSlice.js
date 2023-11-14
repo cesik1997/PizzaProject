@@ -13,6 +13,7 @@ const snackSlice = createSlice({
     snackPricesInCart: {}, // объект в котором содержаться цены каждого снэка ДОБАВЛЕННОГО В КОРЗИНУ
     allSnacksInCart: [], // Сюда будем помещать все снэки добавленные в корзину
     totalOrderPriceSnacks: 0,
+    basePrices: {}, // Содержит базовые цены пиццы, бургеров, сэнок и напитков по уникальному айди
   },
   reducers: {
     incrementSnack(state, action) {
@@ -46,7 +47,8 @@ const snackSlice = createSlice({
       state.snackPrices[snackId] = price;
     },
     addToCartSnack(state, action) {
-      const { snackId, price, count, name, image, size } = action.payload;
+      const { snackId, price, count, name, image, size, baseprice } =
+        action.payload;
       state.snackPricesInCart[snackId] = price;
 
       const snackInCart = state.allSnacksInCart.find(
@@ -64,6 +66,7 @@ const snackSlice = createSlice({
           count: count,
           image: image,
           size: size,
+          baseprice: baseprice,
         });
       }
     },
@@ -102,6 +105,10 @@ const snackSlice = createSlice({
         snackInCart.price = price;
       }
     },
+    setBasePriceForSnack(state, action) {
+      const { snackId, price } = action.payload;
+      state.basePrices[snackId] = price;
+    },
   },
 });
 
@@ -116,6 +123,7 @@ export const {
   removeSnackFromCart,
   updateTotalOrderPriceSnacks,
   setSnackPriceInCart,
+  setBasePriceForSnack,
 } = snackSlice.actions;
 
 export default snackSlice.reducer;

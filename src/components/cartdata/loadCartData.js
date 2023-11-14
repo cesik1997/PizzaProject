@@ -31,6 +31,7 @@ export const loadCartData = (dispatch) => {
           count: item.count,
           image: item.image,
           size: item.size,
+          baseprice: item.baseprice,
         })
       );
       dispatch(updateTotalOrderPriceDrinks());
@@ -45,6 +46,7 @@ export const loadCartData = (dispatch) => {
           price: item.price,
           count: item.count,
           image: item.image,
+          baseprice: item.baseprice,
         })
       );
       dispatch(updateTotalOrderPriceBurgers());
@@ -60,6 +62,7 @@ export const loadCartData = (dispatch) => {
           name: item.name,
           image: item.image,
           count: item.count,
+          baseprice: item.baseprice,
         })
       );
       dispatch(updateTotalOrderPricePizzas());
@@ -75,6 +78,7 @@ export const loadCartData = (dispatch) => {
           count: item.count,
           image: item.image,
           size: item.size,
+          baseprice: item.baseprice,
         })
       );
       dispatch(updateTotalOrderPriceSnacks());

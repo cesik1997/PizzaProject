@@ -8,8 +8,8 @@ import {
   setSnackPrice,
   updateSnackCart,
   updateTotalOrderPriceSnacks,
+  setBasePriceForSnack,
 } from "../slice/snackSlice";
-import { setBasePrice } from "../slice/pizzaSlice";
 import { loadCartData } from "../cartdata/loadCartData"; // Тут храняться данные из localstorage
 
 const SnacksCard = (props) => {
@@ -109,10 +109,13 @@ const SnacksCard = (props) => {
           count: snackCount,
           image: props.thisSnackImage,
           size: props.thisSnackSize,
+          baseprice: props.thisSnackPrice,
         })
       );
       dispatch(updateTotalOrderPriceSnacks());
-      dispatch(setBasePrice({ snackId: snackId, price: baseSnackPrice })); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного бургера (ИМЕННО 1шт)
+      dispatch(
+        setBasePriceForSnack({ snackId: snackId, price: baseSnackPrice })
+      ); // Что бы нормально использ. инкрем и дикрем в корзине - нужно найти базовую ценну выбранного снэка (ИМЕННО 1шт)
     }
   };
 

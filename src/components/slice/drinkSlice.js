@@ -13,6 +13,7 @@ const drinkSlice = createSlice({
     drinkPricesInCart: {}, // объект в котором содержаться цены каждого дринка ДОБАВЛЕННОГО В КОРЗИНУ
     allDrinksInCart: [], // Сюда будем помещать все дринки добавленные в корзину
     totalOrderPriceDrinks: 0,
+    basePrices: {}, // Содержит базовые цены пиццы, бургеров, сэнок и напитков по уникальному айди
   },
   reducers: {
     incrementDrink(state, action) {
@@ -46,7 +47,8 @@ const drinkSlice = createSlice({
       state.drinkPrices[drinkId] = price;
     },
     addToCartDrink(state, action) {
-      const { drinkId, price, count, name, image, size, type } = action.payload;
+      const { drinkId, price, count, name, image, size, type, baseprice } =
+        action.payload;
       state.drinkPricesInCart[drinkId] = price;
 
       const drinkInCart = state.allDrinksInCart.find(
@@ -64,7 +66,8 @@ const drinkSlice = createSlice({
           count: count,
           image: image,
           size: size,
-          type: type
+          type: type,
+          baseprice: baseprice,
         });
       }
     },
@@ -103,6 +106,10 @@ const drinkSlice = createSlice({
         drinkInCart.price = price;
       }
     },
+    setBasePriceForDrink(state, action) {
+      const { drinkId, price } = action.payload;
+      state.basePrices[drinkId] = price;
+    },
   },
 });
 
@@ -117,6 +124,7 @@ export const {
   removeDrinkFromCart,
   updateTotalOrderPriceDrinks,
   setDrinkPriceInCart,
+  setBasePriceForDrink,
 } = drinkSlice.actions;
 
 export default drinkSlice.reducer;

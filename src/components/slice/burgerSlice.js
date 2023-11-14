@@ -13,6 +13,7 @@ const burgerSlice = createSlice({
     burgerPricesInCart: {}, // объект в котором содержаться цены каждого бургера ДОБАВЛЕННОГО В КОРЗИНУ
     allBurgersInCart: [], // Сюда будем помещать все бургеры добавленные в корзину
     totalOrderPriceBurgers: 0,
+    basePrices: {}, // Содержит базовые цены пиццы, бургеров, сэнок и напитков по уникальному айди
   },
   reducers: {
     incrementBurger(state, action) {
@@ -46,7 +47,7 @@ const burgerSlice = createSlice({
       state.burgerPrices[burgerId] = price;
     },
     addToCartBurger(state, action) {
-      const { burgerId, price, count, name, image } = action.payload;
+      const { burgerId, price, count, name, image, baseprice } = action.payload;
       state.burgerPricesInCart[burgerId] = price;
 
       const burgerInCart = state.allBurgersInCart.find(
@@ -63,6 +64,7 @@ const burgerSlice = createSlice({
           price: price,
           count: count,
           image: image,
+          baseprice: baseprice,
         });
       }
     },
@@ -101,6 +103,10 @@ const burgerSlice = createSlice({
         burgerInCart.price = price;
       }
     },
+    setBasePriceforBurger(state, action) {
+      const { burgerId, price } = action.payload;
+      state.basePrices[burgerId] = price;
+    },
   },
 });
 
@@ -115,5 +121,6 @@ export const {
   removeBurgerFromCart,
   updateTotalOrderPriceBurgers,
   setBurgerPriceInCart,
+  setBasePriceforBurger,
 } = burgerSlice.actions;
 export default burgerSlice.reducer;
