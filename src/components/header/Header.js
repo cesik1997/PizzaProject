@@ -58,11 +58,6 @@ const Header = (props) => {
               DELIVERY
             </Link>
           </div>
-          <div>
-            <Link className="item" to="/about-us">
-              ABOUT US
-            </Link>
-          </div>
         </div>
         <div className="cart-img" onClick={props.toggleCartVisible}>
           {cartlogo}

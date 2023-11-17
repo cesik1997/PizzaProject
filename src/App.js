@@ -17,7 +17,6 @@ import SnacksPage from "./components/snackspage/SnacksPage";
 
 import MainPage from "./components/mainpage/MainPage";
 import DeliveryPage from "./components/deliverypage/DeliveryPage";
-import AboutUs from "./components/aboutus/AboutUs";
 import "./App.css";
 
 function App(props) {
@@ -33,8 +32,14 @@ function App(props) {
         <Provider store={store}>
           <Routes>
             <Route path="/mainpage" element={<MainPage />} />
-            <Route path="/delivery" element={<DeliveryPage />} />
-            <Route path="/about-us" element={<AboutUs />} />
+            <Route
+              path="/delivery"
+              element={
+                <>
+                  <Header /> <DeliveryPage /> <Footer />{" "}
+                </>
+              }
+            />
             <Route
               path="/menu/pizzas"
               element={

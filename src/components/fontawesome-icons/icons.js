@@ -15,6 +15,8 @@ import {
   faAt,
   faClock,
   faShare,
+  faGift,
+  faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -32,6 +34,8 @@ export const phone = <FontAwesomeIcon icon={faPhone} />;
 export const email = <FontAwesomeIcon icon={faAt} />;
 export const clock = <FontAwesomeIcon icon={faClock} />;
 export const glass = <FontAwesomeIcon icon={faMagnifyingGlass} />;
+export const gift = <FontAwesomeIcon icon={faGift} />;
+export const coins = <FontAwesomeIcon icon={faCoins} />;
 
 export const instagram = <FontAwesomeIcon icon={faInstagram} />;
 export const facebook = <FontAwesomeIcon icon={faFacebook} />;

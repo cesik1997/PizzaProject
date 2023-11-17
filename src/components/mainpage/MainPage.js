@@ -26,16 +26,11 @@ const MainPage = () => {
               DELIVERY
             </Link>
           </div>
-          <div>
-            <Link className="header-menu" to="/about-us">
-              ABOUT US
-            </Link>
-          </div>
         </div>
         <div className="mainpage">
           <div className="mainpage-container-new">
             <div className="mainpage-title">
-              <div className="title-delicious">Delicious</div>
+              <div className="title-delicious">CHESS</div>
               <div className="title-pizza">Pizza</div>
             </div>
             <div className="mainpage-text">

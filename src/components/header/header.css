@@ -8,6 +8,7 @@
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
+    border-bottom: 1px solid #ffc23e8d;
 }
 
 .navbar {
