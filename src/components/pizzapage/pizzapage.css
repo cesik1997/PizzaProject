@@ -1,40 +1,44 @@
 .content {
-    max-width: 1920px;
+    /* max-width: 1920px; */
     width: 100%;
     margin-left: auto;
     margin-right: auto;
     padding-top: 70px;
     padding-bottom: 48px;
+    background-image: url("../images//background/back.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.mainpage-container {
+    margin: auto;
+    display: flex;
+    max-width: 1615px;
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+}
 
 
-    .mainpage-container {
-        margin: auto;
-        display: flex;
-        max-width: 1615px;
-        width: 100%;
-        padding-left: 16px;
-        padding-right: 16px;
-    }
+.menu-container-left {
+    width: 791.5px;
+    padding-left: 0;
+    padding-right: 16px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 
 
-    .menu-container-left {
-        width: 791.5px;
-        padding-left: 0;
-        padding-right: 16px;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
+}
 
+.menu-container-right {
+    width: 791.5px;
+    padding-left: 16px;
+    padding-right: 0;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 
-    }
-
-    .menu-container-right {
-        width: 791.5px;
-        padding-left: 16px;
-        padding-right: 0;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-
-    }
 }

@@ -5,4 +5,18 @@
 
 .App {
   overflow: auto;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, #c9921b);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(49, 49, 49)
 }

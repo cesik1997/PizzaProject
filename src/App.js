@@ -15,7 +15,11 @@ import BurgerPage from "./components/burgerpage/BurgerPage";
 import DrinksPage from "./components/drinkspage/DrinksPage";
 import SnacksPage from "./components/snackspage/SnacksPage";
 
+import MainPage from "./components/mainpage/MainPage";
+import DeliveryPage from "./components/deliverypage/DeliveryPage";
+import AboutUs from "./components/aboutus/AboutUs";
 import "./App.css";
+
 function App(props) {
   const [cartVisible, setCartVisible] = useState(false);
 
@@ -27,19 +31,67 @@ function App(props) {
     <Router>
       <div className="App">
         <Provider store={store}>
-          <Header toggleCartVisible={toggleCartVisible} />
-          <NavBar />
           <Routes>
-            <Route path="/menu/pizzas" element={<PizzaPage />} />
-            <Route path="/menu/burgers" element={<BurgerPage />} />
-            <Route path="/menu/snacks" element={<SnacksPage />} />
-            <Route path="/menu/drinks" element={<DrinksPage />} />
+            <Route path="/mainpage" element={<MainPage />} />
+            <Route path="/delivery" element={<DeliveryPage />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route
+              path="/menu/pizzas"
+              element={
+                <>
+                  <Header toggleCartVisible={toggleCartVisible} />
+                  <NavBar />
+                  <PizzaPage /> <Footer />
+                  <Cart
+                    cartVisible={cartVisible}
+                    toggleCartVisible={toggleCartVisible}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/menu/burgers"
+              element={
+                <>
+                  <Header toggleCartVisible={toggleCartVisible} />
+                  <NavBar />
+                  <BurgerPage /> <Footer />
+                  <Cart
+                    cartVisible={cartVisible}
+                    toggleCartVisible={toggleCartVisible}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/menu/snacks"
+              element={
+                <>
+                  <Header toggleCartVisible={toggleCartVisible} />
+                  <NavBar />
+                  <SnacksPage /> <Footer />
+                  <Cart
+                    cartVisible={cartVisible}
+                    toggleCartVisible={toggleCartVisible}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/menu/drinks"
+              element={
+                <>
+                  <Header toggleCartVisible={toggleCartVisible} />
+                  <NavBar />
+                  <DrinksPage /> <Footer />
+                  <Cart
+                    cartVisible={cartVisible}
+                    toggleCartVisible={toggleCartVisible}
+                  />
+                </>
+              }
+            />
           </Routes>
-          <Footer />
-          <Cart
-            cartVisible={cartVisible}
-            toggleCartVisible={toggleCartVisible}
-          />
         </Provider>
       </div>
     </Router>

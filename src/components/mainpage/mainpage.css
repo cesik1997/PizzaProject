@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+
+@font-face {
+    src: url(../fonts/Kentya-PersonalUse.otf);
+    font-family: kentya;
+}
+
+@font-face {
+    src: url(../fonts/Triumvirate\ CG\ Inserat\ Regular.otf);
+    font-family: trium;
+}
+
+.page {
+    width: 100%;
+    height: 100vh;
+    background: url("../images/background/trueback.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.mainpage-header {
+    font-family: Acme;
+    margin: auto;
+    height: 120px;
+    width: 85%;
+    display: flex;
+    align-items: center;
+}
+
+.header-menu {
+    padding: 15px;
+    display: flex;
+    width: 100px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-menu:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    color: #ffc33e;
+}
+
+.mainpage {
+    position: relative;
+    height: 750px;
+    width: 1700px;
+    margin: auto;
+}
+
+.mainpage-container-new {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 820px;
+}
+
+.mainpage-title {
+    height: 300px;
+    width: 650px;
+}
+
+.title-delicious {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: trium;
+    height: 180px;
+    transform: rotate(-1deg);
+    background-image: linear-gradient(45deg, #958a8a, #d3e6e1, #cb2c2c);
+    background-size: 100%;
+    background-repeat: repeat;
+    font-size: 180px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -3px;
+}
+
+.title-pizza {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(-5deg);
+    height: 90px;
+    font-family: kentya;
+    color: #ffc33e;
+    letter-spacing: 6px;
+    font-size: 235px;
+}
+
+
+
+.mainpage-text {
+    font-family: Acme;
+    letter-spacing: 0.4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 680px;
+    height: 100px;
+    color: #fff;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.button-container {
+    margin-top: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    width: 650px;
+}
+
+.btn-ordernow {
+    font-family: Acme;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 250px;
+    height: 55px;
+    border-radius: 40px;
+    background-image: linear-gradient(to right top, #d4d3c3, #c9c6a0, #bfb97e, #b4ac5b, #aa9f35);
+    border: 3px solid rgb(199, 182, 182);
+}
+
+.btn-ordernow:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.mainpage-footer {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 90%;
+    margin: auto;
+
+}
+
+.mainpage-socialmedia {
+    padding: 20px 50px 20px 50px;
+    display: flex;
+    justify-content: right;
+    flex: 1;
+    font-size: 30px;
+    color: rgba(128, 128, 128, 0.619);
+}
+
+.main-instagram,
+.main-youtube,
+.main-twitter {
+    width: 60px;
+}
+
+.main-instagram :hover,
+.main-youtube :hover,
+.main-twitter :hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    color: #ffc33e;
+}
+
+@media (min-width: 2000px) {
+    .mainpage-container-new {
+        height: 1000px;
+    }
+}

@@ -3,7 +3,7 @@
     max-width: 782px;
     width: 100%;
     border-radius: 10px;
-    color: #191c1f;
+    color: #fff;
     padding-top: 24px;
     padding-bottom: 24px;
     padding-left: 16px;
@@ -19,7 +19,8 @@
 }
 
 .pizza-card:hover {
-    border: 1px solid gray;
+    border: 1px solid #ffc33e;
+    ;
 }
 
 .pizza-img-bar {
@@ -48,12 +49,12 @@
 }
 
 h3 {
-    /* width: 90%; */
     font-weight: 600;
     font-size: 28px;
     line-height: 40px;
     letter-spacing: 0.8px;
     text-transform: capitalize;
+    color: #c9921b;
 }
 
 p {
@@ -73,7 +74,7 @@ p {
     font-size: 16px;
     line-height: 19px;
     letter-spacing: 0.8px;
-    color: #000;
+    color: #fff;
     padding-bottom: 8px;
     padding-top: 8px;
 
@@ -92,7 +93,7 @@ p {
     padding: 4px 0px 4px 10px;
     line-height: 21px;
     letter-spacing: 0.5px;
-    color: #484d55;
+    color: #fff;
     font-size: 18px;
 }
 
@@ -103,6 +104,7 @@ p {
     flex-wrap: wrap;
     padding: 0 2px;
     position: relative;
+    color: #ffc33e;
 }
 
 .vs-actions {
@@ -123,11 +125,11 @@ p {
 }
 
 .vs-actions:hover {
-    background: #e9dfdf71;
+    background: rgba(57, 55, 55, 0.443);
 }
 
 .vs-actions:active {
-    background: #cac7c771;
+    background: #65666471;
 }
 
 .pizza-menu {
@@ -161,8 +163,9 @@ p {
     line-height: 21px;
     outline: none;
     color: #fff;
-    border: none;
-    background: #292d30;
+    border: 1px solid #383d43;
+    border-right: none;
+    background: #835c07;
 }
 
 .pizza-count {
@@ -173,14 +176,17 @@ p {
     justify-content: center;
     align-items: center;
     width: 56px;
-    background: #292d30;
+    background: #835c07;
     font-weight: 400;
     font-size: 18px;
     line-height: 27px;
+    border-top: 1px solid #383d43;
+    border-bottom: 1px solid #383d43;
+
 }
 
 .pizza-count-btns {
-    background: #292d30;
+    /* background: #c9921b; */
     width: 56px;
     display: flex;
     flex-direction: column;
@@ -197,8 +203,10 @@ p {
     outline: none;
     border: none;
     flex: 1 1 auto;
-    background: #292d30;
+    background: #835c07;
     color: #fff;
+    border-top: 1px solid #383d43;
+    border-right: 1px solid #383d43;
 }
 
 .pizzabtndown {
@@ -207,16 +215,18 @@ p {
     outline: none;
     border: none;
     flex: 1 1 auto;
-    background: #292d30;
+    background: #835c07;
     color: #fff;
     border-top: 1px solid #383d43;
+    border-bottom: 1px solid #383d43;
+    border-right: 1px solid #383d43;
 
 }
 
 .pizzabtnup:hover,
 .pizzabtndown:hover,
 .addtocartbtn:hover {
-    background: #383d43;
+    background: #c9921b;
 }
 
 .ul-chose {
@@ -224,8 +234,8 @@ p {
     width: 274px;
     border: 1px solid #d3dde4;
     margin-bottom: 16px;
-    background: #fff;
-    color: #484d55;
+    background: #242323;
+    color: #835c07;
     z-index: 1;
 }
 
@@ -253,22 +263,14 @@ p {
 .pizza-size40cm:hover,
 .pizza-size50cm:hover {
     cursor: pointer;
-    background: #e9dfdf71;
-    color: rgb(26, 25, 25);
+    background: #57555571;
+    color: #d1d810;
 }
 
 .pizza-size30cm:active,
 .pizza-size40cm:active,
 .pizza-size50cm:active {
     background: #a4a0a071;
-}
-
-.display-none {
-    visibility: hidden;
-}
-
-.display-block {
-    visibility: visible;
 }
 
 .main-pizza-img {
@@ -320,4 +322,25 @@ p {
         min-width: 300px;
     }
 
+}
+
+.display-none-size {
+    visibility: hidden;
+    animation: none;
+}
+
+.display-block-size {
+    visibility: visible;
+    animation: ani-size 1.5s forwards;
+}
+
+
+@keyframes ani-size {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

@@ -1,15 +1,11 @@
 import React from "react";
 
 import logo from "../images/icons/logo-pizzza.svg";
-import {
-  earth,
-  phone,
-  email,
-  clock,
-  instagram,
-  youtube,
-  twitter,
-} from "../fontawesome-icons/icons";
+import { earth, phone, email, clock } from "../fontawesome-icons/icons";
+
+import { squareInsta } from "../fontawesome-icons/icons";
+import { squareTwitter } from "../fontawesome-icons/icons";
+import { squareYoutube } from "../fontawesome-icons/icons";
 
 import "./footer.css";
 
@@ -69,30 +65,9 @@ const Footer = () => {
           <div className="social-media">
             <div className="follow">Follow us on social media</div>
             <div className="social-media-bar">
-              <a
-                href="#"
-                style={{ background: "purple" }}
-                className="icon-bar"
-                title="CHES PIZZA Instagram "
-              >
-                <i className="icon">{instagram}</i>
-              </a>
-              <a
-                href="#"
-                style={{ background: "red" }}
-                className="icon-bar"
-                title="CHES PIZZA YouTube"
-              >
-                <i className="icon">{youtube}</i>
-              </a>
-              <a
-                href="#"
-                style={{ background: "aqua" }}
-                className="icon-bar"
-                title="CHES PIZZA Twitter"
-              >
-                <i className="icon">{twitter}</i>
-              </a>
+              <div className="footer-instagram">{squareInsta}</div>
+              <div className="footer-twitter">{squareTwitter}</div>
+              <div className="footer-youtube">{squareYoutube}</div>
             </div>
           </div>
           <div className="ches-pizza">

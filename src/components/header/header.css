@@ -3,7 +3,11 @@
 .Header {
     font-weight: 800;
     width: 100%;
-    background-color: #232323;
+    background-image: url("../images///background/back.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 .navbar {
@@ -71,9 +75,11 @@
     font-size: 28px;
     margin-right: 45px;
     margin-left: 45px;
+    color: #fff;
 }
 
 .item:hover {
+    display: block;
     transform: scale(1.1);
     cursor: pointer;
     color: #ffc33e;

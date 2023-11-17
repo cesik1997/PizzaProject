@@ -1,5 +1,5 @@
 .cart-container {
-    visibility: hidden;
+    /* visibility: hidden; */
     font-family: 'Acme', sans-serif;
     position: fixed;
     display: flex;
@@ -11,6 +11,8 @@
     height: 100%;
     background: #e7e2e2;
     overflow: auto;
+    transform: translateX(-150%);
+    animation: ani 1s forwards;
 }
 
 .cart-count-in-cart {
@@ -31,7 +33,12 @@
 .header-cart {
     display: flex;
     align-items: center;
-    background: #2b2f35;
+    background-image: url("../images//background/back.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: 0.9;
     min-height: 100px;
 }
 
@@ -72,6 +79,12 @@
 .menu-cart {
     flex: 1 1 auto;
     overflow-y: auto;
+    background-image: url("../images//background/back.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: 0.95;
 }
 
 .pizza-in-cart {
@@ -99,6 +112,10 @@
     padding-right: 16px;
 }
 
+.xmark-container {
+    color: #d59814;
+}
+
 .xmark-container:hover {
     cursor: pointer;
     background: rgb(139, 134, 134);
@@ -108,14 +125,16 @@
 .order-price-container {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #2b2f35;
+    border-top: 1px solid rgb(51, 48, 42);
     padding: 16px;
+    background: #835c07;
 }
 
 .need-to-pay {
     font-weight: 600;
     font-size: 24px;
     line-height: 33px;
+    color: white;
 }
 
 .order-apply {
@@ -123,7 +142,12 @@
     cursor: pointer;
     text-align: right;
     font-family: 'Acme', sans-serif;
-    background: #2b2f35;
+    background-image: url("../images//background/back.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: 0.9;
     font-size: 24px;
     border: none;
     outline: none;
@@ -133,8 +157,8 @@
 }
 
 .order-apply:hover {
-    background: rgb(41, 41, 41);
     color: #ffc33e;
+    opacity: 0.85;
 
     .fa-sack-dollar {
         color: #ffc33e;
@@ -147,8 +171,45 @@
 
 .display-none {
     visibility: hidden;
+    animation: none;
 }
 
 .display-block {
     visibility: visible;
+    animation: ani 1.2s forwards;
+}
+
+@keyframes ani {
+    0% {
+        transform: translateX(+50%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.price-in-cart {
+    color: white;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    margin-bottom: 16px;
+}
+
+.size-in-cart {
+    color: white;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 19px;
+    margin-bottom: 16px;
+}
+
+.total-price {
+    color: white;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    margin-bottom: 16px;
 }

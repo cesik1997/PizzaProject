@@ -13,7 +13,7 @@ import {
 } from "../slice/pizzaSlice";
 
 import { down, up } from "../fontawesome-icons/icons";
-import smallpizza from "../images/icons/small-pizza.jpg";
+import smallpizza from "../images/icons/small-pizza.png";
 
 import "./pizzacard.css";
 import { loadCartData } from "../cartdata/loadCartData"; // Тут храняться данные из localstorage
@@ -190,7 +190,7 @@ const PizzaCard = (props) => {
                             cursor: "pointer",
                             width: "50px",
                             height: "52px",
-                            color: "red",
+                            color: "#ffc33e",
                             border: "none",
                             backgroundColor: "transparent",
                             fontSize: "17px",
@@ -204,7 +204,7 @@ const PizzaCard = (props) => {
                   </div>
                   <ul
                     className={`ul-chose ${
-                      ulVisible ? "display-block" : "display-none"
+                      ulVisible ? "display-block-size" : "display-none-size"
                     }`}
                   >
                     {Object.keys(props.thisPizzaPrice).map((size) => (
