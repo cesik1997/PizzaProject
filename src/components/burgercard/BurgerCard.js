@@ -128,7 +128,7 @@ const BurgerCard = (props) => {
   return (
     <div className="pizza-card">
       <div className="pizza-left-side">
-        <div className="pizza-img-bar">
+        <div className="pizza-img-bar" style={{ padding: "15px" }}>
           <div className="pizza-img">
             <img
               style={{ width: "320px", height: "240px" }}
@@ -141,9 +141,7 @@ const BurgerCard = (props) => {
       <div className="pizza-right-side">
         <div className="pizza-menu">
           <h3>{props.thisBurgerName}</h3>
-          <p style={{ letterSpacing: "0.5px" }}>
-            {props.thisBurgerDescription}
-          </p>
+          <p style={{ letterSpacing: "1px" }}>{props.thisBurgerDescription}</p>
         </div>
         <div className="pizza-price">
           <div className="price">

@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { clock, gift, coins, phone } from "../fontawesome-icons/icons";
 
 import "./deliverypage.css";
+import { loadCartData } from "../cartdata/loadCartData";
+import { useDispatch } from "react-redux";
 
 const DeliveryPage = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    loadCartData(dispatch);
+  }, []);
+
   return (
     <div className="delivery-container">
       <div className="delivery-header">
@@ -24,7 +31,7 @@ const DeliveryPage = () => {
             <div className="small-delivery-block">
               <h3 className="h-delivery">1. delivery area</h3>
               <p className="p-delivery" style={{ letterSpacing: "-0.2px" }}>
-                green area on map (orders are accepted until 21:00)
+                Green area on map (orders are accepted until 21:00)
               </p>
               <div className="delivery-area-items">
                 <div className="delivery-price">
@@ -44,8 +51,8 @@ const DeliveryPage = () => {
                 <div className="delivery-bonus">
                   <div className="icon-in-delivery">{gift}</div>
                   <div className="bonus-info">
-                    <span className="p-delivery">Orders up</span>
-                    <span className="small-text"> 20€ deliver for free</span>
+                    <span className="p-delivery">Order more than</span>
+                    <span className="small-text"> 20€ - for free</span>
                   </div>
                 </div>
               </div>
@@ -59,7 +66,7 @@ const DeliveryPage = () => {
             <div className="small-delivery-block">
               <h3 className="h-delivery">2. delivery area</h3>
               <p className="p-delivery" style={{ letterSpacing: "-0.2px" }}>
-                yellow area on map (orders are accepted until 21:00)
+                Yellow area on map (orders are accepted until 21:00)
               </p>
               <div className="delivery-area-items">
                 <div className="delivery-price">
@@ -79,8 +86,8 @@ const DeliveryPage = () => {
                 <div className="delivery-bonus">
                   <div className="icon-in-delivery">{gift}</div>
                   <div className="bonus-info">
-                    <span className="p-delivery">Orders up</span>
-                    <span className="small-text"> 30€ deliver for free</span>
+                    <span className="p-delivery">Order more than</span>
+                    <span className="small-text"> 30€ - for free</span>
                   </div>
                 </div>
               </div>
@@ -94,7 +101,7 @@ const DeliveryPage = () => {
             <div className="small-delivery-block">
               <h3 className="h-delivery">3. delivery area</h3>
               <p className="p-delivery" style={{ letterSpacing: "-0.2px" }}>
-                red area on map (orders are accepted until 21:00)
+                Red area on map (orders are accepted until 21:00)
               </p>
               <div className="delivery-area-items">
                 <div className="delivery-price">
@@ -114,8 +121,8 @@ const DeliveryPage = () => {
                 <div className="delivery-bonus">
                   <div className="icon-in-delivery">{gift}</div>
                   <div className="bonus-info">
-                    <span className="p-delivery">Orders up</span>
-                    <span className="small-text"> 40€ deliver for free</span>
+                    <span className="p-delivery">Order more than</span>
+                    <span className="small-text"> 40€ - for free</span>
                   </div>
                 </div>
               </div>

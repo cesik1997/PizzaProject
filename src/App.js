@@ -36,7 +36,12 @@ function App(props) {
               path="/delivery"
               element={
                 <>
-                  <Header /> <DeliveryPage /> <Footer />{" "}
+                  <Header toggleCartVisible={toggleCartVisible} />{" "}
+                  <DeliveryPage /> <Footer />
+                  <Cart
+                    cartVisible={cartVisible}
+                    toggleCartVisible={toggleCartVisible}
+                  />
                 </>
               }
             />

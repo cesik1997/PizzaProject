@@ -34,7 +34,7 @@ const MainPage = () => {
               <div className="title-pizza">Pizza</div>
             </div>
             <div className="mainpage-text">
-              <p style={{ lineHeight: "21px" }}>
+              <p style={{ lineHeight: "23px" }}>
                 Have you ever tried the most delicious pizza in the world?
                 <br /> Don't miss the opportunity and order pizza now!
               </p>

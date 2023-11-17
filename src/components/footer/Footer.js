@@ -35,29 +35,29 @@ const Footer = () => {
             <div className="work-days">
               <div className="workdays-bar">
                 <div className="day">
-                  Monday <span className="working-days-p">8:00 - 21:00</span>
+                  Monday <span className="working-days-p">9:00 - 22:00</span>
                 </div>
                 <div className="day">
-                  Tueday <span className="working-days-p">8:00 - 21:00</span>
+                  Tueday <span className="working-days-p">9:00 - 22:00</span>
                 </div>
                 <div className="day">
-                  Wednesday <span className="working-days-p">8:00 - 21:00</span>
+                  Wednesday <span className="working-days-p">9:00 - 22:00</span>
                 </div>
                 <div className="day">
-                  Thursday <span className="working-days-p">8:00 - 21:00</span>
+                  Thursday <span className="working-days-p">9:00 - 22:00</span>
                 </div>
                 <div className="day">
-                  Friday <span className="working-days-p">8:00 - 21:00</span>
+                  Friday <span className="working-days-p">9:00 - 22:00</span>
                 </div>
               </div>
             </div>
             <div className="weekends">
               <div className="workdays-bar">
                 <div className="day">
-                  Saturday <span className="working-days-p">10:00 - 20:00</span>
+                  Saturday <span className="working-days-p">11:00 - 22:00</span>
                 </div>
                 <div className="day">
-                  Sunday <span className="working-days-p">10:00 - 20:00</span>
+                  Sunday <span className="working-days-p">11:00 - 22:00</span>
                 </div>
               </div>
             </div>

@@ -122,14 +122,11 @@ const DrinksCard = (props) => {
   };
   return (
     <div className="pizza-card">
-      <div
-        className="pizza-left-side"
-        style={{ paddingTop: "30px", paddingLeft: "15px" }}
-      >
-        <div className="pizza-img-bar">
-          <div className="pizza-img" style={{ paddingRight: "20px" }}>
+      <div className="pizza-left-side">
+        <div className="pizza-img-bar" style={{ padding: "15px" }}>
+          <div className="pizza-img" style={{ paddingRight: "15px" }}>
             <img
-              style={{ width: "170px", height: "240px" }}
+              style={{ width: "175px", height: "240px" }}
               src={props.thisDrinkImage}
               alt={props.thisDrinkName}
             />
@@ -145,7 +142,7 @@ const DrinksCard = (props) => {
           <div>
             <p>{props.thisDrinkSize}</p>
           </div>
-          <p style={{ letterSpacing: "0.5px" }}>{props.thisDrinkDescription}</p>
+          <p style={{ letterSpacing: "1px" }}>{props.thisDrinkDescription}</p>
         </div>
 
         <div className="pizza-price">

@@ -13,6 +13,7 @@
     overflow: auto;
     transform: translateX(-150%);
     animation: ani 1s forwards;
+    z-index: 2;
 }
 
 .cart-count-in-cart {

@@ -156,7 +156,7 @@ const PizzaCard = (props) => {
       <div className="pizza-right-side">
         <div className="pizza-menu">
           <h3>{props.thisPizzaName}</h3>
-          <p style={{ letterSpacing: "0.5px" }}>{props.thisPizzaDescription}</p>
+          <p style={{ letterSpacing: "1px" }}>{props.thisPizzaDescription}</p>
           <div className="pizza-bars">
             <div className="pizza-size-bar">
               <div className="choose-size">Choose size</div>
